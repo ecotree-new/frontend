@@ -1,26 +1,229 @@
 @import "tailwindcss";
 
+/* SlowGothic Font (숫자용) */
+@font-face {
+  font-family: 'SlowGothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/neurimboGothicRegular.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+
+/* Pretendard Font */
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 100;
+  font-style: normal;
+  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/woff2/Pretendard-Thin.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 200;
+  font-style: normal;
+  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/woff2/Pretendard-ExtraLight.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 300;
+  font-style: normal;
+  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/woff2/Pretendard-Light.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 400;
+  font-style: normal;
+  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/woff2/Pretendard-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 500;
+  font-style: normal;
+  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/woff2/Pretendard-Medium.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 600;
+  font-style: normal;
+  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/woff2/Pretendard-SemiBold.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 700;
+  font-style: normal;
+  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/woff2/Pretendard-Bold.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 800;
+  font-style: normal;
+  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/woff2/Pretendard-ExtraBold.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 900;
+  font-style: normal;
+  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/woff2/Pretendard-Black.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* CSS Variables */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand Colors */
+  --brand-main: #1B67FF;
+  --brand-soft: #97BAFF;
+  --brand-softest: #E0EBFF;
+
+  /* Background Colors */
+  --bg-default: #FBFBFB;
+  --bg-subtle: #EDF3FF;
+  --bg-inverse: #383D46;
+
+  /* Text Colors */
+  --text-primary: #111111;
+  --text-subtle: #727783;
+  --text-inverse: #FFFFFF;
+
+  /* Overlay */
+  --overlay-image: rgba(0, 0, 0, 0.5);
+
+  /* Footer link colors */
+  --footer-link: #BFBFBF;
+  --footer-link-hover: #F5F5F5;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Font */
+  --font-pretendard: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  /* Brand Colors */
+  --color-brand-main: var(--brand-main);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-softest: var(--brand-softest);
+
+  /* Background Colors */
+  --color-bg-default: var(--bg-default);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-bg-inverse: var(--bg-inverse);
+
+  /* Text Colors */
+  --color-text-primary: var(--text-primary);
+  --color-text-subtle: var(--text-subtle);
+  --color-text-inverse: var(--text-inverse);
+
+  /* Overlay */
+  --color-overlay: var(--overlay-image);
+
+  /* Footer link */
+  --color-footer-link: var(--footer-link);
+  --color-footer-link-hover: var(--footer-link-hover);
+
+  /* Breakpoints */
+  --breakpoint-sm: 360px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1440px;
+
+  /* Custom breakpoints for specific layouts */
+  --breakpoint-content: 1190px;
+  --breakpoint-menu: 1024px;
+  --breakpoint-hero-text: 949px;
+  --breakpoint-university-5: 1021px;
+  --breakpoint-university-4: 823px;
+
+  /* Typography Scale (769px+) */
+  --text-display-1: 96px;
+  --text-display-2: 64px;
+  --text-title-1: 48px;
+  --text-title-2: 40px;
+  --text-heading-1: 32px;
+  --text-heading-2: 24px;
+  --text-body-1: 20px;
+  --text-body-2: 16px;
+  --text-label-1: 14px;
+
+  /* Spacing */
+  --spacing-container-padding: 40px;
+  --spacing-content-max: 1100px;
+  --spacing-content-min: 688px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base styles */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-pretendard);
+  background-color: var(--bg-default);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utility classes */
+.container-ecotree {
+  width: 100%;
+  max-width: var(--spacing-content-max);
+  min-width: var(--spacing-content-min);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-container-padding);
+  padding-right: var(--spacing-container-padding);
+}
+
+@media (min-width: 1190px) {
+  .container-ecotree {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* Hide scrollbar during snap scroll */
+.snap-scroll-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.snap-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Video cover */
+.video-cover {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Gradient overlay for banners */
+.gradient-overlay-left {
+  background: linear-gradient(90deg, rgba(27, 103, 255, 0.9) 0%, rgba(27, 103, 255, 0.6) 50%, transparent 100%);
+}
+
+/* Count up animation helper */
+.count-up {
+  font-variant-numeric: tabular-nums;
 }
