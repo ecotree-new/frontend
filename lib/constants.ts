@@ -152,3 +152,75 @@ export const FESTIVAL_COUNTS = {
   university: 105,
   regional: 46,
 } as const;
+
+// About page - Vision & Mission
+export const ABOUT_VISION_MISSION = [
+  {
+    id: 1,
+    label: 'Vision',
+    title: '기업비전',
+    description: '친환경을 \'캠페인\'이 아닌 실제 현장에서 작동하는 운영 체계로 구현합니다.\n공급, 회수, 세척, 재사용이 끊기지 않는 순환 구조를 현장 중심으로 설계합니다.',
+    image: '/images/vision.jpeg',
+  },
+  {
+    id: 2,
+    label: 'Mission',
+    title: '미션',
+    description: '공공 행사와 다중 이용 환경에서 다회용기 운영이\n안정적으로 이루어질 수 있도록 전 과정을 직접 관리합니다.',
+    image: '/images/mission.jpeg',
+  },
+] as const;
+
+// About page - Core Values
+export const ABOUT_CORE_VALUES = [
+  {
+    id: 1,
+    icon: '/images/icons/core-value-1.svg',
+    title: '운영 중심',
+    titleEn: 'Operation First',
+    description: '현장에서 작동하지 않는 친환경은 의미가 없다고 생각합니다.\n실제 행사 환경, 인력 동선, 회수율을 기준으로 운영 방식을 설계합니다',
+  },
+  {
+    id: 2,
+    icon: '/images/icons/core-value-2.svg',
+    title: '책임 있는 관리',
+    titleEn: 'Accountability',
+    description: '용기의 사용부터 회수까지, 책임의 주체를 명확히 합니다.\n위탁이 아닌 직접 운영을 원칙으로 합니다.',
+  },
+  {
+    id: 3,
+    icon: '/images/icons/core-value-3.svg',
+    title: '신뢰 가능한 프로세스',
+    titleEn: 'Reliability',
+    description: '행사 규모와 관계없이 동일한 기준으로 운영합니다.\n지자체·공공기관 기준에 맞춘 안정적인 프로세스를 유지합니다.',
+  },
+  {
+    id: 4,
+    icon: '/images/icons/core-value-4.svg',
+    title: '확장 가능성',
+    titleEn: 'Scalability',
+    description: '지역과 행사 유형에 제한 없이 적용 가능한 구조를 만듭니다.\n단발성 운영이 아닌, 반복 가능한 시스템을 지향합니다.',
+  },
+] as const;
+
+// About page - Business Purpose
+export const ABOUT_BUSINESS_PURPOSE = [
+  {
+    id: 1,
+    title: '환경 개선',
+    description: '탄소 배출 및 쓰레기 반출량 절감',
+    image: '/images/about/purpose-1.jpeg',
+  },
+  {
+    id: 2,
+    title: '지속 가능한 행사 운영',
+    description: '반복 가능한 친환경 운영 방식 구축',
+    image: '/images/about/purpose-2.jpeg',
+  },
+  {
+    id: 3,
+    title: '일자리 창출',
+    description: '취약계층 및 사회초년생 일자리 창출',
+    image: '/images/about/purpose-3.jpeg',
+  },
+] as const;

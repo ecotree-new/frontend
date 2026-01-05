@@ -1,29 +1,26 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import VisionMissionSection from '@/components/sections/about/VisionMissionSection';
+import CoreValueSection from '@/components/sections/about/CoreValueSection';
+import BusinessPurposeSection from '@/components/sections/about/BusinessPurposeSection';
+import DirectionsSection from '@/components/sections/about/DirectionsSection';
 
 export default function AboutPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen py-20 lg:py-32">
-        <div className="w-full max-w-[1100px] min-w-[688px] mx-auto px-10 xl:px-0">
-          <h1 className="text-[40px] md:text-[64px] font-bold text-[#111111] mb-8">
-            회사소개
-          </h1>
-          <p className="text-[16px] md:text-[20px] text-[#727783]">
-            이 페이지는 준비 중입니다.
-          </p>
+      <main>
+        {/* Section 1: Vision & Mission (스크롤 애니메이션) */}
+        <VisionMissionSection />
 
-          {/* Location section anchor */}
-          <div id="location" className="pt-20">
-            <h2 className="text-[32px] font-bold text-[#111111] mb-4">
-              오시는 길
-            </h2>
-            <p className="text-[16px] text-[#727783]">
-              경기도 안성시 대덕면 소현리 10
-            </p>
-          </div>
-        </div>
+        {/* Section 2: Core Value (핵심 가치) */}
+        <CoreValueSection />
+
+        {/* Section 3: Business Purpose (사업 목적) */}
+        <BusinessPurposeSection />
+
+        {/* Section 4: Directions (오시는 길) */}
+        <DirectionsSection />
       </main>
       <Footer />
     </>
