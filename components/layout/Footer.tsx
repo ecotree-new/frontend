@@ -3,7 +3,7 @@ import { COMPANY_INFO, FOOTER_LINKS } from '@/lib/constants';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#383D46] text-white py-12 lg:py-16">
+    <footer className="bg-[#1E1F23] text-white py-12 lg:py-16">
       <div className="container-ecotree">
         <div className="flex flex-col lg:flex-row lg:justify-between gap-8 lg:gap-16">
           {/* Logo */}

@@ -44,24 +44,24 @@ export default function FestivalSection() {
             </p>
           </motion.div>
 
-          {/* University Logos Grid */}
+          {/* University Logos Grid - 150x36, 5열 */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"
+            className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-x-6 md:gap-x-[48px] gap-y-4"
           >
             {UNIVERSITY_LOGOS.map((uni, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center p-4 bg-white rounded-lg shadow-sm"
+                className="flex items-center justify-center"
               >
                 <Image
                   src={uni.logo}
                   alt={uni.name}
-                  width={100}
-                  height={40}
-                  className="object-contain max-h-[40px]"
+                  width={150}
+                  height={36}
+                  className="object-contain w-[150px] h-auto"
                 />
               </div>
             ))}
@@ -91,7 +91,7 @@ export default function FestivalSection() {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="text-center"
           >
-            <p className="text-[14px] md:text-[16px] text-[#727783] leading-loose">
+            <p className="text-[14px] md:text-[16px] text-[#111111] font-bold leading-loose">
               {REGIONAL_FESTIVALS.map((festival, index) => (
                 <span
                   key={index}
@@ -99,7 +99,7 @@ export default function FestivalSection() {
                 >
                   {festival}
                   {index < REGIONAL_FESTIVALS.length - 1 && (
-                    <span className="mx-2">,</span>
+                    <span className="mr-2">,</span>
                   )}
                 </span>
               ))}

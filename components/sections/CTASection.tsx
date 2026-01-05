@@ -10,7 +10,7 @@ export default function CTASection() {
         <div className="bg-[#1B67FF] rounded-3xl py-16 px-8 md:px-16 flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Text */}
           <div className="text-white text-center md:text-left">
-            <p className="text-[20px] md:text-[24px] font-normal mb-2">
+            <p className="text-[32px] md:text-[40px] font-light">
               {CTA_CONTENT.preTitle}
             </p>
             <p className="text-[32px] md:text-[40px] font-bold">
@@ -18,10 +18,10 @@ export default function CTASection() {
             </p>
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button - w:135, h:40, padding 8px 24px, border-radius 4px */}
           <Link
             href={CTA_CONTENT.buttonLink}
-            className="flex-shrink-0 inline-flex items-center justify-center px-8 py-4 bg-white text-[#1B67FF] text-[16px] font-medium rounded-full hover:font-bold transition-all"
+            className="flex-shrink-0 inline-flex items-center justify-center gap-2 h-[40px] px-6 py-2 bg-white text-[#1B67FF] text-[16px] font-medium rounded-[4px] hover:font-bold transition-all"
           >
             {CTA_CONTENT.buttonText}
           </Link>
