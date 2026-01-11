@@ -9,13 +9,13 @@ interface ContactTabsProps {
 
 export default function ContactTabs({ activeTab, onTabChange }: ContactTabsProps) {
   return (
-    <div className="flex w-full mb-8">
+    <div className="flex w-full mb-6 md:mb-8">
       {CONTACT_TABS.map((tab, index) => (
         <button
           key={tab.id}
           onClick={() => onTabChange(tab.id)}
           className={`
-            flex-1 py-4 text-[16px] transition-all border
+            flex-1 py-3 md:py-4 text-[13px] md:text-[16px] transition-all border
             ${index === 0 ? 'rounded-l-lg' : ''}
             ${index === CONTACT_TABS.length - 1 ? 'rounded-r-lg' : ''}
             ${index > 0 ? 'border-l-0' : ''}

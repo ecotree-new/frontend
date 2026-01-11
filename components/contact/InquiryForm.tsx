@@ -52,7 +52,6 @@ export default function InquiryForm() {
     if (name === 'content' && value.length > 5000) return;
     if ((name === 'phone1' || name === 'phone2' || name === 'phone3') && value.length > 4) return;
 
-    // Only allow numbers for phone fields
     if ((name === 'phone1' || name === 'phone2' || name === 'phone3') && !/^\d*$/.test(value)) {
       return;
     }
@@ -136,39 +135,42 @@ export default function InquiryForm() {
       )}
 
       <form onSubmit={handleSubmit}>
-        {/* Form Container - Two Column Layout */}
-        <div className="flex overflow-hidden">
-          {/* Left Column - Labels */}
-          <div className="w-[200px] md:w-[280px] flex-shrink-0 bg-[#EDF3FF]">
-            <div className="h-[72px] flex items-center justify-center">
-              <span className="text-[14px] text-[#111111] font-medium">행사 종류 <span className="text-[#111111]">*</span></span>
+        {/* Form Container - Two Column Layout on Desktop, Stack on Mobile */}
+        <div className="flex flex-col md:flex-row overflow-hidden">
+          {/* Left Column - Labels (Hidden on Mobile) */}
+          <div className="hidden md:block w-[180px] lg:w-[220px] xl:w-[280px] flex-shrink-0 bg-[#EDF3FF]">
+            <div className="h-[60px] lg:h-[66px] xl:h-[72px] flex items-center justify-center">
+              <span className="text-[13px] lg:text-[14px] text-[#111111] font-medium">행사 종류 <span className="text-[#111111]">*</span></span>
             </div>
-            <div className="h-[72px] flex items-center justify-center">
-              <span className="text-[14px] text-[#111111] font-medium">전화 번호 <span className="text-[#111111]">*</span></span>
+            <div className="h-[60px] lg:h-[66px] xl:h-[72px] flex items-center justify-center">
+              <span className="text-[13px] lg:text-[14px] text-[#111111] font-medium">전화 번호 <span className="text-[#111111]">*</span></span>
             </div>
-            <div className="h-[72px] flex items-center justify-center">
-              <span className="text-[14px] text-[#111111] font-medium">이메일 <span className="text-[#111111]">*</span></span>
+            <div className="h-[60px] lg:h-[66px] xl:h-[72px] flex items-center justify-center">
+              <span className="text-[13px] lg:text-[14px] text-[#111111] font-medium">이메일 <span className="text-[#111111]">*</span></span>
             </div>
-            <div className="h-[72px] flex items-center justify-center">
-              <span className="text-[14px] text-[#111111] font-medium">단체명, 기업명 <span className="text-[#111111]">*</span></span>
+            <div className="h-[60px] lg:h-[66px] xl:h-[72px] flex items-center justify-center">
+              <span className="text-[13px] lg:text-[14px] text-[#111111] font-medium">단체명, 기업명 <span className="text-[#111111]">*</span></span>
             </div>
-            <div className="h-[200px] flex items-center justify-center">
-              <span className="text-[14px] text-[#111111] font-medium">문의내용 <span className="text-[#111111]">*</span></span>
+            <div className="h-[160px] lg:h-[180px] xl:h-[200px] flex items-center justify-center">
+              <span className="text-[13px] lg:text-[14px] text-[#111111] font-medium">문의내용 <span className="text-[#111111]">*</span></span>
             </div>
-            <div className="h-[240px] flex items-center justify-center">
-              <span className="text-[14px] text-[#111111] text-center leading-tight font-medium">개인정보 수집 및 이용 동의 <span className="text-[#111111]">*</span></span>
+            <div className="h-[200px] lg:h-[220px] xl:h-[240px] flex items-center justify-center">
+              <span className="text-[13px] lg:text-[14px] text-[#111111] text-center leading-tight font-medium">개인정보 수집 및<br className="md:hidden lg:inline" /> 이용 동의 <span className="text-[#111111]">*</span></span>
             </div>
           </div>
 
           {/* Right Column - Inputs */}
-          <div className="flex-1 bg-white">
+          <div className="flex-1 bg-white min-w-0">
             {/* Event Type */}
-            <div className="h-[72px] flex items-center py-4 px-[65px]">
+            <div className="py-3 px-3 sm:py-4 sm:px-4 md:h-[60px] lg:h-[66px] xl:h-[72px] md:flex md:items-center md:py-3 md:px-6 lg:px-10 xl:px-[65px]">
+              <label className="block md:hidden text-[13px] sm:text-[14px] text-[#111111] font-medium mb-2">
+                행사 종류 <span className="text-[#111111]">*</span>
+              </label>
               <select
                 name="eventType"
                 value={formData.eventType}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[14px] text-[#727783]"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 md:py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[13px] sm:text-[14px] text-[#727783]"
               >
                 {EVENT_TYPES.map((type) => (
                   <option key={type.value} value={type.value}>
@@ -179,67 +181,78 @@ export default function InquiryForm() {
             </div>
 
             {/* Phone Number */}
-            <div className="h-[72px] flex items-center py-4 px-[65px]">
-              <div className="flex items-center gap-2 w-full">
+            <div className="py-3 px-3 sm:py-4 sm:px-4 md:h-[60px] lg:h-[66px] xl:h-[72px] md:flex md:items-center md:py-3 md:px-6 lg:px-10 xl:px-[65px]">
+              <label className="block md:hidden text-[13px] sm:text-[14px] text-[#111111] font-medium mb-2">
+                전화 번호 <span className="text-[#111111]">*</span>
+              </label>
+              <div className="flex items-center gap-1 sm:gap-2 w-full">
                 <input
                   type="text"
                   name="phone1"
                   value={formData.phone1}
                   onChange={handleChange}
                   maxLength={4}
-                  className="flex-1 px-4 py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[14px] text-center"
+                  inputMode="numeric"
+                  className="flex-1 min-w-0 px-1 sm:px-2 md:px-3 lg:px-4 py-2.5 sm:py-3 md:py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[13px] sm:text-[14px] text-center"
                 />
-                <span className="text-[#727783]">-</span>
+                <span className="text-[#727783] text-[12px] sm:text-base">-</span>
                 <input
                   type="text"
                   name="phone2"
                   value={formData.phone2}
                   onChange={handleChange}
                   maxLength={4}
-                  className="flex-1 px-4 py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[14px] text-center"
+                  inputMode="numeric"
+                  className="flex-1 min-w-0 px-1 sm:px-2 md:px-3 lg:px-4 py-2.5 sm:py-3 md:py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[13px] sm:text-[14px] text-center"
                 />
-                <span className="text-[#727783]">-</span>
+                <span className="text-[#727783] text-[12px] sm:text-base">-</span>
                 <input
                   type="text"
                   name="phone3"
                   value={formData.phone3}
                   onChange={handleChange}
                   maxLength={4}
-                  className="flex-1 px-4 py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[14px] text-center"
+                  inputMode="numeric"
+                  className="flex-1 min-w-0 px-1 sm:px-2 md:px-3 lg:px-4 py-2.5 sm:py-3 md:py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[13px] sm:text-[14px] text-center"
                 />
               </div>
             </div>
 
             {/* Email */}
-            <div className="h-[72px] flex items-center py-4 px-[65px]">
-              <div className="flex items-center gap-2 w-full">
-                <input
-                  type="text"
-                  name="emailId"
-                  value={formData.emailId}
-                  onChange={handleChange}
-                  className="flex-1 px-4 py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[14px]"
-                />
-                <span className="text-[#727783]">@</span>
-                {formData.emailDomain === '' ? (
+            <div className="py-3 px-3 sm:py-4 sm:px-4 md:h-[60px] lg:h-[66px] xl:h-[72px] md:flex md:items-center md:py-3 md:px-6 lg:px-10 xl:px-[65px]">
+              <label className="block md:hidden text-[13px] sm:text-[14px] text-[#111111] font-medium mb-2">
+                이메일 <span className="text-[#111111]">*</span>
+              </label>
+              <div className="flex flex-col sm:flex-row sm:flex-wrap md:flex-nowrap items-stretch sm:items-center gap-2 md:gap-1 lg:gap-2 w-full">
+                <div className="flex items-center gap-1 sm:gap-2 md:gap-1 lg:gap-2 flex-1 min-w-0">
                   <input
                     type="text"
-                    name="customDomain"
-                    value={formData.customDomain}
+                    name="emailId"
+                    value={formData.emailId}
                     onChange={handleChange}
-                    placeholder=""
-                    className="flex-1 px-4 py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[14px]"
+                    className="flex-1 min-w-0 px-3 sm:px-4 md:px-2 lg:px-3 xl:px-4 py-2.5 sm:py-3 md:py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[13px] sm:text-[14px]"
                   />
-                ) : (
-                  <span className="flex-1 px-4 py-2 border border-[#D1DBF6] rounded bg-gray-50 text-[14px] text-[#727783]">
-                    {formData.emailDomain}
-                  </span>
-                )}
+                  <span className="text-[#727783] text-[12px] sm:text-base">@</span>
+                  {formData.emailDomain === '' ? (
+                    <input
+                      type="text"
+                      name="customDomain"
+                      value={formData.customDomain}
+                      onChange={handleChange}
+                      placeholder=""
+                      className="flex-1 min-w-0 px-3 sm:px-4 md:px-2 lg:px-3 xl:px-4 py-2.5 sm:py-3 md:py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[13px] sm:text-[14px]"
+                    />
+                  ) : (
+                    <span className="flex-1 min-w-0 px-3 sm:px-4 md:px-2 lg:px-3 xl:px-4 py-2.5 sm:py-3 md:py-2 border border-[#D1DBF6] rounded bg-gray-50 text-[13px] sm:text-[14px] text-[#727783] truncate">
+                      {formData.emailDomain}
+                    </span>
+                  )}
+                </div>
                 <select
                   name="emailDomain"
                   value={formData.emailDomain}
                   onChange={handleChange}
-                  className="w-[140px] px-3 py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[14px] text-[#727783]"
+                  className="w-full sm:w-auto md:w-[100px] lg:w-[120px] xl:w-[140px] px-2 md:px-2 lg:px-3 py-2.5 sm:py-3 md:py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[13px] sm:text-[14px] text-[#727783]"
                 >
                   {EMAIL_DOMAINS.map((domain) => (
                     <option key={domain.value} value={domain.value}>
@@ -251,7 +264,10 @@ export default function InquiryForm() {
             </div>
 
             {/* Organization Name */}
-            <div className="h-[72px] flex items-center py-4 px-[65px]">
+            <div className="py-3 px-3 sm:py-4 sm:px-4 md:h-[60px] lg:h-[66px] xl:h-[72px] md:flex md:items-center md:py-3 md:px-6 lg:px-10 xl:px-[65px]">
+              <label className="block md:hidden text-[13px] sm:text-[14px] text-[#111111] font-medium mb-2">
+                단체명, 기업명 <span className="text-[#111111]">*</span>
+              </label>
               <div className="relative w-full">
                 <input
                   type="text"
@@ -259,46 +275,52 @@ export default function InquiryForm() {
                   value={formData.organizationName}
                   onChange={handleChange}
                   maxLength={30}
-                  className="w-full px-4 py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[14px] pr-16"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 md:py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[13px] sm:text-[14px] pr-14 sm:pr-16"
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[12px] text-[#BFBFBF]">
+                <span className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-[11px] sm:text-[12px] text-[#BFBFBF]">
                   {formData.organizationName.length}/30
                 </span>
               </div>
             </div>
 
             {/* Content */}
-            <div className="h-[200px] flex items-start py-4 px-[65px]">
-              <div className="relative w-full">
+            <div className="py-3 px-3 sm:py-4 sm:px-4 md:h-[160px] lg:h-[180px] xl:h-[200px] md:flex md:items-start md:py-3 md:px-6 lg:px-10 xl:px-[65px]">
+              <label className="block md:hidden text-[13px] sm:text-[14px] text-[#111111] font-medium mb-2">
+                문의내용 <span className="text-[#111111]">*</span>
+              </label>
+              <div className="relative w-full h-full">
                 <textarea
                   name="content"
                   value={formData.content}
                   onChange={handleChange}
                   maxLength={5000}
-                  className="w-full h-[168px] px-4 py-3 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[14px] resize-none"
+                  className="w-full h-[160px] sm:h-[200px] md:h-[130px] lg:h-[148px] xl:h-[168px] px-3 sm:px-4 py-2.5 sm:py-3 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[13px] sm:text-[14px] resize-none"
                 />
-                <span className="absolute right-3 bottom-3 text-[12px] text-[#BFBFBF]">
+                <span className="absolute right-2 sm:right-3 bottom-2 sm:bottom-3 text-[11px] sm:text-[12px] text-[#BFBFBF]">
                   {formData.content.length}/5000
                 </span>
               </div>
             </div>
 
             {/* Privacy Consent */}
-            <div className="h-[240px] py-4 px-[65px]">
-              <div className="h-[160px] p-4 border border-[#D1DBF6] rounded overflow-y-auto mb-4">
-                <p className="text-[12px] text-[#C4C4C4] leading-relaxed whitespace-pre-wrap">
+            <div className="py-3 px-3 sm:py-4 sm:px-4 md:h-[200px] lg:h-[220px] xl:h-[240px] md:py-3 md:px-6 lg:px-10 xl:px-[65px]">
+              <label className="block md:hidden text-[13px] sm:text-[14px] text-[#111111] font-medium mb-2">
+                개인정보 수집 및 이용 동의 <span className="text-[#111111]">*</span>
+              </label>
+              <div className="h-[120px] sm:h-[160px] md:h-[120px] lg:h-[140px] xl:h-[160px] p-3 sm:p-4 md:p-3 lg:p-4 border border-[#D1DBF6] rounded overflow-y-auto mb-3 sm:mb-4 md:mb-3 lg:mb-4">
+                <p className="text-[11px] sm:text-[12px] text-[#C4C4C4] leading-relaxed whitespace-pre-wrap">
                   {PRIVACY_POLICY_TEXT}
                 </p>
               </div>
-              <label className="flex items-center gap-2 cursor-pointer">
+              <label className="flex items-start sm:items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
                   name="privacyConsent"
                   checked={formData.privacyConsent}
                   onChange={handleChange}
-                  className="w-4 h-4 rounded border-gray-300 text-[#1B67FF] focus:ring-[#1B67FF]"
+                  className="w-4 h-4 mt-0.5 sm:mt-0 rounded border-gray-300 text-[#1B67FF] focus:ring-[#1B67FF] flex-shrink-0"
                 />
-                <span className="text-[14px] text-[#111111]">개인정보 수집 및 이용에 동의합니다.</span>
+                <span className="text-[13px] sm:text-[14px] text-[#111111]">개인정보 수집 및 이용에 동의합니다.</span>
               </label>
             </div>
           </div>
@@ -309,7 +331,7 @@ export default function InquiryForm() {
           type="submit"
           disabled={!isFormValid || isSubmitting}
           className={`
-            w-full mt-6 py-4 font-medium rounded-lg transition-all text-[16px]
+            w-full mt-4 sm:mt-6 py-3 sm:py-4 font-medium rounded-lg transition-all text-[14px] sm:text-[16px]
             ${isFormValid && !isSubmitting
               ? 'bg-[#1B67FF] text-white hover:bg-[#1554cc]'
               : 'bg-[#C5D9FF] text-white cursor-not-allowed'
