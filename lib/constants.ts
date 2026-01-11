@@ -291,3 +291,119 @@ export const ABOUT_BUSINESS_PURPOSE = [
     image: '/images/about/purpose-3.jpeg',
   },
 ] as const;
+
+// Contact page - Event types for dropdown
+export const EVENT_TYPES = [
+  { value: '', label: '선택해주세요' },
+  { value: 'university', label: '대학교 축제' },
+  { value: 'regional', label: '지역 축제' },
+  { value: 'corporate', label: '기업 행사' },
+  { value: 'other', label: '기타' },
+] as const;
+
+// Contact page - Email domains for dropdown
+export const EMAIL_DOMAINS = [
+  { value: '', label: '직접 입력' },
+  { value: 'gmail.com', label: 'gmail.com' },
+  { value: 'naver.com', label: 'naver.com' },
+  { value: 'daum.net', label: 'daum.net' },
+  { value: 'kakao.com', label: 'kakao.com' },
+  { value: 'hanmail.net', label: 'hanmail.net' },
+] as const;
+
+// Contact page - FAQ categories
+export const FAQ_CATEGORIES = [
+  { id: 1, label: '다회용기 서비스 이해' },
+  { id: 2, label: '운영 & 처리' },
+  { id: 3, label: '비용 & 일정' },
+  { id: 4, label: 'ESG & 환경' },
+  { id: 5, label: '활용 사례' },
+  { id: 6, label: '기타' },
+] as const;
+
+// Contact page - FAQ data
+export const FAQ_DATA = [
+  {
+    id: 1,
+    categoryId: 1,
+    question: '다회용기 서비스는 어떤 서비스인가요?',
+    answer: '다회용기 대여부터 현장 배포·회수·세척·재공급까지 전 과정을 포함한 운영 서비스입니다. 행사 성격에 따라 현장 운영 인력 지원도 포함해 운영이 가능합니다.',
+  },
+  {
+    id: 2,
+    categoryId: 1,
+    question: '다회용기는 어떤 행사에 이용할 수 있나요?',
+    answer: '대학교 축제, 지역 축제, 기업 행사, 공공기관 행사 등 다양한 유형의 행사에서 서비스를 이용하실 수 있습니다.',
+  },
+  {
+    id: 3,
+    categoryId: 1,
+    question: '다회용기 시스템의 특징은 무엇인가요?',
+    answer: '일회용품 대비 환경 부담을 줄이고, 체계적인 회수·세척 시스템을 통해 위생적이고 지속 가능한 행사 운영이 가능합니다.',
+  },
+  {
+    id: 4,
+    categoryId: 2,
+    question: '용기 회수는 어떻게 진행되나요?',
+    answer: '전문 인력이 현장에 상주하며 체계적으로 회수를 진행합니다. 회수 스테이션 설치 및 안내를 통해 높은 회수율을 유지합니다.',
+  },
+  {
+    id: 5,
+    categoryId: 2,
+    question: '세척은 어떻게 진행되나요?',
+    answer: '6단계 세척 시스템을 통해 위생적으로 살균 처리합니다. 식품위생법 기준을 준수하여 안전하게 관리됩니다.',
+  },
+  {
+    id: 6,
+    categoryId: 3,
+    question: '서비스 요금은 어떻게 책정되나요?',
+    answer: '행사 규모, 기간, 예상 인원 등을 고려하여 맞춤형 견적을 제공합니다. 정확한 요금은 상담을 통해 안내받으실 수 있습니다.',
+  },
+  {
+    id: 7,
+    categoryId: 3,
+    question: '결제는 어떻게 진행되나요?',
+    answer: '계약 체결 후 계약금을 납부하시고, 행사 종료 후 잔금을 정산하는 방식으로 진행됩니다. 세부 사항은 계약 시 안내해 드립니다.',
+  },
+  {
+    id: 8,
+    categoryId: 4,
+    question: '환경적 효과는 어떻게 되나요?',
+    answer: '다회용기 사용으로 일회용품 쓰레기를 95% 이상 줄일 수 있습니다. 탄소 배출량 감소에도 기여합니다.',
+  },
+  {
+    id: 9,
+    categoryId: 5,
+    question: '어떤 행사에서 서비스를 이용했나요?',
+    answer: '서울대, 고려대, 연세대 등 주요 대학 축제와 세종시, 대전시 등 지역 축제에서 서비스를 제공했습니다.',
+  },
+  {
+    id: 10,
+    categoryId: 6,
+    question: '계약 취소 시 환불 정책은 어떻게 되나요?',
+    answer: '행사 14일 전까지 취소 시 전액 환불, 7일 전까지 취소 시 50% 환불, 이후 취소 시 환불이 어렵습니다. 자세한 내용은 계약서를 참고해 주세요.',
+  },
+] as const;
+
+// Contact page - Resources data
+export const RESOURCES_DATA = [
+  {
+    id: 1,
+    title: '에코트리 제안서',
+    date: '2025-12-29',
+    downloadUrl: '/downloads/ecotree_proposal.pdf',
+  },
+  {
+    id: 2,
+    title: '한국 세계음식 푸드트럭 중앙회 제안서',
+    date: '2025-12-29',
+    downloadUrl: '/downloads/foodtruck_proposal.pdf',
+  },
+] as const;
+
+// Contact page - Tab items
+export const CONTACT_TABS = [
+  { id: 'inquiry', label: '1:1 문의' },
+  { id: 'faq', label: '자주 묻는 질문' },
+  { id: 'resources', label: '자료실' },
+] as const;
