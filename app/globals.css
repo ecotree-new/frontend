@@ -227,3 +227,65 @@ body {
 .count-up {
   font-variant-numeric: tabular-nums;
 }
+
+/* Menu Slider Animations */
+@keyframes slideRow1 {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes slideRow2 {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@layer utilities {
+  .animate-slide-row-1 {
+    animation: slideRow1 25s linear infinite;
+    width: fit-content;
+  }
+
+  .animate-slide-row-2 {
+    animation: slideRow2 30s linear infinite;
+    width: fit-content;
+  }
+}
+
+/* Operation Examples Slider Animations */
+@keyframes slideOperation1 {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes slideOperation2 {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@layer utilities {
+  .animate-slide-operation-1 {
+    animation: slideOperation1 30s linear infinite;
+    width: fit-content;
+  }
+
+  .animate-slide-operation-2 {
+    animation: slideOperation2 35s linear infinite;
+    width: fit-content;
+  }
+}

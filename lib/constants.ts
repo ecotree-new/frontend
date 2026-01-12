@@ -407,3 +407,239 @@ export const CONTACT_TABS = [
   { id: 'faq', label: '자주 묻는 질문' },
   { id: 'resources', label: '자료실' },
 ] as const;
+
+// Cases page - Process steps
+export const CASES_PROCESS_STEPS = [
+  {
+    id: 1,
+    number: '01',
+    title: '행사 정보 입력',
+    description: '행사 목적과 규모를 알려주세요',
+  },
+  {
+    id: 2,
+    number: '02',
+    title: '운영 방식 제안',
+    description: '행사 목적과 규모를 알려주세요',
+  },
+  {
+    id: 3,
+    number: '03',
+    title: '운영 확정 및 준비',
+    description: '행사 목적과 규모를 알려주세요',
+  },
+  {
+    id: 4,
+    number: '04',
+    title: '현장 운영 및 결과 공유',
+    description: '행사 목적과 규모를 알려주세요',
+  },
+] as const;
+
+// Cases page - Ecotree cases
+export const ECOTREE_CASES = [
+  {
+    id: 1,
+    label: 'S 기업 행사',
+    title: '쓰레기 처리 부담이 줄어\n행사 마무리가 수월했습니다.',
+    description: '행사 운영에서 큰 부담 중 하나는 행사 종료 후 쓰레기 처리 였습니다. 다회용기 사용을 도입하며 현장 정리와 쓰레기 처리 부담이 눈에 띄게 줄었고 운영팀은 행사 마무리에만 집중할 수 있었습니다.',
+    image: '/images/cases/placeholder-1.jpeg',
+    link: '/cases/ecotree-1',
+  },
+  {
+    id: 2,
+    label: 'B 지자체 행사',
+    title: '행사 내내 공간이 정돈된 상태로\n쾌적하게 유지됐습니다.',
+    description: '일회용기를 사용할 때는 식사 후 테이블과 주변 공간에 쓰레기가 빠르게 쌓였지만 다회용기 사용 도입 후 현장 곳곳에서 회수가 가능하면서 행사 공간이 깔끔하게 유지되었습니다.',
+    image: '/images/cases/placeholder-2.jpeg',
+    link: '/cases/ecotree-2',
+  },
+] as const;
+
+// Cases page - Foodtruck cases
+export const FOODTRUCK_CASES = [
+  {
+    id: 1,
+    label: 'K 대학 축제',
+    title: '행사 규모에 맞춘 구성으로\n현장 혼선이 줄었습니다.',
+    description: '행사 운영에서 큰 부담 중 하나는 행사 종료 후 쓰레기 처리 였습니다. 다회용기 사용을 도입하며 현장 정리와 쓰레기 처리 부담이 눈에 띄게 줄었고 운영팀은 행사 마무리에만 집중할 수 있었습니다.',
+    image: '/images/cases/placeholder-3.jpeg',
+    link: '/cases/foodtruck-1',
+  },
+  {
+    id: 2,
+    label: 'S 지역 행사',
+    title: '메뉴가 겹치지 않아서\n선택하기 편했습니다.',
+    description: '보통 푸드트럭 여러 대 들어오면 메뉴가 비슷해지는 경우가 많은데 이번에는 메뉴가 잘 나누어졌습니다. 특정 트럭에만 줄이 몰리지 않아 현장에서 메뉴 관련 민원이 거의 없었습니다.',
+    image: '/images/cases/placeholder-4.jpeg',
+    link: '/cases/foodtruck-2',
+  },
+] as const;
+
+// Cases page - Joint cases (동시 운영 사례)
+export const JOINT_CASES = [
+  {
+    id: 1,
+    label: 'C 지자체 행사',
+    title: '운영이 훨씬\n단순해졌습니다.',
+    image: '/images/cases/placeholder-5.jpeg',
+    link: '/cases/joint-1',
+  },
+  {
+    id: 2,
+    label: 'R 페스티벌',
+    title: '현장에서 신경 쓸 게\n줄어들었습니다.',
+    image: '/images/cases/placeholder-6.jpeg',
+    link: '/cases/joint-2',
+  },
+  {
+    id: 3,
+    label: 'H 대학축제',
+    title: '행사 위생이 확연히\n깔끔해졌습니다.',
+    image: '/images/cases/placeholder-7.jpeg',
+    link: '/cases/joint-3',
+  },
+] as const;
+
+// Cases page - Testimonials
+export const TESTIMONIALS = [
+  {
+    id: 1,
+    company: 'B대학교',
+    content: '원래 행사가 끝나면 쓰레기로 엉망인데 에코트리와 함께하니 쾌적한 행사가 되었어요',
+  },
+  {
+    id: 2,
+    company: 'S지자체',
+    content: '다회용기 운영이 처음이라 걱정했는데 체계적인 시스템 덕분에 순조롭게 진행됐습니다',
+  },
+  {
+    id: 3,
+    company: 'K기업',
+    content: '행사 후 정리 시간이 확연히 줄었어요. 다음에도 꼭 함께하고 싶습니다',
+  },
+  {
+    id: 4,
+    company: 'D축제',
+    content: '환경도 지키고 운영 효율도 높아져서 일석이조였습니다',
+  },
+  {
+    id: 5,
+    company: 'M대학교',
+    content: '학생들 반응도 좋았고, 행사장이 깔끔하게 유지되어 만족스러웠습니다',
+  },
+] as const;
+
+// ============================================
+// Foodtruck Page Data
+// ============================================
+
+// Foodtruck page - Hero tiles
+export const FOODTRUCK_HERO_TILES = [
+  { id: 1, title: '축제', image: '/images/foodtruck/festival.jpeg', objectPosition: 'center bottom' },
+  { id: 2, title: '기업 행사', image: '/images/foodtruck/corporate.jpeg', objectPosition: 'center center' },
+  { id: 3, title: '연예인 서포트', image: '/images/foodtruck/celebrity.jpeg', objectPosition: 'center center' },
+] as const;
+
+export const FOODTRUCK_HERO_MAIN_COPY = {
+  title: '에코트리는 다양한 행사 현장에서 함께합니다.',
+  // subtitle: '다양한 행사 경험을 바탕으로 최적의 운영을 제안합니다.',
+} as const;
+
+// Foodtruck page - Service cards
+export const FOODTRUCK_SERVICE_CARDS = [
+  {
+    id: 1,
+    title: '케이터링',
+    subtitle: '주최자 측 단체 구매 방식',
+    items: ['주최자가 메뉴를 미리 구매', '행사 참여자에게 무료 제공', '정확한 수량 예측 가능'],
+    tag: '기업 행사, 워크샵에 최적',
+  },
+  {
+    id: 2,
+    title: '푸드트럭',
+    subtitle: '개별 판매 방식',
+    items: ['중앙회가 입점료 지불', '행사 참여자가 개별 구매', '다양한 선택권 제공'],
+    tag: '축제, 대규모 행사에 최적',
+  },
+] as const;
+
+// Foodtruck page - Menu section
+export const FOODTRUCK_MENU_SECTION = {
+  title: '한 도시에서 만나는 세계의 맛',
+  subtitle: '한국 세계 음식 푸드트럭 중앙회를 통해 다양한 국가의 음식을 경험할 수 있습니다.',
+} as const;
+
+// Foodtruck page - Menu images (12장 - 위 6개, 아래 6개)
+export const FOODTRUCK_MENU_IMAGES_ROW1 = [
+  { id: 1, image: '/images/foodtruck/menu-1.jpg', alt: '메뉴 1' },
+  { id: 2, image: '/images/foodtruck/menu-2.jpg', alt: '메뉴 2' },
+  { id: 3, image: '/images/foodtruck/menu-3.jpg', alt: '메뉴 3' },
+  { id: 4, image: '/images/foodtruck/menu-4.jpg', alt: '메뉴 4' },
+  { id: 5, image: '/images/foodtruck/menu-5.jpg', alt: '메뉴 5' },
+  { id: 6, image: '/images/foodtruck/menu-6.jpg', alt: '메뉴 6' },
+] as const;
+
+export const FOODTRUCK_MENU_IMAGES_ROW2 = [
+  { id: 7, image: '/images/foodtruck/menu-7.jpg', alt: '메뉴 7' },
+  { id: 8, image: '/images/foodtruck/menu-8.jpg', alt: '메뉴 8' },
+  { id: 9, image: '/images/foodtruck/menu-9.jpg', alt: '메뉴 9' },
+  { id: 10, image: '/images/foodtruck/menu-10.jpg', alt: '메뉴 10' },
+  { id: 11, image: '/images/foodtruck/menu-11.jpg', alt: '메뉴 11' },
+  { id: 12, image: '/images/foodtruck/menu-12.jpg', alt: '메뉴 12' },
+] as const;
+
+// Foodtruck page - Menu background image
+export const FOODTRUCK_MENU_BG = '/images/foodtruck/menu-bg-globe.png';
+
+// Foodtruck page - Truck selection section
+export const FOODTRUCK_TRUCK_SECTION = {
+  title: '다양한 행사에 맞게 선택 가능한 트럭',
+  subtitle: '소규모 행사부터 대형 축제까지, 행사 환경에 맞는 트럭 구성과 운영 방식을 제공합니다.',
+} as const;
+
+// Foodtruck page - Truck cards
+export const FOODTRUCK_TRUCK_CARDS = [
+  { id: 1, title: '공공·기관 행사', description: '격식을 갖춘 공식 행사', tags: ['#차분', '#단정'], image: '/images/foodtruck/truck-1.png' },
+  { id: 2, title: '기업·사내 행사', description: '사내 복지/브랜딩 행사', tags: ['#모던', '#미니멀'], image: '/images/foodtruck/truck-2.png' },
+  { id: 3, title: '지역·축제 행사', description: '현장 분위기가 활기찬 행사', tags: ['#화려', '#활기'], image: '/images/foodtruck/truck-3.png' },
+] as const;
+
+// Foodtruck page - Banner features
+export const FOODTRUCK_BANNER_FEATURES = [
+  { id: 1, icon: '/images/foodtruck/icon-kitchen.png', title: '완벽한 주방 시설', description: '조리에 필요한 모든 장비 완비' },
+  { id: 2, icon: '/images/foodtruck/icon-hygiene.png', title: '위생 인증', description: '식품 위생 기준 충족' },
+  { id: 3, icon: '/images/foodtruck/icon-safety.png', title: '안전 관리', description: '소방 및 안전 설비 구비' },
+] as const;
+
+// Foodtruck page - Operation examples section
+export const FOODTRUCK_OPERATION_SECTION = {
+  title: '실제 운영 예시',
+  subtitle: '한국 세계 음식 푸드트럭 중앙회는 다양한 행사 현장에서 함께합니다.',
+} as const;
+
+// Foodtruck page - Operation example cards - Row 1 (푸드트럭 5개)
+export const FOODTRUCK_OPERATION_ROW1 = [
+  { id: 1, title: '큐브 스테이크 푸드트럭', image: '/images/foodtruck/operation-1.jpg' },
+  { id: 2, title: '감자튀김 푸드트럭', image: '/images/foodtruck/operation-2.jpeg' },
+  { id: 3, title: '타코 푸드트럭', image: '/images/foodtruck/operation-3.jpg' },
+  { id: 4, title: '버거 푸드트럭', image: '/images/foodtruck/operation-4.png' },
+  { id: 5, title: '핫도그 푸드트럭', image: '/images/foodtruck/operation-5.jpg' },
+] as const;
+
+// Foodtruck page - Operation example cards - Row 2 (케이터링 5개)
+export const FOODTRUCK_OPERATION_ROW2 = [
+  { id: 6, title: '카페 케이터링', image: '/images/foodtruck/operation-6.jpeg' },
+  { id: 7, title: '디저트 케이터링', image: '/images/foodtruck/operation-7.jpg' },
+  { id: 8, title: '한식 케이터링', image: '/images/foodtruck/operation-8.jpg' },
+  { id: 9, title: '양식 케이터링', image: '/images/foodtruck/operation-9.jpeg' },
+  { id: 10, title: '뷔페 케이터링', image: '/images/foodtruck/operation-10.jpg' },
+] as const;
+
+// Foodtruck page - CTA section
+export const FOODTRUCK_CTA = {
+  title: '한국 세계 음식 푸드트럭 중앙회',
+  subtitle: '더 알아보기',
+  buttonText: '사이트 이동',
+  buttonLink: '#', // 외부 URL로 교체 예정
+} as const;
