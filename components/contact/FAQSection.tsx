@@ -18,9 +18,9 @@ export default function FAQSection() {
 
   return (
     <div className="flex flex-col md:flex-row gap-4 md:gap-8">
-      {/* Left Sidebar - Categories (Horizontal scroll on mobile) */}
+      {/* Left Sidebar - Categories (Horizontal scroll pill on mobile) */}
       <div className="w-full md:w-[240px] flex-shrink-0">
-        <div className="flex md:flex-col overflow-x-auto md:overflow-x-visible gap-1.5 sm:gap-2 md:gap-0 pb-2 md:pb-0 -mx-1 px-1">
+        <div className="flex md:flex-col overflow-x-auto md:overflow-x-visible gap-2 md:gap-0 pb-2 md:pb-0 -mx-1 px-1 scrollbar-hide">
           {FAQ_CATEGORIES.map((category) => (
             <button
               key={category.id}
@@ -29,13 +29,14 @@ export default function FAQSection() {
                 setOpenId(null);
               }}
               className={`
-                whitespace-nowrap md:whitespace-normal text-left py-2 px-3 sm:py-3 sm:px-4 md:py-4 text-[12px] sm:text-[13px] md:text-[14px] transition-all border-b-2 md:border-b-0 md:border-l-4 rounded-lg md:rounded-none
+                whitespace-nowrap md:whitespace-normal text-left py-2 px-4 md:py-4 text-[13px] md:text-[14px] transition-all rounded-full md:rounded-none md:border-l-4
                 ${activeCategoryId === category.id
-                  ? 'border-b-[#1B67FF] md:border-l-[#1B67FF] bg-[#F8F9FA] text-[#1B67FF] font-medium'
-                  : 'border-b-transparent md:border-l-transparent text-[#999999] hover:text-[#666666] bg-[#F8F9FA] md:bg-transparent'
+                  ? 'bg-[#EDF3FF] md:bg-[#F8F9FA] text-[#1B67FF] font-semibold md:font-medium border-0 md:border-l-[#1B67FF]'
+                  : 'bg-transparent md:bg-transparent text-[#C4C4C4] md:text-[#999999] font-medium hover:text-[#666666] border border-[#C4C4C4] md:border-0 md:border-l-transparent'
                 }
               `}
             >
+              <span className="md:hidden">{category.id}) </span>
               <span className="hidden md:inline">{category.id}) </span>{category.label}
             </button>
           ))}

@@ -37,10 +37,10 @@ export default function CoreValueSection() {
             transition={{ duration: 0.6 }}
             className="lg:w-[280px] flex-shrink-0 mb-12 lg:mb-0"
           >
-            <p className="text-[16px] font-medium text-[#1B67FF] mb-2">
+            <p className="text-[10px] md:text-[14px] lg:text-[16px] font-medium text-[#1B67FF] mb-2">
               Core Value
             </p>
-            <h2 className="text-[40px] md:text-[48px] font-bold text-[#111111]">
+            <h2 className="text-[18px] md:text-[40px] lg:text-[48px] font-bold text-[#111111]">
               핵심 가치
             </h2>
           </motion.div>
@@ -59,7 +59,7 @@ export default function CoreValueSection() {
                 className="flex gap-6 md:gap-8"
               >
                 {/* Icon */}
-                <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
+                <div className="w-8 h-8 md:w-20 md:h-20 flex-shrink-0">
                   <Image
                     src={value.icon}
                     alt={value.title}
@@ -71,10 +71,10 @@ export default function CoreValueSection() {
 
                 {/* Content */}
                 <div className="flex-1">
-                  <h3 className="text-[24px] md:text-[28px] font-bold text-[#111111] mb-2">
+                  <h3 className="text-[16px] md:text-[24px] lg:text-[28px] font-bold text-[#111111] mb-2">
                     {index + 1}. {value.title} ({value.titleEn})
                   </h3>
-                  <p className="text-[14px] md:text-[16px] text-[#727783] leading-relaxed whitespace-pre-line">
+                  <p className="text-[10px] md:text-[14px] lg:text-[16px] text-[#727783] leading-relaxed whitespace-pre-line">
                     {value.description}
                   </p>
                 </div>

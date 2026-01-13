@@ -5,43 +5,29 @@ import { useEffect, useState, useRef } from 'react';
 interface CountUpProps {
   end: number;
   duration?: number;
-  suffix?: string;
-  isInView: boolean;
+  trigger?: number; // 이 값이 변경되면 애니메이션 재시작
 }
 
-export default function CountUp({
-  end,
-  duration = 2000,
-  suffix = '',
-  isInView,
-}: CountUpProps) {
+export default function CountUp({ end, duration = 2000, trigger = 0 }: CountUpProps) {
   const [count, setCount] = useState(0);
-  const hasAnimated = useRef(false);
   const animationRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!isInView) {
-      // Reset when out of view
-      hasAnimated.current = false;
-      setCount(0);
-      return;
+    // 기존 애니메이션 취소
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
     }
 
-    if (hasAnimated.current) return;
-    hasAnimated.current = true;
-
+    // 0부터 시작
+    setCount(0);
     const startTime = Date.now();
-    const startValue = 0;
 
     const animate = () => {
       const elapsed = Date.now() - startTime;
       const progress = Math.min(elapsed / duration, 1);
-
-      // Easing function (ease-out)
       const easeOut = 1 - Math.pow(1 - progress, 3);
-      const currentValue = Math.floor(startValue + (end - startValue) * easeOut);
 
-      setCount(currentValue);
+      setCount(Math.floor(end * easeOut));
 
       if (progress < 1) {
         animationRef.current = requestAnimationFrame(animate);
@@ -55,12 +41,7 @@ export default function CountUp({
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isInView, end, duration]);
+  }, [trigger, end, duration]);
 
-  return (
-    <span className="count-up">
-      {count}
-      {suffix}
-    </span>
-  );
+  return <span>{count}</span>;
 }

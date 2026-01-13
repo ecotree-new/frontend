@@ -13,17 +13,15 @@ export default function BannerSection() {
   });
 
   // Transform for the first banner opacity (fades out as you scroll)
-  // 0% ~ 33%: 첫 번째 배너 페이드 아웃
-  const firstBannerOpacity = useTransform(scrollYProgress, [0, 0.33], [1, 0]);
+  const firstBannerOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
 
   // Transform for the second banner opacity (fades in as you scroll)
-  // 20% ~ 50%: 두 번째 배너 페이드 인, 50% ~ 100%: 두 번째 배너 유지
-  const secondBannerOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1]);
+  const secondBannerOpacity = useTransform(scrollYProgress, [0.3, 0.6], [0, 1]);
 
   return (
     <div ref={containerRef} className="relative h-[300vh]">
-      {/* Sticky container */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+      {/* Sticky container - accounts for header height */}
+      <div className="sticky top-16 h-[calc(100vh-64px)] w-full overflow-hidden flex items-center justify-center">
         {/* First Banner - Problem */}
         <motion.div
           style={{ opacity: firstBannerOpacity }}
@@ -31,8 +29,7 @@ export default function BannerSection() {
         >
           <div className="container-ecotree">
             <div
-              className="relative w-full rounded-2xl overflow-hidden"
-              style={{ maxWidth: '1110px', height: '600px' }}
+              className="relative w-full rounded-2xl overflow-hidden max-w-[1110px] h-[400px] md:h-[500px] lg:h-[600px]"
             >
               {/* Background Image */}
               <div
@@ -49,13 +46,13 @@ export default function BannerSection() {
               />
 
               {/* Content - 오른쪽 위치, 왼쪽 정렬 */}
-              <div className="relative h-full flex items-center justify-end p-12 pr-16">
+              <div className="relative h-full flex items-center justify-end p-6 md:p-12 pr-8 md:pr-16">
                 <div className="text-left text-white">
                   <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-[32px] font-light"
+                    className="text-[24px] md:text-[28px] lg:text-[32px] font-light"
                   >
                     {BANNER_CONTENT[0].title}
                   </motion.p>
@@ -63,7 +60,7 @@ export default function BannerSection() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-[32px] font-bold mb-8"
+                    className="text-[24px] md:text-[28px] lg:text-[32px] font-bold mb-4 md:mb-8"
                   >
                     {BANNER_CONTENT[0].highlight}
                   </motion.p>
@@ -71,7 +68,7 @@ export default function BannerSection() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="text-[16px] font-normal text-white/90"
+                    className="text-[14px] md:text-[16px] font-normal text-white/90"
                   >
                     <p>매년 수백 개의 축제와 행사에서</p>
                     <p>수십만 개의 일회용품이 버려집니다.</p>
@@ -89,8 +86,7 @@ export default function BannerSection() {
         >
           <div className="container-ecotree">
             <div
-              className="relative w-full rounded-2xl overflow-hidden"
-              style={{ maxWidth: '1110px', height: '600px' }}
+              className="relative w-full rounded-2xl overflow-hidden max-w-[1110px] h-[400px] md:h-[500px] lg:h-[600px]"
             >
               {/* Background Image */}
               <div
@@ -107,13 +103,13 @@ export default function BannerSection() {
               />
 
               {/* Content - 오른쪽 위치, 왼쪽 정렬 */}
-              <div className="relative h-full flex items-center justify-end p-12 pr-16">
+              <div className="relative h-full flex items-center justify-end p-6 md:p-12 pr-8 md:pr-16">
                 <div className="text-left text-white">
                   <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="text-[32px] font-light"
+                    className="text-[24px] md:text-[28px] lg:text-[32px] font-light"
                   >
                     {BANNER_CONTENT[1].preTitle}
                   </motion.p>
@@ -121,7 +117,7 @@ export default function BannerSection() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-[32px] font-bold"
+                    className="text-[24px] md:text-[28px] lg:text-[32px] font-bold"
                   >
                     {BANNER_CONTENT[1].title}
                   </motion.p>
@@ -129,7 +125,7 @@ export default function BannerSection() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="text-[32px] font-light mb-8"
+                    className="text-[24px] md:text-[28px] lg:text-[32px] font-light mb-4 md:mb-8"
                   >
                     {BANNER_CONTENT[1].highlight}
                   </motion.p>
@@ -137,7 +133,7 @@ export default function BannerSection() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.3 }}
-                    className="text-[16px] font-normal text-white/90"
+                    className="text-[14px] md:text-[16px] font-normal text-white/90"
                   >
                     <p>다회용기로 운영된 행사는</p>
                     <p>일회용품 쓰레기를 95% 이상 줄입니다.</p>

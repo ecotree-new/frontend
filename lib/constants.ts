@@ -183,7 +183,7 @@ export const REGIONAL_FESTIVALS = [
 export const HERO_CONTENT = {
   title: '행사를 바꾸는 친환경, 에코트리',
   subtitle: '대여부터 회수·세척까지, 다회용기 운영의 전 과정을 책임집니다.',
-  ctaText: '서비스 문의',
+  ctaText: '운영 상담하기',
   ctaLink: '/contact',
 } as const;
 
@@ -210,7 +210,7 @@ export const BANNER_CONTENT = [
 export const CTA_CONTENT = {
   preTitle: '에코트리로',
   title: '행사 운영하기',
-  buttonText: '운영 상담하기',
+  buttonText: '서비스 문의',
   buttonLink: '/contact',
 } as const;
 
@@ -481,21 +481,21 @@ export const JOINT_CASES = [
   {
     id: 1,
     label: 'C 지자체 행사',
-    title: '운영이 훨씬\n단순해졌습니다.',
+    title: '운영이 훨씬 단순해졌습니다.',
     image: '/images/cases/placeholder-5.jpeg',
     link: '/cases/joint-1',
   },
   {
     id: 2,
     label: 'R 페스티벌',
-    title: '현장에서 신경 쓸 게\n줄어들었습니다.',
+    title: '현장에서 신경 쓸 게 줄어들었습니다.',
     image: '/images/cases/placeholder-6.jpeg',
     link: '/cases/joint-2',
   },
   {
     id: 3,
     label: 'H 대학축제',
-    title: '행사 위생이 확연히\n깔끔해졌습니다.',
+    title: '행사 위생이 확연히 깔끔해졌습니다.',
     image: '/images/cases/placeholder-7.jpeg',
     link: '/cases/joint-3',
   },
@@ -594,7 +594,7 @@ export const FOODTRUCK_MENU_BG = '/images/foodtruck/menu-bg-globe.png';
 
 // Foodtruck page - Truck selection section
 export const FOODTRUCK_TRUCK_SECTION = {
-  title: '다양한 행사에 맞게 선택 가능한 트럭',
+  title: '행사 규모에 맞게 선택 가능한 트럭',
   subtitle: '소규모 행사부터 대형 축제까지, 행사 환경에 맞는 트럭 구성과 운영 방식을 제공합니다.',
 } as const;
 

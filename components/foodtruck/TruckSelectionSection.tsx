@@ -63,7 +63,7 @@ export default function TruckSelectionSection() {
   return (
     <section
       ref={sectionRef}
-      className="bg-white py-20"
+      className="bg-white py-12 md:py-20"
     >
       <div className="container-ecotree">
         {/* Section Header */}
@@ -71,12 +71,12 @@ export default function TruckSelectionSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-20"
+          className="text-center mb-10 md:mb-20"
         >
-          <h2 className="text-[40px] md:text-[40px] lg:text-[40px] font-bold text-[#000000] mb-4">
+          <h2 className="text-[24px] md:text-[32px] lg:text-[40px] font-bold text-[#000000] mb-2 md:mb-4">
             {FOODTRUCK_TRUCK_SECTION.title}
           </h2>
-          <p className="text-[20px] md:text-[20px] font-medium text-[#000000]">
+          <p className="text-[14px] md:text-[18px] lg:text-[20px] font-medium text-[#000000]">
             {FOODTRUCK_TRUCK_SECTION.subtitle}
           </p>
         </motion.div>
@@ -87,13 +87,13 @@ export default function TruckSelectionSection() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? 'visible' : 'hidden'}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6"
         >
           {FOODTRUCK_TRUCK_CARDS.map((card) => (
             <motion.div
               key={card.id}
               variants={cardVariants}
-              className="bg-white rounded-3xl overflow-hidden"
+              className="bg-white rounded-2xl md:rounded-3xl overflow-hidden"
             >
               {/* Card Image */}
               <div className="relative w-full aspect-[4/3] bg-gray-100 overflow-hidden">
@@ -106,18 +106,18 @@ export default function TruckSelectionSection() {
               </div>
 
               {/* Card Content */}
-              <div className="py-6 px-10">
-                <h3 className="text-[20px] md:text-[20px] font-semibold text-[#000000] mb-1">
+              <div className="py-4 px-4 md:py-6 md:px-10">
+                <h3 className="text-[16px] md:text-[18px] lg:text-[20px] font-semibold text-[#000000] mb-1">
                   {card.title}
                 </h3>
-                <p className="text-[14px] md:text-[14px] text-[#000000] mb-3">
+                <p className="text-[13px] md:text-[14px] text-[#000000] mb-2 md:mb-3">
                   {card.description}
                 </p>
                 <div className="flex gap-2">
                   {card.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="px-2 h-5 flex items-center bg-[#1B67FF] text-[#FFFFFF] text-[14px] font-semibold rounded-[40px]"
+                      className="px-2 h-5 flex items-center bg-[#1B67FF] text-[#FFFFFF] text-[12px] md:text-[14px] font-semibold rounded-[40px]"
                     >
                       {tag}
                     </span>
@@ -128,12 +128,12 @@ export default function TruckSelectionSection() {
           ))}
         </motion.div>
 
-        {/* Connection Line SVG */}
+        {/* Connection Line SVG - Hidden on mobile */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="relative h-[96px] mb-0"
+          className="relative h-[96px] mb-0 hidden md:block"
         >
           <svg
             width={linePositions.width}
@@ -190,34 +190,65 @@ export default function TruckSelectionSection() {
           </svg>
         </motion.div>
 
-        {/* Feature Banner */}
+        {/* Feature Banner - Desktop: horizontal, Mobile: vertical cards */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="rounded-2xl"
-          style={{ background: 'linear-gradient(90deg, #1E1F23 0%, #1B67FF 100%)' }}
+          className="mt-6 md:mt-0"
         >
-          <div className="flex items-center justify-center gap-[80px] px-6 py-8">
+          {/* Desktop Layout */}
+          <div
+            className="hidden md:block rounded-2xl"
+            style={{ background: 'linear-gradient(90deg, #1E1F23 0%, #1B67FF 100%)' }}
+          >
+            <div className="flex items-center justify-center gap-[40px] lg:gap-[80px] px-6 py-8">
+              {FOODTRUCK_BANNER_FEATURES.map((feature) => (
+                <div
+                  key={feature.id}
+                  className="flex items-center gap-4"
+                >
+                  <Image
+                    src={feature.icon}
+                    alt={feature.title}
+                    width={56}
+                    height={56}
+                    className="w-12 h-12 md:w-14 md:h-14 flex-shrink-0"
+                  />
+                  <div>
+                    <h4 className="text-[16px] font-semibold text-white mb-0.5">
+                      {feature.title}
+                    </h4>
+                    <p className="text-[14px] font-medium text-white">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile Layout - Vertical stacked cards */}
+          <div className="flex flex-col gap-3 md:hidden">
             {FOODTRUCK_BANNER_FEATURES.map((feature) => (
               <div
                 key={feature.id}
-                className="flex items-center gap-4"
+                className="flex items-center gap-3 px-6 py-4 rounded-lg"
+                style={{ background: 'linear-gradient(90deg, #1E1F23 0%, #1B67FF 100%)' }}
               >
-                {/* Icon */}
                 <Image
                   src={feature.icon}
                   alt={feature.title}
-                  width={56}
-                  height={56}
-                  className="w-12 h-12 md:w-14 md:h-14 flex-shrink-0"
+                  width={40}
+                  height={40}
+                  className="w-10 h-10 flex-shrink-0"
                 />
-                {/* Text */}
-                <div>
-                  <h4 className="text-[16px] md:text-[16px] font-semibold text-white mb-0.75">
+                <div className="flex items-center gap-2">
+                  <h4 className="text-[14px] font-semibold text-white whitespace-nowrap">
                     {feature.title}
                   </h4>
-                  <p className="text-[14px] md:text-[14px] font-medium text-white">
+                  <span className="text-white/60">|</span>
+                  <p className="text-[13px] font-medium text-white/90">
                     {feature.description}
                   </p>
                 </div>

@@ -5,7 +5,7 @@ import { HERO_CONTENT } from '@/lib/constants';
 
 export default function HeroSection() {
   return (
-    <section className="relative h-screen min-h-[600px] w-full overflow-hidden">
+    <section className="relative h-screen min-h-[500px] md:min-h-[600px] w-full overflow-hidden">
       {/* Background Video */}
       <video
         autoPlay
@@ -26,21 +26,21 @@ export default function HeroSection() {
           <div className="text-left text-white">
             {/* Main Title */}
             <h1
-              className="text-[40px] md:text-[48px] lg:text-[56px] font-bold leading-tight mb-4"
+              className="text-[28px] md:text-[40px] lg:text-[56px] font-bold leading-tight mb-3 md:mb-4"
               style={{ wordBreak: 'keep-all' }}
             >
               행사를 바꾸는 친환경, 에코트리
             </h1>
 
             {/* Subtitle */}
-            <p className="text-[14px] md:text-[16px] font-normal text-white/90 mb-8">
+            <p className="text-[13px] md:text-[14px] lg:text-[16px] font-normal text-white/90 mb-6 md:mb-8">
               {HERO_CONTENT.subtitle}
             </p>
 
             {/* CTA Button - 검은색 배경, radius 4px */}
             <Link
               href={HERO_CONTENT.ctaLink}
-              className="inline-flex items-center justify-center px-6 py-3 bg-black text-white text-[14px] md:text-[16px] font-medium rounded-[4px] hover:font-bold transition-all"
+              className="inline-flex items-center justify-center px-5 py-2.5 md:px-6 md:py-3 bg-black text-white text-[13px] md:text-[14px] lg:text-[16px] font-medium rounded-[4px] hover:font-bold transition-all"
             >
               {HERO_CONTENT.ctaText}
             </Link>

@@ -180,11 +180,18 @@ body {
 .container-ecotree {
   width: 100%;
   max-width: var(--spacing-content-max);
-  min-width: var(--spacing-content-min);
   margin-left: auto;
   margin-right: auto;
-  padding-left: var(--spacing-container-padding);
-  padding-right: var(--spacing-container-padding);
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media (min-width: 768px) {
+  .container-ecotree {
+    min-width: var(--spacing-content-min);
+    padding-left: var(--spacing-container-padding);
+    padding-right: var(--spacing-container-padding);
+  }
 }
 
 @media (min-width: 1190px) {
@@ -226,6 +233,15 @@ body {
 /* Count up animation helper */
 .count-up {
   font-variant-numeric: tabular-nums;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 /* Menu Slider Animations */

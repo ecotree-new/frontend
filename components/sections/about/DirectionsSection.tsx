@@ -88,10 +88,10 @@ export default function DirectionsSection() {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <p className="text-[16px] font-medium text-[#1B67FF] mb-2">
+          <p className="text-[10px] md:text-[14px] lg:text-[16px] font-medium text-[#1B67FF] mb-2">
             Directions
           </p>
-          <h2 className="text-[40px] md:text-[48px] font-bold text-[#111111]">
+          <h2 className="text-[18px] md:text-[40px] lg:text-[48px] font-bold text-[#111111]">
             오시는 길
           </h2>
         </motion.div>

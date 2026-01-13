@@ -20,11 +20,8 @@ export default function ResourcesSection() {
             </span>
           </div>
 
-          {/* Right - Date and Download Button */}
-          <div className="flex items-center gap-3 sm:gap-4 md:gap-6 pl-7 sm:pl-0">
-            <span className="text-[11px] sm:text-[12px] md:text-[14px] text-[#999999]">
-              {resource.date}
-            </span>
+          {/* Right - Download Button */}
+          <div className="flex items-center pl-7 sm:pl-0">
             <a
               href={resource.downloadUrl}
               download

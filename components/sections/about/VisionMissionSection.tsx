@@ -18,24 +18,30 @@ export default function VisionMissionSection() {
       const viewportHeight = window.innerHeight - 64; // Header 높이 제외
       const isMobile = viewportWidth < 768;
 
-      // 좌우 inset 계산
+      // 좌우 inset 계산 - 모바일은 16px 패딩, 768px+ 는 40px 패딩
       let containerWidth: number;
       if (viewportWidth >= 1190) {
         containerWidth = 1110;
+      } else if (viewportWidth >= 768) {
+        containerWidth = viewportWidth - 80; // 40px * 2
       } else {
-        containerWidth = viewportWidth - 80;
+        containerWidth = viewportWidth - 32; // 16px * 2
       }
       const sideMargin = (viewportWidth - containerWidth) / 2;
       const horizontalPercent = (sideMargin / viewportWidth) * 100;
       setHorizontalInset(`${horizontalPercent}%`);
 
-      // 상단 inset 계산: padding-top + 텍스트 높이 + 200px 간격
-      const paddingTop = isMobile ? 160 : 320;
-      const textHeight = isMobile ? 120 : 150; // 대략적인 텍스트 높이
-      const gap = isMobile ? 100 : 200;
+      // 상단 inset 계산: padding-top + 텍스트 높이 + gap
+      // 모바일에서는 텍스트가 길어지므로 더 큰 공간 확보
+      const paddingTop = isMobile ? 80 : 320;
+      const textHeight = isMobile ? 180 : 150; // 모바일에서 텍스트 영역 증가
+      const gap = isMobile ? 40 : 200; // 최소 간격 유지
       const imageTop = paddingTop + textHeight + gap;
       const topPercent = (imageTop / viewportHeight) * 100;
-      setTopInset(`${Math.min(topPercent, 75)}%`); // 최대 75%로 제한
+      // 모바일에서 최소 50%, 최대 70%로 제한하여 이미지가 너무 크지 않게
+      const minPercent = isMobile ? 50 : 40;
+      const maxPercent = isMobile ? 70 : 75;
+      setTopInset(`${Math.max(minPercent, Math.min(topPercent, maxPercent))}%`);
     };
 
     updateInsets();
@@ -96,23 +102,23 @@ export default function VisionMissionSection() {
           style={{ opacity: visionSectionOpacity }}
           className="absolute inset-0"
         >
-          {/* Text Content - 상단 고정 (디자인 기준 상단에서 320px) */}
-          <div className="relative z-10 container-ecotree pt-40 md:pt-[320px]">
+          {/* Text Content - 상단 고정 */}
+          <div className="relative z-10 container-ecotree pt-20 md:pt-40 lg:pt-[320px]">
             <motion.p
               style={{ color: visionLabelColor }}
-              className="text-[16px] font-medium mb-2"
+              className="text-[14px] md:text-[16px] font-medium mb-2"
             >
               {vision.label}
             </motion.p>
             <motion.h2
               style={{ color: visionTextColor }}
-              className="text-[40px] md:text-[48px] font-bold mb-6"
+              className="text-[24px] md:text-[40px] lg:text-[48px] font-bold mb-4 md:mb-6"
             >
               {vision.title}
             </motion.h2>
             <motion.p
               style={{ color: visionTextColor }}
-              className="text-[16px] md:text-[18px] leading-relaxed whitespace-pre-line max-w-[600px]"
+              className="text-[14px] md:text-[16px] lg:text-[18px] leading-relaxed whitespace-pre-line max-w-[600px]"
             >
               {vision.description}
             </motion.p>
@@ -148,23 +154,23 @@ export default function VisionMissionSection() {
           style={{ opacity: missionSectionOpacity }}
           className="absolute inset-0"
         >
-          {/* Text Content - 상단 고정 (디자인 기준 상단에서 320px) */}
-          <div className="relative z-10 container-ecotree pt-40 md:pt-[320px]">
+          {/* Text Content - 상단 고정 */}
+          <div className="relative z-10 container-ecotree pt-20 md:pt-40 lg:pt-[320px]">
             <motion.p
               style={{ color: missionLabelColor }}
-              className="text-[16px] font-medium mb-2"
+              className="text-[14px] md:text-[16px] font-medium mb-2"
             >
               {mission.label}
             </motion.p>
             <motion.h2
               style={{ color: missionTextColor }}
-              className="text-[40px] md:text-[48px] font-bold mb-6"
+              className="text-[24px] md:text-[40px] lg:text-[48px] font-bold mb-4 md:mb-6"
             >
               {mission.title}
             </motion.h2>
             <motion.p
               style={{ color: missionTextColor }}
-              className="text-[16px] md:text-[18px] leading-relaxed whitespace-pre-line max-w-[600px]"
+              className="text-[14px] md:text-[16px] lg:text-[18px] leading-relaxed whitespace-pre-line max-w-[600px]"
             >
               {mission.description}
             </motion.p>

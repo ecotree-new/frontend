@@ -6,8 +6,8 @@ import { TESTIMONIALS } from '@/lib/constants';
 
 function TestimonialCard({ company, content }: { company: string; content: string }) {
   return (
-    <div className="w-[300px] md:w-[340px] lg:w-[380px] flex-shrink-0 rounded-2xl overflow-hidden">
-      <div className="h-[320px] md:h-[360px] p-6 md:p-8 bg-gradient-to-b from-[#2A2D35] to-[#1B67FF] flex flex-col">
+    <div className="w-[260px] md:w-[340px] lg:w-[380px] flex-shrink-0 rounded-2xl overflow-hidden">
+      <div className="h-[280px] md:h-[320px] lg:h-[360px] p-5 md:p-6 lg:p-8 bg-gradient-to-b from-[#2A2D35] to-[#1B67FF] flex flex-col">
         {/* Quote Icon */}
         <div className="mb-auto">
           <svg
@@ -43,7 +43,7 @@ export default function TestimonialSection() {
   return (
     <section
       ref={sectionRef}
-      className="bg-white py-20 lg:py-32 overflow-hidden"
+      className="bg-white py-16 md:py-24 lg:py-40 overflow-hidden"
     >
       {/* Section Header */}
       <motion.div
@@ -52,10 +52,10 @@ export default function TestimonialSection() {
         transition={{ duration: 0.5 }}
         className="container-ecotree text-center mb-10 lg:mb-16"
       >
-        <p className="text-[14px] md:text-[16px] text-[#1B67FF] font-medium mb-4">
+        <p className="text-[10px] md:text-[16px] text-[#1B67FF] font-medium mb-4">
           동시 운영 사례
         </p>
-        <h2 className="text-[28px] md:text-[36px] lg:text-[40px] font-bold text-[#111111]">
+        <h2 className="text-[18px] md:text-[36px] lg:text-[40px] font-bold text-[#111111]">
           직접 겪어본 업체들의 솔직한 후기입니다.
         </h2>
       </motion.div>
@@ -68,7 +68,7 @@ export default function TestimonialSection() {
         className="relative"
       >
         {/* Carousel Track */}
-        <div className="flex gap-6 animate-scroll">
+        <div className="flex gap-4 md:gap-6 animate-scroll">
           {duplicatedTestimonials.map((testimonial, index) => (
             <TestimonialCard
               key={`${testimonial.id}-${index}`}
@@ -93,7 +93,13 @@ export default function TestimonialSection() {
         .animate-scroll {
           animation: scroll 30s linear infinite;
           width: fit-content;
-          padding-left: 40px;
+          padding-left: 16px;
+        }
+
+        @media (min-width: 768px) {
+          .animate-scroll {
+            padding-left: 40px;
+          }
         }
 
         .animate-scroll:hover {

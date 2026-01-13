@@ -16,7 +16,7 @@ export default function MenuSliderSection() {
   return (
     <section
       ref={sectionRef}
-      className="bg-[#1E1F23] pt-40 overflow-hidden"
+      className="bg-[#1E1F23] pt-16 md:pt-24 lg:pt-40 overflow-hidden"
     >
       {/* Content */}
       <div className="relative">
@@ -40,7 +40,7 @@ export default function MenuSliderSection() {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="relative max-w-[1110px] mx-auto mb-24 overflow-hidden"
+          className="relative max-w-[1110px] mx-auto mb-12 md:mb-16 lg:mb-24 overflow-hidden"
         >
           {/* Gradient Overlays */}
           <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#1E1F23] to-transparent z-10 pointer-events-none" />
