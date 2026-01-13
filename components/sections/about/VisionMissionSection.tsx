@@ -102,26 +102,28 @@ export default function VisionMissionSection() {
           style={{ opacity: visionSectionOpacity }}
           className="absolute inset-0"
         >
-          {/* Text Content - 상단 고정 */}
-          <div className="relative z-10 container-ecotree pt-20 md:pt-40 lg:pt-[320px]">
-            <motion.p
-              style={{ color: visionLabelColor }}
-              className="text-[14px] md:text-[16px] font-medium mb-2"
-            >
-              {vision.label}
-            </motion.p>
-            <motion.h2
-              style={{ color: visionTextColor }}
-              className="text-[24px] md:text-[40px] lg:text-[48px] font-bold mb-4 md:mb-6"
-            >
-              {vision.title}
-            </motion.h2>
-            <motion.p
-              style={{ color: visionTextColor }}
-              className="text-[14px] md:text-[16px] lg:text-[18px] leading-relaxed whitespace-pre-line max-w-[600px]"
-            >
-              {vision.description}
-            </motion.p>
+          {/* Text Content - 수직 중앙 정렬 */}
+          <div className="absolute inset-0 z-10 flex items-center">
+            <div className="container-ecotree">
+              <motion.p
+                style={{ color: visionLabelColor }}
+                className="text-[14px] md:text-[16px] font-medium mb-2"
+              >
+                {vision.label}
+              </motion.p>
+              <motion.h2
+                style={{ color: visionTextColor }}
+                className="text-[24px] md:text-[40px] lg:text-[48px] font-bold mb-4 md:mb-6"
+              >
+                {vision.title}
+              </motion.h2>
+              <motion.p
+                style={{ color: visionTextColor }}
+                className="text-[14px] md:text-[16px] lg:text-[18px] leading-relaxed whitespace-pre-line max-w-[600px]"
+              >
+                {vision.description}
+              </motion.p>
+            </div>
           </div>
 
           {/* Image Container - clip-path로 영역 제어 */}
@@ -154,26 +156,28 @@ export default function VisionMissionSection() {
           style={{ opacity: missionSectionOpacity }}
           className="absolute inset-0"
         >
-          {/* Text Content - 상단 고정 */}
-          <div className="relative z-10 container-ecotree pt-20 md:pt-40 lg:pt-[320px]">
-            <motion.p
-              style={{ color: missionLabelColor }}
-              className="text-[14px] md:text-[16px] font-medium mb-2"
-            >
-              {mission.label}
-            </motion.p>
-            <motion.h2
-              style={{ color: missionTextColor }}
-              className="text-[24px] md:text-[40px] lg:text-[48px] font-bold mb-4 md:mb-6"
-            >
-              {mission.title}
-            </motion.h2>
-            <motion.p
-              style={{ color: missionTextColor }}
-              className="text-[14px] md:text-[16px] lg:text-[18px] leading-relaxed whitespace-pre-line max-w-[600px]"
-            >
-              {mission.description}
-            </motion.p>
+          {/* Text Content - 수직 중앙 정렬 */}
+          <div className="absolute inset-0 z-10 flex items-center">
+            <div className="container-ecotree">
+              <motion.p
+                style={{ color: missionLabelColor }}
+                className="text-[14px] md:text-[16px] font-medium mb-2"
+              >
+                {mission.label}
+              </motion.p>
+              <motion.h2
+                style={{ color: missionTextColor }}
+                className="text-[24px] md:text-[40px] lg:text-[48px] font-bold mb-4 md:mb-6"
+              >
+                {mission.title}
+              </motion.h2>
+              <motion.p
+                style={{ color: missionTextColor }}
+                className="text-[14px] md:text-[16px] lg:text-[18px] leading-relaxed whitespace-pre-line max-w-[600px]"
+              >
+                {mission.description}
+              </motion.p>
+            </div>
           </div>
 
           {/* Image Container - clip-path로 영역 제어 */}
