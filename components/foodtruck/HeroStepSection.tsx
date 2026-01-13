@@ -15,6 +15,8 @@ export default function HeroStepSection() {
   const [phase, setPhase] = useState<ScrollPhase>('before');
   const containerRef = useRef<HTMLDivElement>(null);
   const isTransitioning = useRef(false);
+  const touchStartY = useRef<number | null>(null);
+  const touchStartTime = useRef<number>(0);
 
   // Check viewport width
   useEffect(() => {
@@ -25,6 +27,114 @@ export default function HeroStepSection() {
     window.addEventListener('resize', checkWidth);
     return () => window.removeEventListener('resize', checkWidth);
   }, []);
+
+  // Handle touch start
+  const handleTouchStart = useCallback((e: TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+    touchStartTime.current = Date.now();
+  }, []);
+
+  // Handle touch move - prevent default during animation phase
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    if (phase === 'animating') {
+      e.preventDefault();
+    }
+  }, [phase]);
+
+  // Handle touch end - detect swipe direction
+  const handleTouchEnd = useCallback((e: TouchEvent) => {
+    if (isTransitioning.current || touchStartY.current === null) return;
+
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaY = touchStartY.current - touchEndY;
+    const deltaTime = Date.now() - touchStartTime.current;
+
+    // Minimum swipe distance (50px) or fast swipe (velocity > 0.3px/ms)
+    const minSwipeDistance = 50;
+    const velocity = Math.abs(deltaY) / deltaTime;
+    const isValidSwipe = Math.abs(deltaY) > minSwipeDistance || velocity > 0.3;
+
+    if (!isValidSwipe) {
+      touchStartY.current = null;
+      return;
+    }
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    const rect = container.getBoundingClientRect();
+    const swipingDown = deltaY > 0; // finger moved up = scrolling down
+    const swipingUp = deltaY < 0;   // finger moved down = scrolling up
+
+    // Section position checks
+    const sectionInView = rect.top < window.innerHeight && rect.bottom > HEADER_HEIGHT;
+    const sectionAboveViewport = rect.bottom <= HEADER_HEIGHT;
+    const sectionAtHeader = rect.top <= HEADER_HEIGHT + 10 && rect.top >= HEADER_HEIGHT - 100;
+
+    // Phase: BEFORE
+    if (phase === 'before') {
+      if (swipingDown && sectionAtHeader) {
+        isTransitioning.current = true;
+        setPhase('animating');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => { isTransitioning.current = false; }, 100);
+        touchStartY.current = null;
+        return;
+      }
+      touchStartY.current = null;
+      return;
+    }
+
+    // Phase: ANIMATING
+    if (phase === 'animating') {
+      if (swipingDown) {
+        isTransitioning.current = true;
+        if (currentStep < 4) {
+          setCurrentStep(prev => prev + 1);
+        } else {
+          setPhase('after');
+          document.body.style.overflow = '';
+        }
+        setTimeout(() => { isTransitioning.current = false; }, 600);
+        touchStartY.current = null;
+        return;
+      }
+
+      if (swipingUp) {
+        isTransitioning.current = true;
+        if (currentStep > 1) {
+          setCurrentStep(prev => prev - 1);
+        } else {
+          setPhase('before');
+          document.body.style.overflow = '';
+        }
+        setTimeout(() => { isTransitioning.current = false; }, 600);
+        touchStartY.current = null;
+        return;
+      }
+    }
+
+    // Phase: AFTER
+    if (phase === 'after') {
+      if (swipingUp && sectionInView && !sectionAboveViewport) {
+        if (rect.top >= HEADER_HEIGHT - 100) {
+          isTransitioning.current = true;
+          setPhase('animating');
+          setCurrentStep(4);
+          document.body.style.overflow = 'hidden';
+          const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
+          window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+          setTimeout(() => { isTransitioning.current = false; }, 800);
+          touchStartY.current = null;
+          return;
+        }
+      }
+      touchStartY.current = null;
+      return;
+    }
+
+    touchStartY.current = null;
+  }, [currentStep, phase]);
 
   // Handle wheel scroll
   const handleWheel = useCallback((e: WheelEvent) => {
@@ -114,8 +224,16 @@ export default function HeroStepSection() {
 
   useEffect(() => {
     window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => window.removeEventListener('wheel', handleWheel);
-  }, [handleWheel]);
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [handleWheel, handleTouchStart, handleTouchMove, handleTouchEnd]);
 
   // Initial setup - check if section is at header level on mount
   useEffect(() => {
