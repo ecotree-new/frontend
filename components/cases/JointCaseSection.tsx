@@ -78,20 +78,44 @@ export default function JointCaseSection() {
                 </div>
               </div>
 
-              {/* Card Content - Title left, View More right */}
-              <div className="flex items-start justify-between gap-2">
-                <h3 className="text-[14px] md:text-[20px] lg:text-[24px] font-semibold text-[#111111] leading-tight whitespace-pre-line text-left">
-                  {caseItem.title}
+              {/* Mobile: Title (no line break) + View More on same row */}
+              <div className="flex items-start justify-between gap-2 md:hidden">
+                <h3 className="text-[14px] font-semibold text-[#111111] leading-tight text-left">
+                  {caseItem.title.replace(/\n/g, ' ')}
                 </h3>
-
-                {/* View More Button */}
                 <Link
                   href={caseItem.link}
-                  className="flex-shrink-0 inline-flex items-center gap-1 text-[10px] md:text-[14px] text-[#1B67FF] font-semibold hover:font-bold transition-all cursor-pointer group"
+                  className="flex-shrink-0 inline-flex items-center gap-1 text-[10px] text-[#1B67FF] font-semibold hover:font-bold transition-all cursor-pointer group"
                 >
                   view more
                   <svg
-                    className="w-3 h-3 md:w-4 md:h-4 transform group-hover:translate-x-1 transition-transform"
+                    className="w-3 h-3 transform group-hover:translate-x-1 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </Link>
+              </div>
+
+              {/* Desktop: Title (with line break) + View More below */}
+              <div className="hidden md:block">
+                <h3 className="text-[20px] lg:text-[24px] font-semibold text-[#111111] leading-tight mb-4 whitespace-pre-line text-left">
+                  {caseItem.title}
+                </h3>
+                <Link
+                  href={caseItem.link}
+                  className="inline-flex items-center gap-1 text-[14px] text-[#1B67FF] font-semibold hover:font-bold transition-all cursor-pointer group"
+                >
+                  view more
+                  <svg
+                    className="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
