@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { COMPANY_INFO, FOOTER_LINKS } from '@/lib/constants';
 
 export default function Footer() {
@@ -8,9 +9,13 @@ export default function Footer() {
         <div className="flex flex-row justify-between gap-6 md:gap-8">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <div className="w-[140px] h-[40px] md:w-[180px] md:h-[50px] bg-gray-500 flex items-center justify-center text-sm text-gray-300">
-              LOGO
-            </div>
+            <Image
+              src="/logo.svg"
+              alt="에코트리"
+              width={140}
+              height={40}
+              className="md:w-[180px] md:h-[50px] brightness-0 invert"
+            />
           </div>
 
           {/* ===== Mobile Layout (<768px) - 단일 열 세로 배치 ===== */}

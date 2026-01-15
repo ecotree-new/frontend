@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_ITEMS } from '@/lib/constants';
@@ -38,9 +39,13 @@ export default function Header() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
-              <div className="w-[120px] h-[32px] bg-gray-300 flex items-center justify-center text-sm text-gray-600">
-                LOGO
-              </div>
+              <Image
+                src="/logo.svg"
+                alt="에코트리"
+                width={120}
+                height={32}
+                priority
+              />
             </Link>
 
             {/* Desktop Navigation */}
