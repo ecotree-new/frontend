@@ -1,19 +1,31 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import HeroSection from '@/components/ecotree/HeroSection';
+import RentalFlowSection from '@/components/ecotree/RentalFlowSection';
+import BusinessRangeSection from '@/components/ecotree/BusinessRangeSection';
+import BrandTransitionSection from '@/components/ecotree/BrandTransitionSection';
+import ProductShowcaseSection from '@/components/ecotree/ProductShowcaseSection';
+import ProductVideoSection from '@/components/ecotree/ProductVideoSection';
+import WashingProcessSection from '@/components/ecotree/WashingProcessSection';
+import WashingFacilitySection from '@/components/ecotree/WashingFacilitySection';
+import PostWashingSection from '@/components/ecotree/PostWashingSection';
+import StatsSection from '@/components/ecotree/StatsSection';
 
 export default function EcotreePage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen py-20 lg:py-32">
-        <div className="w-full max-w-[1100px] min-w-[688px] mx-auto px-10 xl:px-0">
-          <h1 className="text-[40px] md:text-[64px] font-bold text-[#111111] mb-8">
-            Ecotree
-          </h1>
-          <p className="text-[16px] md:text-[20px] text-[#727783]">
-            이 페이지는 준비 중입니다.
-          </p>
-        </div>
+      <main>
+        <HeroSection />
+        <RentalFlowSection />
+        <BusinessRangeSection />
+        <BrandTransitionSection />
+        <ProductShowcaseSection />
+        <ProductVideoSection />
+        <WashingProcessSection />
+        <WashingFacilitySection />
+        <PostWashingSection />
+        <StatsSection />
       </main>
       <Footer />
     </>

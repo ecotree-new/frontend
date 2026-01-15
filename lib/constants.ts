@@ -643,3 +643,186 @@ export const FOODTRUCK_CTA = {
   buttonText: '사이트 이동',
   buttonLink: '#', // 외부 URL로 교체 예정
 } as const;
+
+// ============================================
+// Ecotree Page Data
+// ============================================
+
+// Ecotree page - Hero section
+export const ECOTREE_HERO = {
+  title: '다회용기 운영의 기준을 만들다.',
+  subtitle: '에코트리는 다회용기 운영의 전 과정을 직접 설계하고 관리합니다.',
+  video: '/images/ecotree/hero/hero-video.mp4',
+} as const;
+
+// Ecotree page - Rental flow steps
+export const ECOTREE_RENTAL_FLOW = {
+  label: '대여 플로우',
+  title: '필요한 만큼 빌리고, 사용 후까지 책임집니다',
+  steps: [
+    {
+      id: 1,
+      number: '01',
+      title: '대여',
+      description: '행사 일정과 규모에 맞춰 필요한 수량의 다회용기를 대여합니다. 옵션과 수량 확정 후 대여를 진행합니다.',
+      image: '/images/ecotree/rental-flow/step-01.jpeg',
+    },
+    {
+      id: 2,
+      number: '02',
+      title: '세척',
+      description: '에코트리만의 전용 세척 공정으로 위생적으로 세척을 진행합니다.',
+      image: '/images/ecotree/rental-flow/step-02.jpg',
+    },
+    {
+      id: 3,
+      number: '03',
+      title: '살균 및 소독',
+      description: '세척이 끝난 용기는 살균·소독 공정을 한 번 더 거칩니다. 건조 및 정리 후 포장을 합니다.',
+      image: '/images/ecotree/rental-flow/step-03.jpg',
+    },
+    {
+      id: 4,
+      number: '04',
+      title: '수거 및 배송',
+      description: '사용한 다회용기는 수거 후 다시 에코트리로 반납됩니다.',
+      image: '/images/ecotree/rental-flow/step-04.png',
+    },
+  ],
+} as const;
+
+// Ecotree page - Business range cards
+export const ECOTREE_BUSINESS_RANGE = {
+  label: '사업 범위',
+  title: '다양한 공간과 행사에서 함께합니다.',
+  cards: [
+    { id: 1, title: '지자체 행사', image: '/images/ecotree/business-range/local-event.jpeg' },
+    { id: 2, title: '기업 행사', image: '/images/ecotree/business-range/corporate-event.jpeg' },
+    { id: 3, title: '스포츠 경기', image: '/images/ecotree/business-range/sports.jpeg' },
+    { id: 4, title: '페스티벌', image: '/images/ecotree/business-range/festival.jpeg' },
+    { id: 5, title: '장례식장', image: '/images/ecotree/business-range/funeral.jpeg' },
+  ],
+} as const;
+
+// Ecotree page - Brand transition section
+export const ECOTREE_BRAND_TRANSITION = {
+  title: '다회용기의 새로운 기준',
+  brandName: 'ECOTREE',
+  brandIcon: '/images/ecotree/products/eco-icon.png',
+  productImages: '/images/ecotree/products/brand-items.png',
+} as const;
+
+// Ecotree page - Product showcase slides
+export const ECOTREE_PRODUCT_SHOWCASE = [
+  {
+    id: 1,
+    englishTitle: 'EVERY\nWHERE',
+    koreanTitle: '언제 어디서나',
+    image: '/images/ecotree/products/everywhere.png',
+  },
+  {
+    id: 2,
+    englishTitle: 'VARIOUS',
+    koreanTitle: '다양한 종류의 다회용기를',
+    image: '/images/ecotree/products/various.png',
+  },
+  {
+    id: 3,
+    englishTitle: 'EASY',
+    koreanTitle: '간편하고 쉽게\n대여하세요',
+    image: '/images/ecotree/products/easy.png',
+  },
+] as const;
+
+// Ecotree page - Product video
+export const ECOTREE_PRODUCT_VIDEO = {
+  video: '/images/ecotree/products/product-video.mp4',
+} as const;
+
+// Ecotree page - Washing process steps (circles)
+export const ECOTREE_WASHING_PROCESS = {
+  title: '세척 순서',
+  subtitle: '위생 기준에 따라 단계별로 관리됩니다.',
+  steps: [
+    { id: 1, title: '불림', description: '세척물을 예열로 불려\n다음 세척 효율을 높임' },
+    { id: 2, title: '수류 초음파\n버블 세척', description: '물 흐름으로 큰 이물질을\n털어내 1차 오염 제거' },
+    { id: 3, title: '고온·고압세척', description: '초음파·버블로 미세 오염을\n분해해 틈새까지 세척' },
+    { id: 4, title: 'UV살균', description: 'UV로 살균 처리해 위생 강화' },
+    { id: 5, title: '고온 열풍 소독', description: '고온 열풍으로 소독 후 빠르게\n건조해 물기 남김 없이 마무리' },
+    { id: 6, title: '전수검사', description: '모든 제품 상태를 전수 확인해\n불량·오염 재유입 차단' },
+    { id: 7, title: '포장', description: '재오염을 방지하도록\n밀봉 포장해 출고/보관' },
+  ],
+} as const;
+
+// Ecotree page - Washing facility cards
+export const ECOTREE_WASHING_FACILITY = {
+  title: '세척 시설 안내',
+  subtitle: '전용 세척 시설에서 위생적으로 관리됩니다.',
+  cards: [
+    {
+      id: 1,
+      number: '01',
+      title: '애벌 세척대',
+      description: '음식물 잔여물·기름때 등 굵은 오염 1차 제거',
+      image: '/images/ecotree/washing-facility/facility-01.jpg',
+      overlayHeight: 350,
+    },
+    {
+      id: 2,
+      number: '02',
+      title: '초음파 세척대',
+      description: '미세 오염을 진동으로 분해해 틈새까지 깨끗하게 세척',
+      image: '/images/ecotree/washing-facility/facility-02.jpg',
+      overlayHeight: 300,
+    },
+    {
+      id: 3,
+      number: '03',
+      title: '외류형 세척대',
+      description: '세척 중 발생한 이물 및 거품을 외부로 배출하며 순환 세척',
+      image: '/images/ecotree/washing-facility/facility-03.jpg',
+      overlayHeight: 300,
+    },
+    {
+      id: 4,
+      number: '04',
+      title: '고압살균세척대',
+      description: '고압 살균으로 마무리 단계 청결도 향상',
+      image: '/images/ecotree/washing-facility/facility-04.jpg',
+      overlayHeight: 250,
+    },
+  ],
+} as const;
+
+// Ecotree page - Post washing section
+export const ECOTREE_POST_WASHING = {
+  title: '세척 후 마무리까지 완벽하게',
+  subtitle: '안심하고 다시 사용할 수 있도록 관리됩니다.',
+  cards: [
+    {
+      id: 1,
+      title: '살균 건조실',
+      description: '세척 후 살균 건조로 수분을 제거',
+      image: '/images/ecotree/post-washing/drying-room.png',
+    },
+    {
+      id: 2,
+      title: '진공 포장기',
+      description: '진공 포장으로 상태 유지',
+      image: '/images/ecotree/post-washing/vacuum-packer.jpg',
+    },
+  ],
+} as const;
+
+// Ecotree page - Stats section
+export const ECOTREE_STATS = {
+  title: '데이터로 확인되는 친환경 성과',
+  subtitle: '에코트리의 행사 운영은 환경 개선으로 이어진 실제 성과를 만들어냅니다.',
+  backgroundImage: '/images/ecotree/stats-bg.png',
+  stats: [
+    { id: 1, label: '탄소 절감 수', value: 1250, unit: '톤' },
+    { id: 2, label: '플라스틱 감소', value: 85, unit: '%' },
+    { id: 3, label: '일회용품 대체', value: 500000, unit: '개' },
+    { id: 4, label: '운영 행사 수', value: 200, unit: '+' },
+  ],
+} as const;

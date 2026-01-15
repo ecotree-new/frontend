@@ -107,10 +107,11 @@ body {
 .container-ecotree {
   width: 100%;
   max-width: var(--spacing-content-max);
+  min-width: auto;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 @media (min-width: 768px) {
