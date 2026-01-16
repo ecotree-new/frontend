@@ -23,13 +23,18 @@ export default function Header() {
     };
   }, [isMobileMenuOpen]);
 
-  const handleMenuItemClick = () => {
-    setIsMobileMenuOpen(false);
-  };
-
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
     return pathname.startsWith(href);
+  };
+
+  // 현재 페이지 링크 클릭 시 페이지 초기화 (최상단으로)
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (isActive(href)) {
+      e.preventDefault();
+      setIsMobileMenuOpen(false);
+      window.location.href = href;
+    }
   };
 
   return (
@@ -38,7 +43,7 @@ export default function Header() {
         <div className="container-ecotree">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Link href="/" className="flex-shrink-0">
+            <Link href="/" className="flex-shrink-0" onClick={(e) => handleNavClick(e, '/')}>
               <Image
                 src="/logo.png"
                 alt="에코트리"
@@ -54,6 +59,7 @@ export default function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
                   className={`
                     text-[16px] leading-6 cursor-pointer
                     ${isActive(item.href)
@@ -69,6 +75,7 @@ export default function Header() {
               {/* 문의하기 - 일반 텍스트 링크 */}
               <Link
                 href="/contact"
+                onClick={(e) => handleNavClick(e, '/contact')}
                 className={`
                   text-[16px] leading-6 cursor-pointer
                   ${isActive('/contact')
@@ -130,7 +137,7 @@ export default function Header() {
               <div className="flex flex-col h-full">
                 {/* Header Row - 모바일: 로고 + X */}
                 <div className="flex items-center justify-between h-16 px-5 md:hidden">
-                  <Link href="/" onClick={handleMenuItemClick} className="flex-shrink-0">
+                  <Link href="/" onClick={(e) => handleNavClick(e, '/')} className="flex-shrink-0">
                     <Image
                       src="/logo.png"
                       alt="에코트리"
@@ -171,7 +178,7 @@ export default function Header() {
                   >
                     <Link
                       href="/about"
-                      onClick={handleMenuItemClick}
+                      onClick={(e) => handleNavClick(e, '/about')}
                       className={`
                         block py-5 text-[20px] font-semibold cursor-pointer
                         ${isActive('/about')
@@ -223,7 +230,7 @@ export default function Header() {
                         >
                           <Link
                             href={item.href}
-                            onClick={handleMenuItemClick}
+                            onClick={(e) => handleNavClick(e, item.href)}
                             className={`
                               block py-4 md:py-5 text-[20px] cursor-pointer
                               ${isActive(item.href)
@@ -246,7 +253,7 @@ export default function Header() {
                     >
                       <Link
                         href="/contact"
-                        onClick={handleMenuItemClick}
+                        onClick={(e) => handleNavClick(e, '/contact')}
                         className={`
                           block py-4 md:py-5 text-[20px] cursor-pointer
                           ${isActive('/contact')
