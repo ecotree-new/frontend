@@ -1,7 +1,7 @@
 // Navigation menu items
 export const NAV_ITEMS = [
   { label: '회사소개', href: '/about' },
-  { label: 'Ecotree', href: '/ecotree' },
+  { label: 'ECOTREE', href: '/ecotree' },
   { label: '세계음식 한국 푸드트럭 중앙회', href: '/foodtruck' },
   { label: '운영사례 및 성과', href: '/cases' },
 ] as const;
@@ -20,7 +20,7 @@ export const FOOTER_LINKS = {
 
 // Company info
 export const COMPANY_INFO = {
-  name: 'ecotree',
+  name: 'ECOTREE',
   ceo: '김은화',
   businessNumber: '680-06-04008',
   phone: '1688-8695',

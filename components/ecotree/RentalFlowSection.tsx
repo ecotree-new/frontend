@@ -10,14 +10,52 @@ const HEADER_HEIGHT = 64;
 
 export default function RentalFlowSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const stepsContainerRef = useRef<HTMLDivElement>(null);
+  const firstIndicatorRef = useRef<HTMLDivElement>(null);
+  const lastIndicatorRef = useRef<HTMLDivElement>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [phase, setPhase] = useState<'before' | 'animating' | 'after'>('before');
+  const [lineStyle, setLineStyle] = useState({ top: 7, height: 200 });
   const isTransitioning = useRef(false);
   const touchStartY = useRef<number | null>(null);
   const touchStartTime = useRef<number>(0);
 
   const steps = ECOTREE_RENTAL_FLOW.steps;
   const totalSteps = steps.length;
+
+  // 점선 위치 계산 - 첫 번째와 마지막 인디케이터 중앙을 연결
+  useEffect(() => {
+    const updateLinePosition = () => {
+      if (!firstIndicatorRef.current || !lastIndicatorRef.current || !stepsContainerRef.current) return;
+
+      const containerRect = stepsContainerRef.current.getBoundingClientRect();
+      const firstRect = firstIndicatorRef.current.getBoundingClientRect();
+      const lastRect = lastIndicatorRef.current.getBoundingClientRect();
+
+      const top = firstRect.top - containerRect.top + firstRect.height / 2;
+      const bottom = lastRect.top - containerRect.top + lastRect.height / 2;
+      const height = bottom - top;
+
+      setLineStyle({ top, height });
+    };
+
+    updateLinePosition();
+
+    // ResizeObserver로 애니메이션 중 실시간 위치 업데이트
+    const resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(updateLinePosition);
+    });
+
+    if (stepsContainerRef.current) {
+      resizeObserver.observe(stepsContainerRef.current);
+    }
+
+    window.addEventListener('resize', updateLinePosition);
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateLinePosition);
+    };
+  }, [currentStep]);
 
   // Handle touch start
   const handleTouchStart = useCallback((e: TouchEvent) => {
@@ -39,10 +77,9 @@ export default function RentalFlowSection() {
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY.current - touchEndY;
     const deltaTime = Date.now() - touchStartTime.current;
-    // 모바일에서 더 민감하게 반응하도록 조정
-    const minSwipeDistance = 30;
+    const minSwipeDistance = 50;
     const velocity = Math.abs(deltaY) / deltaTime;
-    const isValidSwipe = Math.abs(deltaY) > minSwipeDistance || velocity > 0.2;
+    const isValidSwipe = Math.abs(deltaY) > minSwipeDistance || velocity > 0.3;
 
     if (!isValidSwipe) {
       touchStartY.current = null;
@@ -56,21 +93,14 @@ export default function RentalFlowSection() {
     const swipingDown = deltaY > 0;
     const swipingUp = deltaY < 0;
     const sectionInView = rect.top < window.innerHeight && rect.bottom > HEADER_HEIGHT;
-    // 섹션이 헤더 근처에 있는지 확인 (더 넓은 범위로 트리거)
-    const sectionNearHeader = rect.top <= HEADER_HEIGHT + 100 && rect.top >= HEADER_HEIGHT - 300;
-    const sectionStillVisible = rect.bottom > HEADER_HEIGHT + 100;
+    const sectionAtHeader = rect.top <= HEADER_HEIGHT + 5 && rect.top >= HEADER_HEIGHT - 50;
 
     if (phase === 'before') {
-      // 섹션이 헤더 근처에 있을 때만 트리거
-      if (swipingDown && sectionNearHeader && sectionStillVisible) {
+      if (swipingDown && sectionAtHeader) {
         isTransitioning.current = true;
         setPhase('animating');
         document.body.style.overflow = 'hidden';
-        const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-        window.scrollTo({ top: scrollTarget, behavior: 'instant' });
         setTimeout(() => { isTransitioning.current = false; }, 100);
-        touchStartY.current = null;
-        return;
       }
       touchStartY.current = null;
       return;
@@ -101,14 +131,13 @@ export default function RentalFlowSection() {
     }
 
     if (phase === 'after') {
-      // 섹션이 화면에 보이고 헤더 근처에 있을 때만 다시 진입
-      if (swipingUp && sectionInView && rect.top >= HEADER_HEIGHT - 300) {
+      if (swipingUp && sectionInView && rect.top >= HEADER_HEIGHT - 100) {
         isTransitioning.current = true;
         setPhase('animating');
         setCurrentStep(totalSteps);
         document.body.style.overflow = 'hidden';
         const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-        window.scrollTo({ top: scrollTarget, behavior: 'instant' });
+        window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
         setTimeout(() => { isTransitioning.current = false; }, 800);
       }
       touchStartY.current = null;
@@ -127,19 +156,14 @@ export default function RentalFlowSection() {
     const scrollingUp = e.deltaY < 0;
     const sectionInView = rect.top < window.innerHeight && rect.bottom > HEADER_HEIGHT;
     const sectionAboveViewport = rect.bottom <= HEADER_HEIGHT;
-    // 빠른 스크롤 대응: 섹션이 헤더에 도달했거나 이미 지나간 경우 모두 처리
-    const sectionReachedHeader = rect.top <= HEADER_HEIGHT + 10;
-    const sectionStillVisible = rect.bottom > HEADER_HEIGHT + 100;
+    const sectionAtHeader = rect.top <= HEADER_HEIGHT + 5 && rect.top >= HEADER_HEIGHT - 50;
 
     if (phase === 'before') {
-      if (scrollingDown && sectionReachedHeader && sectionStillVisible) {
+      if (scrollingDown && sectionAtHeader) {
         e.preventDefault();
         isTransitioning.current = true;
         setPhase('animating');
         document.body.style.overflow = 'hidden';
-        // 섹션 상단으로 스크롤 고정
-        const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-        window.scrollTo({ top: scrollTarget, behavior: 'instant' });
         setTimeout(() => { isTransitioning.current = false; }, 100);
       }
       return;
@@ -283,25 +307,32 @@ export default function RentalFlowSection() {
           {/* Desktop Layout */}
           <div className="hidden md:flex flex-row gap-12 lg:gap-16 items-center">
             {/* Left: Steps with connecting dashed line */}
-            <div className="w-[320px] lg:w-[400px] flex-shrink-0 relative">
-              {/* Vertical dashed connecting line */}
+            <div ref={stepsContainerRef} className="w-[320px] lg:w-[400px] flex-shrink-0 relative">
+              {/* Vertical dashed connecting line - 실시간 위치 계산 */}
               <div
-                className="absolute left-[6px] top-[14px] bottom-[14px] w-[2px]"
+                className="absolute left-[7px] w-[2px] -translate-x-1/2"
                 style={{
+                  top: `${lineStyle.top}px`,
+                  height: `${lineStyle.height}px`,
                   backgroundImage: 'repeating-linear-gradient(to bottom, #1B67FF 0px, #1B67FF 6px, transparent 6px, transparent 12px)'
                 }}
               />
 
               <div className="space-y-6">
-                {steps.map((step) => {
+                {steps.map((step, index) => {
                   const isActive = currentStep === step.id;
+                  const isFirst = index === 0;
+                  const isLast = index === steps.length - 1;
                   return (
                     <div
                       key={step.id}
-                      className="flex items-center gap-4"
+                      className="flex items-start gap-4"
                     >
                       {/* Double circle indicator */}
-                      <div className="flex-shrink-0 relative z-10 w-[14px] h-[14px] flex items-center justify-center">
+                      <div
+                        ref={isFirst ? firstIndicatorRef : isLast ? lastIndicatorRef : null}
+                        className="flex-shrink-0 relative z-10 w-[14px] h-[14px] flex items-center justify-center mt-[9px]"
+                      >
                         {/* White background to cover dashed line */}
                         <div className="absolute w-[16px] h-[16px] rounded-full bg-white" />
                         {/* Outer circle */}
@@ -314,35 +345,34 @@ export default function RentalFlowSection() {
                         }`} />
                       </div>
 
-                      {/* Number and Text - opacity applied here */}
-                      <div className={`flex items-center gap-3 flex-1 transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-50'}`}>
-                        <span
-                          className={`text-[32px] leading-none transition-colors duration-300 ${
-                            isActive ? 'text-[#1B67FF]' : 'text-[#C4C4C4]'
-                          }`}
-                          style={{ fontFamily: 'SlowGothic, sans-serif' }}
-                        >
-                          {step.number}
-                        </span>
-
-                        <div className="flex-1">
+                      {/* Number and Text */}
+                      <div className={`flex-1 transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-50'}`}>
+                        <div className="flex items-baseline gap-3">
+                          <span
+                            className={`text-[32px] leading-none transition-colors duration-300 ${
+                              isActive ? 'text-[#1B67FF]' : 'text-[#C4C4C4]'
+                            }`}
+                            style={{ fontFamily: 'SlowGothic, sans-serif' }}
+                          >
+                            {step.number}
+                          </span>
                           <h3 className="text-[20px] font-semibold text-[#000000]">
                             {step.title}
                           </h3>
-                          <AnimatePresence mode="wait">
-                            {isActive && (
-                              <motion.p
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="text-[14px] font-medium text-[#000000] leading-relaxed mt-1"
-                              >
-                                {step.description}
-                              </motion.p>
-                            )}
-                          </AnimatePresence>
                         </div>
+                        <AnimatePresence mode="wait">
+                          {isActive && (
+                            <motion.p
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="text-[14px] font-medium text-[#000000] leading-relaxed mt-2 pl-[44px]"
+                            >
+                              {step.description}
+                            </motion.p>
+                          )}
+                        </AnimatePresence>
                       </div>
                     </div>
                   );

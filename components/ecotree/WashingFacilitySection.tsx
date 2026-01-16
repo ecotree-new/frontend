@@ -16,13 +16,13 @@ export default function WashingFacilitySection() {
           <h2 className="text-[18px] md:text-[40px] font-bold text-[#111111] mb-2">
             {ECOTREE_WASHING_FACILITY.title}
           </h2>
-          <p className="text-[12px] md:text-[20px] font-medium text-[#727783]">
+          <p className="text-[12px] md:text-[20px] font-light text-[#111111]">
             {ECOTREE_WASHING_FACILITY.subtitle}
           </p>
         </div>
 
         {/* Cards Grid - Custom Layout */}
-        <div className="grid grid-cols-2 gap-3 md:gap-6">
+        <div className="grid grid-cols-2 gap-3 md:gap-8">
           {/* Card 01 - Left, spans 2 rows */}
           <div className="relative row-span-2 rounded-2xl overflow-hidden bg-gray-200">
             <Image
@@ -45,11 +45,11 @@ export default function WashingFacilitySection() {
                   <h3 className="text-white text-[12px] md:text-[20px] font-bold mb-1">
                     {cards[0].title}
                   </h3>
-                  <p className="text-white/80 text-[10px] md:text-[16px] font-medium">
+                  <p className="text-white text-[10px] md:text-[16px] font-medium">
                     {cards[0].description}
                   </p>
                 </div>
-                <span className="text-white/60 text-[24px] md:text-[48px] leading-none" style={{ fontFamily: 'SlowGothic' }}>
+                <span className="text-white text-[24px] md:text-[48px] leading-none" style={{ fontFamily: 'SlowGothic' }}>
                   {cards[0].number}
                 </span>
               </div>
@@ -78,11 +78,11 @@ export default function WashingFacilitySection() {
                   <h3 className="text-white text-[12px] md:text-[20px] font-bold mb-1">
                     {cards[1].title}
                   </h3>
-                  <p className="text-white/80 text-[10px] md:text-[16px] font-medium">
+                  <p className="text-white text-[10px] md:text-[16px] font-medium">
                     {cards[1].description}
                   </p>
                 </div>
-                <span className="text-white/60 text-[24px] md:text-[48px] leading-none" style={{ fontFamily: 'SlowGothic' }}>
+                <span className="text-white text-[24px] md:text-[48px] leading-none" style={{ fontFamily: 'SlowGothic' }}>
                   {cards[1].number}
                 </span>
               </div>
@@ -111,11 +111,11 @@ export default function WashingFacilitySection() {
                   <h3 className="text-white text-[12px] md:text-[20px] font-bold mb-1">
                     {cards[2].title}
                   </h3>
-                  <p className="text-white/80 text-[10px] md:text-[16px] font-medium">
+                  <p className="text-white text-[10px] md:text-[16px] font-medium">
                     {cards[2].description}
                   </p>
                 </div>
-                <span className="text-white/60 text-[24px] md:text-[48px] leading-none" style={{ fontFamily: 'SlowGothic' }}>
+                <span className="text-white text-[24px] md:text-[48px] leading-none" style={{ fontFamily: 'SlowGothic' }}>
                   {cards[2].number}
                 </span>
               </div>
@@ -144,11 +144,11 @@ export default function WashingFacilitySection() {
                   <h3 className="text-white text-[12px] md:text-[20px] font-bold mb-1">
                     {cards[3].title}
                   </h3>
-                  <p className="text-white/80 text-[10px] md:text-[16px] font-medium">
+                  <p className="text-white text-[10px] md:text-[16px] font-medium">
                     {cards[3].description}
                   </p>
                 </div>
-                <span className="text-white/60 text-[24px] md:text-[48px] leading-none" style={{ fontFamily: 'SlowGothic' }}>
+                <span className="text-white text-[24px] md:text-[48px] leading-none" style={{ fontFamily: 'SlowGothic' }}>
                   {cards[3].number}
                 </span>
               </div>

@@ -12,16 +12,14 @@ export default function BusinessRangeSection() {
   return (
     <section className="h-[calc(100vh-64px)] bg-white flex items-center">
       <div className="container-ecotree w-full overflow-hidden">
-        {/* Header - centered */}
-        <div className="mb-10 md:mb-14 flex flex-col items-center">
-          <div className="text-left">
-            <p className="text-[10px] md:text-[16px] text-[#1B67FF] font-medium mb-2">
-              {ECOTREE_BUSINESS_RANGE.label}
-            </p>
-            <h2 className="text-[18px] md:text-[40px] font-bold text-[#111111]">
-              {ECOTREE_BUSINESS_RANGE.title}
-            </h2>
-          </div>
+        {/* Header - left aligned */}
+        <div className="mb-8 lg:mb-[125px]">
+          <p className="text-[10px] md:text-[16px] text-[#1B67FF] font-medium mb-2">
+            {ECOTREE_BUSINESS_RANGE.label}
+          </p>
+          <h2 className="text-[18px] md:text-[40px] font-bold text-[#111111]">
+            {ECOTREE_BUSINESS_RANGE.title}
+          </h2>
         </div>
 
         {/* Infinite Slider - contained within container */}
@@ -32,9 +30,9 @@ export default function BusinessRangeSection() {
               return (
               <div
                 key={`${card.id}-${index}`}
-                className="flex-shrink-0 w-[240px] md:w-[280px] lg:w-[320px]"
+                className="flex-shrink-0 w-[240px] md:w-[280px] lg:w-[400px]"
               >
-                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-200">
+                <div className="relative aspect-[5/4] rounded-2xl overflow-hidden bg-gray-200">
                   <Image
                     src={importedImage || card.image}
                     alt={card.title}
@@ -50,8 +48,8 @@ export default function BusinessRangeSection() {
                     }}
                   />
                   {/* Title */}
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-white text-[16px] md:text-[18px] font-semibold">
+                  <div className="absolute bottom-8 left-10 right-10">
+                    <h3 className="text-white text-[10px] md:text-[24px] font-semibold">
                       {card.title}
                     </h3>
                   </div>

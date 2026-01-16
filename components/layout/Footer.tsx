@@ -140,7 +140,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="text-center text-[12px] md:text-[14px] text-[#727783]">
-          Copyright &copy; [{new Date().getFullYear()}] ecotree All Rights Reserved.
+          Copyright &copy; [{new Date().getFullYear()}] ECOTREE All Rights Reserved.
         </div>
       </div>
     </footer>

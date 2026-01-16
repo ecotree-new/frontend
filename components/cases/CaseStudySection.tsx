@@ -68,11 +68,11 @@ export default function CaseStudySection() {
     offset: ['start start', 'end end'],
   });
 
-  // Ecotree fade out
-  const ecotreeOpacity = useTransform(scrollYProgress, [0.3, 0.5], [1, 0]);
+  // Ecotree 빠른 전환
+  const ecotreeOpacity = useTransform(scrollYProgress, [0.38, 0.42], [1, 0]);
 
-  // Foodtruck fade-up 애니메이션 (전환 시 등장)
-  const foodtruckOpacity = useTransform(scrollYProgress, [0.3, 0.5], [0, 1]);
+  // Foodtruck 애니메이션 (빠른 전환 + Y 이동)
+  const foodtruckOpacity = useTransform(scrollYProgress, [0.38, 0.42], [0, 1]);
   const foodtruckY = useTransform(scrollYProgress, [0.3, 0.5], [50, 0]);
 
   // 모바일: 일반 플로우 레이아웃 (Ecotree + Foodtruck 순차 표시)
