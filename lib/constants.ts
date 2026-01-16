@@ -22,9 +22,9 @@ export const FOOTER_LINKS = {
 export const COMPANY_INFO = {
   name: 'ecotree',
   ceo: '김은화',
-  businessNumber: '000-00-00000',
-  phone: '대표 전화',
-  email: 'abc1234@gmail.com',
+  businessNumber: '680-06-04008',
+  phone: '1688-8695',
+  email: 'donfoorock@naver.com',
   address: '경기도 안성시 대덕면 소현리 10',
 } as const;
 
@@ -420,19 +420,19 @@ export const CASES_PROCESS_STEPS = [
     id: 2,
     number: '02',
     title: '운영 방식 제안',
-    description: '행사 목적과 규모를 알려주세요',
+    description: '행사 규모와 동선에 맞춘 운영안을 제안드립니다.',
   },
   {
     id: 3,
     number: '03',
     title: '운영 확정 및 준비',
-    description: '행사 목적과 규모를 알려주세요',
+    description: '최종 운영안을 확정하고 운영 가이드를 사전 안내드립니다.',
   },
   {
     id: 4,
     number: '04',
     title: '현장 운영 및 결과 공유',
-    description: '행사 목적과 규모를 알려주세요',
+    description: '현장 운영을 지원하고 운영 결과를 리포트로 공유드립니다.',
   },
 ] as const;
 

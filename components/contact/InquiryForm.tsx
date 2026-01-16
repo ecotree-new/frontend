@@ -170,7 +170,8 @@ export default function InquiryForm() {
                 name="eventType"
                 value={formData.eventType}
                 onChange={handleChange}
-                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 md:py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[13px] sm:text-[14px] text-[#727783]"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 md:py-2 pr-10 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[13px] sm:text-[14px] text-[#727783] appearance-none bg-no-repeat bg-[right_12px_center]"
+                style={{ backgroundImage: 'url(/chevron-bottom.svg)', backgroundSize: '12px 12px' }}
               >
                 {EVENT_TYPES.map((type) => (
                   <option key={type.value} value={type.value}>
@@ -252,7 +253,8 @@ export default function InquiryForm() {
                   name="emailDomain"
                   value={formData.emailDomain}
                   onChange={handleChange}
-                  className="w-full sm:w-auto md:w-[100px] lg:w-[120px] xl:w-[140px] px-2 md:px-2 lg:px-3 py-2.5 sm:py-3 md:py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[13px] sm:text-[14px] text-[#727783]"
+                  className="w-full sm:w-auto md:w-[100px] lg:w-[120px] xl:w-[140px] px-2 md:px-2 lg:px-3 pr-8 py-2.5 sm:py-3 md:py-2 border border-[#D1DBF6] rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#1B67FF] text-[13px] sm:text-[14px] text-[#727783] appearance-none bg-no-repeat bg-[right_8px_center]"
+                  style={{ backgroundImage: 'url(/chevron-bottom.svg)', backgroundSize: '12px 12px' }}
                 >
                   {EMAIL_DOMAINS.map((domain) => (
                     <option key={domain.value} value={domain.value}>

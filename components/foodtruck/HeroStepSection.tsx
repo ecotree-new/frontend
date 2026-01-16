@@ -281,20 +281,11 @@ export default function HeroStepSection() {
       className="relative h-[calc(100vh-64px)]"
     >
       <div className="sticky top-16 h-[calc(100vh-64px)] overflow-hidden">
-        <motion.div
-          className={`grid ${getGridClass()} h-full w-full`}
-          layout
-          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-        >
+        <div className={`grid ${getGridClass()} h-full w-full`}>
           {visibleTiles.map((tile) => (
-            <motion.div
+            <div
               key={tile.id}
               className="relative overflow-hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              layout
             >
               {/* Background Image */}
               <div className="absolute inset-0">
@@ -327,9 +318,9 @@ export default function HeroStepSection() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* Main Copy - Step 4 */}
         <AnimatePresence>

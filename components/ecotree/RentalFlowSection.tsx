@@ -39,9 +39,10 @@ export default function RentalFlowSection() {
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY.current - touchEndY;
     const deltaTime = Date.now() - touchStartTime.current;
-    const minSwipeDistance = 50;
+    // 모바일에서 더 민감하게 반응하도록 조정
+    const minSwipeDistance = 30;
     const velocity = Math.abs(deltaY) / deltaTime;
-    const isValidSwipe = Math.abs(deltaY) > minSwipeDistance || velocity > 0.3;
+    const isValidSwipe = Math.abs(deltaY) > minSwipeDistance || velocity > 0.2;
 
     if (!isValidSwipe) {
       touchStartY.current = null;
@@ -55,14 +56,21 @@ export default function RentalFlowSection() {
     const swipingDown = deltaY > 0;
     const swipingUp = deltaY < 0;
     const sectionInView = rect.top < window.innerHeight && rect.bottom > HEADER_HEIGHT;
-    const sectionAtHeader = rect.top <= HEADER_HEIGHT + 5 && rect.top >= HEADER_HEIGHT - 50;
+    // 섹션이 헤더 근처에 있는지 확인 (더 넓은 범위로 트리거)
+    const sectionNearHeader = rect.top <= HEADER_HEIGHT + 100 && rect.top >= HEADER_HEIGHT - 300;
+    const sectionStillVisible = rect.bottom > HEADER_HEIGHT + 100;
 
     if (phase === 'before') {
-      if (swipingDown && sectionAtHeader) {
+      // 섹션이 헤더 근처에 있을 때만 트리거
+      if (swipingDown && sectionNearHeader && sectionStillVisible) {
         isTransitioning.current = true;
         setPhase('animating');
         document.body.style.overflow = 'hidden';
+        const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
+        window.scrollTo({ top: scrollTarget, behavior: 'instant' });
         setTimeout(() => { isTransitioning.current = false; }, 100);
+        touchStartY.current = null;
+        return;
       }
       touchStartY.current = null;
       return;
@@ -93,13 +101,14 @@ export default function RentalFlowSection() {
     }
 
     if (phase === 'after') {
-      if (swipingUp && sectionInView && rect.top >= HEADER_HEIGHT - 100) {
+      // 섹션이 화면에 보이고 헤더 근처에 있을 때만 다시 진입
+      if (swipingUp && sectionInView && rect.top >= HEADER_HEIGHT - 300) {
         isTransitioning.current = true;
         setPhase('animating');
         setCurrentStep(totalSteps);
         document.body.style.overflow = 'hidden';
         const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-        window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+        window.scrollTo({ top: scrollTarget, behavior: 'instant' });
         setTimeout(() => { isTransitioning.current = false; }, 800);
       }
       touchStartY.current = null;
@@ -118,14 +127,19 @@ export default function RentalFlowSection() {
     const scrollingUp = e.deltaY < 0;
     const sectionInView = rect.top < window.innerHeight && rect.bottom > HEADER_HEIGHT;
     const sectionAboveViewport = rect.bottom <= HEADER_HEIGHT;
-    const sectionAtHeader = rect.top <= HEADER_HEIGHT + 5 && rect.top >= HEADER_HEIGHT - 50;
+    // 빠른 스크롤 대응: 섹션이 헤더에 도달했거나 이미 지나간 경우 모두 처리
+    const sectionReachedHeader = rect.top <= HEADER_HEIGHT + 10;
+    const sectionStillVisible = rect.bottom > HEADER_HEIGHT + 100;
 
     if (phase === 'before') {
-      if (scrollingDown && sectionAtHeader) {
+      if (scrollingDown && sectionReachedHeader && sectionStillVisible) {
         e.preventDefault();
         isTransitioning.current = true;
         setPhase('animating');
         document.body.style.overflow = 'hidden';
+        // 섹션 상단으로 스크롤 고정
+        const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
+        window.scrollTo({ top: scrollTarget, behavior: 'instant' });
         setTimeout(() => { isTransitioning.current = false; }, 100);
       }
       return;

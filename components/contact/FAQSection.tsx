@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FAQ_DATA, FAQ_CATEGORIES } from '@/lib/constants';
 
 export default function FAQSection() {
-  const [openId, setOpenId] = useState<number | null>(1);
+  const [openId, setOpenId] = useState<number | null>(null);
   const [activeCategoryId, setActiveCategoryId] = useState<number>(1);
 
   const filteredFAQs = useMemo(() => {

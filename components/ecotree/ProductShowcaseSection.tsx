@@ -36,9 +36,10 @@ export default function ProductShowcaseSection() {
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY.current - touchEndY;
     const deltaTime = Date.now() - touchStartTime.current;
-    const minSwipeDistance = 50;
-    const velocity = Math.abs(deltaY) / deltaTime;
-    const isValidSwipe = Math.abs(deltaY) > minSwipeDistance || velocity > 0.3;
+    // 모바일에서 더 민감하게 반응하도록 조정
+    const minSwipeDistance = 30;
+    const velocity = Math.abs(deltaY) / Math.max(deltaTime, 1);
+    const isValidSwipe = Math.abs(deltaY) > minSwipeDistance || velocity > 0.2;
 
     if (!isValidSwipe) {
       touchStartY.current = null;
@@ -52,9 +53,11 @@ export default function ProductShowcaseSection() {
     const swipingDown = deltaY > 0;
     const swipingUp = deltaY < 0;
     const sectionInView = rect.top < window.innerHeight && rect.bottom > HEADER_HEIGHT;
-    const sectionAtHeader = rect.top <= HEADER_HEIGHT + 5 && rect.top >= HEADER_HEIGHT - 5;
+    // 섹션이 헤더 근처에 있는지 확인 (더 넓은 범위로 트리거)
+    const sectionNearHeader = rect.top <= HEADER_HEIGHT + 100 && rect.top >= HEADER_HEIGHT - 300;
+    const sectionStillVisible = rect.bottom > HEADER_HEIGHT + 100;
 
-    if (phase === 'before' && swipingDown && sectionAtHeader) {
+    if (phase === 'before' && swipingDown && sectionNearHeader && sectionStillVisible) {
       isTransitioning.current = true;
       setPhase('animating');
       setCurrentSlide(0);
@@ -88,13 +91,13 @@ export default function ProductShowcaseSection() {
       return;
     }
 
-    if (phase === 'after' && swipingUp && sectionInView && rect.top >= HEADER_HEIGHT - 100) {
+    if (phase === 'after' && swipingUp && sectionInView && rect.top >= HEADER_HEIGHT - 300) {
       isTransitioning.current = true;
       setPhase('animating');
       setCurrentSlide(totalSlides - 1);
       document.body.style.overflow = 'hidden';
       const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-      window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+      window.scrollTo({ top: scrollTarget, behavior: 'instant' });
       setTimeout(() => { isTransitioning.current = false; }, 800);
     }
     touchStartY.current = null;
@@ -112,9 +115,11 @@ export default function ProductShowcaseSection() {
     const scrollingUp = e.deltaY < 0;
     const sectionInView = rect.top < window.innerHeight && rect.bottom > HEADER_HEIGHT;
     const sectionAboveViewport = rect.bottom <= HEADER_HEIGHT;
-    const sectionAtHeader = rect.top <= HEADER_HEIGHT + 5 && rect.top >= HEADER_HEIGHT - 5;
+    // 빠른 스크롤 대응: 섹션이 헤더에 도달했거나 이미 지나간 경우 모두 처리
+    const sectionReachedHeader = rect.top <= HEADER_HEIGHT + 10;
+    const sectionStillVisible = rect.bottom > HEADER_HEIGHT + 100;
 
-    if (phase === 'before' && scrollingDown && sectionAtHeader) {
+    if (phase === 'before' && scrollingDown && sectionReachedHeader && sectionStillVisible) {
       e.preventDefault();
       isTransitioning.current = true;
       setPhase('animating');
@@ -157,7 +162,7 @@ export default function ProductShowcaseSection() {
         setCurrentSlide(totalSlides - 1);
         document.body.style.overflow = 'hidden';
         const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-        window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+        window.scrollTo({ top: scrollTarget, behavior: 'instant' });
         setTimeout(() => { isTransitioning.current = false; }, 800);
       }
     }

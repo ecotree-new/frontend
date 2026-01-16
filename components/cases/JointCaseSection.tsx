@@ -74,6 +74,14 @@ export default function JointCaseSection() {
                   placeholder={importedImage ? "blur" : undefined}
                 />
 
+                {/* Gradient Overlay - transparent to #1E1F23 (top to bottom) */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: 'linear-gradient(to bottom, transparent 0%, transparent 50%, rgba(30, 31, 35, 0.7) 100%)'
+                  }}
+                />
+
                 {/* Label Badge (Inside Image) - Left aligned */}
                 <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8">
                   <span className="px-3 py-1 md:px-4 md:py-1.5 bg-[#1B67FF] text-white text-[10px] md:text-[14px] font-bold rounded-full">
