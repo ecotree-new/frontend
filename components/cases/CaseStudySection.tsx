@@ -90,7 +90,7 @@ export default function CaseStudySection() {
               <br />
               사례로 확인하세요.
             </h2>
-            <div className="space-y-6">
+            <div className="space-y-12">
               {ECOTREE_CASES.map((caseItem) => (
                 <CaseCard
                   key={caseItem.id}
@@ -113,7 +113,7 @@ export default function CaseStudySection() {
               <br />
               사례로 확인하세요.
             </h2>
-            <div className="space-y-6">
+            <div className="space-y-12">
               {FOODTRUCK_CASES.map((caseItem) => (
                 <CaseCard
                   key={caseItem.id}
