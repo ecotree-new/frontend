@@ -708,9 +708,9 @@ export const FOODTRUCK_OPERATION_SECTION = {
 export const FOODTRUCK_OPERATION_ROW1 = [
   { id: 1, title: '큐브 스테이크 푸드트럭', image: '/images/foodtruck/operation-1.jpg' },
   { id: 2, title: '감자튀김 푸드트럭', image: '/images/foodtruck/operation-2.jpeg' },
-  { id: 3, title: '타코 푸드트럭', image: '/images/foodtruck/operation-3.jpg' },
-  { id: 4, title: '버거 푸드트럭', image: '/images/foodtruck/operation-4.png' },
-  { id: 5, title: '핫도그 푸드트럭', image: '/images/foodtruck/operation-5.jpg' },
+  { id: 3, title: '분식 푸드트럭', image: '/images/foodtruck/operation-3.jpg' },
+  { id: 4, title: '오꼬노미야끼 푸드트럭', image: '/images/foodtruck/operation-4.png' },
+  { id: 5, title: '칵테일 푸드트럭', image: '/images/foodtruck/operation-5.jpg' },
 ] as const;
 
 // Foodtruck page - Operation example cards - Row 2 (케이터링 5개)
@@ -718,8 +718,8 @@ export const FOODTRUCK_OPERATION_ROW2 = [
   { id: 6, title: '카페 케이터링', image: '/images/foodtruck/operation-6.jpeg' },
   { id: 7, title: '디저트 케이터링', image: '/images/foodtruck/operation-7.jpg' },
   { id: 8, title: '한식 케이터링', image: '/images/foodtruck/operation-8.jpg' },
-  { id: 9, title: '양식 케이터링', image: '/images/foodtruck/operation-9.jpeg' },
-  { id: 10, title: '뷔페 케이터링', image: '/images/foodtruck/operation-10.jpg' },
+  { id: 9, title: '일식 케이터링', image: '/images/foodtruck/operation-9.jpeg' },
+  { id: 10, title: '카페 케이터링', image: '/images/foodtruck/operation-10.jpg' },
 ] as const;
 
 // Foodtruck page - CTA section
