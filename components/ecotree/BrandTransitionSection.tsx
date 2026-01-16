@@ -1,104 +1,95 @@
 'use client';
 
-import { useRef, useState, useCallback, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { motion, useAnimationControls } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ECOTREE_BRAND_TRANSITION } from '@/lib/constants';
 
 const HEADER_HEIGHT = 64;
 
 export default function BrandTransitionSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [phase, setPhase] = useState<'before' | 'title' | 'animating' | 'logo' | 'after'>('before');
-  const [isMobile, setIsMobile] = useState(false);
-  const isAnimating = useRef(false);
+  const [scrollDistance, setScrollDistance] = useState(4500);
+  const isAutoScrolling = useRef(false);
+  const hasTriggeredDown = useRef(false);
   const touchStartY = useRef<number | null>(null);
-  const touchStartTime = useRef<number>(0);
 
-  const bgControls = useAnimationControls();
-  const contentControls = useAnimationControls(); // Title + Image together
-  const logoControls = useAnimationControls();
-
-  // Check if mobile
+  // Calculate scroll distance based on viewport
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    const calculateDistance = () => {
+      const isMobile = window.innerWidth < 768;
+      const imageHeight = isMobile ? window.innerWidth * 4.8 : 4000;
+      const distance = window.innerHeight * 0.8 + imageHeight;
+      setScrollDistance(distance);
+    };
+
+    calculateDistance();
+    window.addEventListener('resize', calculateDistance);
+    return () => window.removeEventListener('resize', calculateDistance);
   }, []);
 
-  // Auto animation from title to logo
-  const animateToLogo = useCallback(async () => {
-    if (isAnimating.current) return;
-    isAnimating.current = true;
-    setPhase('animating');
+  // useScroll로 스크롤 진행도 추적
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end start'],
+  });
 
-    // Calculate scroll distance based on viewport and image height
-    // 모바일: 480vw 높이, 데스크탑: 4000px/4800px
-    const imageHeight = isMobile ? window.innerWidth * 4.8 : 4000;
-    const scrollDistance = window.innerHeight * 0.8 + imageHeight;
-    // 모바일에서는 애니메이션 시간 단축
-    const animationDuration = isMobile ? 3.5 : 5;
-    const logoDelay = isMobile ? 1 : 1.5;
+  // easeInOutCubic 이징 함수
+  const easeInOutCubic = (t: number): number => {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  };
 
-    // Start all animations - title and image scroll together as one unit
-    await Promise.all([
-      // Background: stays light until 30%, then darkens quickly
-      bgControls.start({
-        backgroundColor: ['#FBFBFB', '#FBFBFB', '#1E1F23'],
-        transition: { duration: animationDuration, times: [0, 0.3, 0.55], ease: 'easeOut' }
-      }),
-      // Content (title + image): scrolls up by calculated distance
-      contentControls.start({
-        y: -scrollDistance,
-        transition: {
-          duration: animationDuration,
-          ease: [0.25, 0.1, 0.25, 1]
-        }
-      }),
-      // Logo: fades in quickly
-      logoControls.start({
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.3, ease: 'easeOut', delay: logoDelay }
-      })
-    ]);
+  // 자동 스크롤 트리거 (커스텀 애니메이션)
+  const triggerAutoScroll = useCallback((direction: 'down' | 'up') => {
+    if (isAutoScrolling.current || !containerRef.current) return;
 
-    setPhase('logo');
-    document.body.style.overflow = '';
-    isAnimating.current = false;
-  }, [bgControls, contentControls, logoControls, isMobile]);
+    isAutoScrolling.current = true;
+    const container = containerRef.current;
+    const rect = container.getBoundingClientRect();
 
-  // Reverse animation from logo to title
-  const animateToTitle = useCallback(async () => {
-    if (isAnimating.current) return;
-    isAnimating.current = true;
-    setPhase('animating');
-    document.body.style.overflow = 'hidden';
+    const startScroll = window.scrollY;
+    let targetScroll: number;
 
-    await Promise.all([
-      bgControls.start({
-        backgroundColor: '#FBFBFB',
-        transition: { duration: 1.5, ease: 'easeInOut' }
-      }),
-      contentControls.start({
-        y: 0,
-        transition: { duration: 1.5, ease: [0.25, 0.1, 0.25, 1] }
-      }),
-      logoControls.start({
-        opacity: 0,
-        y: 30,
-        transition: { duration: 0.3, ease: 'easeOut' }
-      })
-    ]);
+    if (direction === 'down') {
+      // 섹션 끝까지 스크롤
+      targetScroll = window.scrollY + rect.top - HEADER_HEIGHT + container.offsetHeight - window.innerHeight + HEADER_HEIGHT;
+      hasTriggeredDown.current = true;
+    } else {
+      // 섹션 시작점까지 스크롤
+      targetScroll = window.scrollY + rect.top - HEADER_HEIGHT;
+      hasTriggeredDown.current = false;
+    }
 
-    setPhase('title');
-    isAnimating.current = false;
-  }, [bgControls, contentControls, logoControls]);
+    const distance = targetScroll - startScroll;
+    const duration = 4000; // 4초 (느린 스크롤)
+    let startTime: number | null = null;
 
-  // Handle wheel events
+    const animateScroll = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      const easedProgress = easeInOutCubic(progress);
+      const currentScroll = startScroll + distance * easedProgress;
+
+      window.scrollTo(0, currentScroll);
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      } else {
+        isAutoScrolling.current = false;
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
+  }, []);
+
+  // wheel 이벤트 핸들러
   const handleWheel = useCallback((e: WheelEvent) => {
-    if (isAnimating.current) return;
+    if (isAutoScrolling.current) {
+      e.preventDefault();
+      return;
+    }
 
     const container = containerRef.current;
     if (!container) return;
@@ -106,81 +97,38 @@ export default function BrandTransitionSection() {
     const rect = container.getBoundingClientRect();
     const scrollingDown = e.deltaY > 0;
     const scrollingUp = e.deltaY < 0;
-    // 빠른 스크롤 대응: 섹션이 헤더에 도달했거나 이미 지나간 경우 모두 처리
-    const sectionReachedHeader = rect.top <= HEADER_HEIGHT + 10;
-    const sectionStillVisible = rect.bottom > HEADER_HEIGHT + 100;
-    const sectionInView = rect.top < window.innerHeight && rect.bottom > HEADER_HEIGHT;
 
-    // Enter title phase when section reaches header
-    if (phase === 'before' && scrollingDown && sectionReachedHeader && sectionStillVisible) {
+    // 섹션 상단이 헤더에 도달했을 때
+    const sectionAtTop = rect.top <= HEADER_HEIGHT + 10 && rect.top >= HEADER_HEIGHT - 50;
+    // 섹션 하단이 뷰포트 하단 근처에 있을 때
+    const sectionAtBottom = rect.bottom <= window.innerHeight + 50 && rect.bottom >= window.innerHeight - 50;
+
+    if (scrollingDown && sectionAtTop && !hasTriggeredDown.current) {
       e.preventDefault();
-      setPhase('title');
-      document.body.style.overflow = 'hidden';
-      // 섹션 상단으로 스크롤 고정
-      const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-      window.scrollTo({ top: scrollTarget, behavior: 'instant' });
-      return;
-    }
-
-    // In title phase, scroll down triggers animation to logo
-    if (phase === 'title') {
+      triggerAutoScroll('down');
+    } else if (scrollingUp && sectionAtBottom && hasTriggeredDown.current) {
       e.preventDefault();
-      if (scrollingDown) {
-        animateToLogo();
-      } else if (scrollingUp) {
-        setPhase('before');
-        document.body.style.overflow = '';
-      }
-      return;
+      triggerAutoScroll('up');
     }
+  }, [triggerAutoScroll]);
 
-    // In logo phase
-    if (phase === 'logo') {
-      e.preventDefault();
-      if (scrollingDown) {
-        setPhase('after');
-        document.body.style.overflow = '';
-      } else if (scrollingUp) {
-        // Lock scroll position before animating back
-        const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-        window.scrollTo({ top: scrollTarget, behavior: 'instant' });
-        animateToTitle();
-      }
-      return;
-    }
-
-    // Coming back from after phase
-    if (phase === 'after' && scrollingUp && sectionInView && rect.top >= HEADER_HEIGHT - 300) {
-      e.preventDefault();
-      setPhase('logo');
-      document.body.style.overflow = 'hidden';
-      const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-      window.scrollTo({ top: scrollTarget, behavior: 'instant' });
-    }
-  }, [phase, animateToLogo, animateToTitle]);
-
-  // Handle touch events
+  // touch 이벤트 핸들러
   const handleTouchStart = useCallback((e: TouchEvent) => {
     touchStartY.current = e.touches[0].clientY;
-    touchStartTime.current = Date.now();
   }, []);
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
-    if (phase === 'title' || phase === 'logo' || phase === 'animating') {
+    if (isAutoScrolling.current) {
       e.preventDefault();
     }
-  }, [phase]);
+  }, []);
 
   const handleTouchEnd = useCallback((e: TouchEvent) => {
-    if (isAnimating.current || touchStartY.current === null) return;
+    if (isAutoScrolling.current || touchStartY.current === null) return;
 
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY.current - touchEndY;
-    const deltaTime = Date.now() - touchStartTime.current;
-    // 모바일에서 더 민감하게 반응하도록 조정
-    const minSwipeDistance = 25;
-    const velocity = Math.abs(deltaY) / Math.max(deltaTime, 1);
-    const isValidSwipe = Math.abs(deltaY) > minSwipeDistance || velocity > 0.2;
+    const isValidSwipe = Math.abs(deltaY) > 30;
 
     if (!isValidSwipe) {
       touchStartY.current = null;
@@ -193,37 +141,18 @@ export default function BrandTransitionSection() {
     const rect = container.getBoundingClientRect();
     const swipingDown = deltaY > 0;
     const swipingUp = deltaY < 0;
-    // 섹션이 헤더 근처에 있는지 확인 (더 넓은 범위로 트리거)
-    const sectionNearHeader = rect.top <= HEADER_HEIGHT + 100 && rect.top >= HEADER_HEIGHT - 300;
-    const sectionStillVisible = rect.bottom > HEADER_HEIGHT + 100;
-    const sectionInView = rect.top < window.innerHeight && rect.bottom > HEADER_HEIGHT;
 
-    if (phase === 'before' && swipingDown && sectionNearHeader && sectionStillVisible) {
-      setPhase('title');
-      document.body.style.overflow = 'hidden';
-      const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-      window.scrollTo({ top: scrollTarget, behavior: 'instant' });
-      touchStartY.current = null;
-      return;
-    } else if (phase === 'title' && swipingDown) {
-      animateToLogo();
-    } else if (phase === 'title' && swipingUp) {
-      setPhase('before');
-      document.body.style.overflow = '';
-    } else if (phase === 'logo' && swipingDown) {
-      setPhase('after');
-      document.body.style.overflow = '';
-    } else if (phase === 'logo' && swipingUp) {
-      animateToTitle();
-    } else if (phase === 'after' && swipingUp && sectionInView && rect.top >= HEADER_HEIGHT - 300) {
-      setPhase('logo');
-      document.body.style.overflow = 'hidden';
-      const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-      window.scrollTo({ top: scrollTarget, behavior: 'instant' });
+    const sectionNearTop = rect.top <= HEADER_HEIGHT + 100 && rect.top >= HEADER_HEIGHT - 100;
+    const sectionNearBottom = rect.bottom <= window.innerHeight + 100 && rect.bottom >= window.innerHeight - 100;
+
+    if (swipingDown && sectionNearTop && !hasTriggeredDown.current) {
+      triggerAutoScroll('down');
+    } else if (swipingUp && sectionNearBottom && hasTriggeredDown.current) {
+      triggerAutoScroll('up');
     }
 
     touchStartY.current = null;
-  }, [phase, animateToLogo, animateToTitle]);
+  }, [triggerAutoScroll]);
 
   useEffect(() => {
     window.addEventListener('wheel', handleWheel, { passive: false });
@@ -238,29 +167,41 @@ export default function BrandTransitionSection() {
     };
   }, [handleWheel, handleTouchStart, handleTouchMove, handleTouchEnd]);
 
-  useEffect(() => {
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, []);
+  // 타이틀 opacity (0~0.15) - 처음에 보이다가 사라짐
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.05, 0.12, 0.18], [1, 1, 1, 0]);
+
+  // 이미지 스크롤 (0.05~0.75) - content가 위로 스크롤
+  const contentY = useTransform(scrollYProgress, [0.05, 0.75], [0, -scrollDistance]);
+
+  // 배경색 전환 (0.25~0.45)
+  const bgColor = useTransform(
+    scrollYProgress,
+    [0, 0.25, 0.45, 1],
+    ['#FBFBFB', '#FBFBFB', '#1E1F23', '#1E1F23']
+  );
+
+  // 로고 opacity (0.55~0.7)
+  const logoOpacity = useTransform(scrollYProgress, [0.55, 0.7], [0, 1]);
+  const logoY = useTransform(scrollYProgress, [0.55, 0.7], [30, 0]);
 
   return (
-    <section ref={containerRef} className="relative min-h-[calc(100vh-64px)] bg-[#FBFBFB]">
+    <section ref={containerRef} className="relative h-[600vh] bg-[#FBFBFB]">
       <motion.div
-        animate={bgControls}
-        initial={{ backgroundColor: '#FBFBFB' }}
+        style={{ backgroundColor: bgColor }}
         className="sticky top-16 h-[calc(100vh-64px)] w-full overflow-hidden z-10"
       >
         {/* Title + Image Container - scrolls up together */}
         <motion.div
-          animate={contentControls}
-          initial={{ y: 0 }}
+          style={{ y: contentY }}
           className="absolute inset-x-0 top-0"
         >
           {/* Title - centered in initial viewport */}
-          <h2 className="h-[calc(100vh-64px)] flex items-center justify-center text-[24px] md:text-[48px] font-bold text-[#000000] text-center whitespace-nowrap">
+          <motion.h2
+            style={{ opacity: titleOpacity }}
+            className="h-[calc(100vh-64px)] flex items-center justify-center text-[24px] md:text-[48px] font-bold text-[#000000] text-center whitespace-nowrap"
+          >
             {ECOTREE_BRAND_TRANSITION.title}
-          </h2>
+          </motion.h2>
 
           {/* Product Images - directly below title */}
           <div className="relative w-[120vw] md:w-[1000px] lg:w-[1200px] h-[480vw] md:h-[4000px] lg:h-[4800px] left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:mx-auto -mt-[20vh]">
@@ -276,8 +217,7 @@ export default function BrandTransitionSection() {
 
         {/* Brand Logo Section */}
         <motion.div
-          animate={logoControls}
-          initial={{ opacity: 0, y: 30 }}
+          style={{ opacity: logoOpacity, y: logoY }}
           className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
         >
           {/* Dots indicator */}

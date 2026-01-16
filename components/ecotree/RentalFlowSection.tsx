@@ -1,12 +1,10 @@
 'use client';
 
-import { useRef, useState, useCallback, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import { ECOTREE_RENTAL_FLOW } from '@/lib/constants';
 import { IMAGE_MAP } from '@/lib/images';
-
-const HEADER_HEIGHT = 64;
 
 export default function RentalFlowSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -14,14 +12,26 @@ export default function RentalFlowSection() {
   const firstIndicatorRef = useRef<HTMLDivElement>(null);
   const lastIndicatorRef = useRef<HTMLDivElement>(null);
   const [currentStep, setCurrentStep] = useState(1);
-  const [phase, setPhase] = useState<'before' | 'animating' | 'after'>('before');
   const [lineStyle, setLineStyle] = useState({ top: 7, height: 200 });
-  const isTransitioning = useRef(false);
-  const touchStartY = useRef<number | null>(null);
-  const touchStartTime = useRef<number>(0);
 
   const steps = ECOTREE_RENTAL_FLOW.steps;
   const totalSteps = steps.length;
+
+  // useScroll로 스크롤 진행도 추적
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end start'],
+  });
+
+  // 스크롤 진행도에 따라 currentStep 업데이트
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on('change', (value) => {
+      // 0~0.25: step 1, 0.25~0.5: step 2, 0.5~0.75: step 3, 0.75~1: step 4
+      const step = Math.min(totalSteps, Math.max(1, Math.floor(value * totalSteps) + 1));
+      setCurrentStep(step);
+    });
+    return () => unsubscribe();
+  }, [scrollYProgress, totalSteps]);
 
   // 점선 위치 계산 - 첫 번째와 마지막 인디케이터 중앙을 연결
   useEffect(() => {
@@ -57,183 +67,11 @@ export default function RentalFlowSection() {
     };
   }, [currentStep]);
 
-  // Handle touch start
-  const handleTouchStart = useCallback((e: TouchEvent) => {
-    touchStartY.current = e.touches[0].clientY;
-    touchStartTime.current = Date.now();
-  }, []);
-
-  // Handle touch move - prevent default during animation phase
-  const handleTouchMove = useCallback((e: TouchEvent) => {
-    if (phase === 'animating') {
-      e.preventDefault();
-    }
-  }, [phase]);
-
-  // Handle touch end
-  const handleTouchEnd = useCallback((e: TouchEvent) => {
-    if (isTransitioning.current || touchStartY.current === null) return;
-
-    const touchEndY = e.changedTouches[0].clientY;
-    const deltaY = touchStartY.current - touchEndY;
-    const deltaTime = Date.now() - touchStartTime.current;
-    const minSwipeDistance = 50;
-    const velocity = Math.abs(deltaY) / deltaTime;
-    const isValidSwipe = Math.abs(deltaY) > minSwipeDistance || velocity > 0.3;
-
-    if (!isValidSwipe) {
-      touchStartY.current = null;
-      return;
-    }
-
-    const container = containerRef.current;
-    if (!container) return;
-
-    const rect = container.getBoundingClientRect();
-    const swipingDown = deltaY > 0;
-    const swipingUp = deltaY < 0;
-    const sectionInView = rect.top < window.innerHeight && rect.bottom > HEADER_HEIGHT;
-    const sectionAtHeader = rect.top <= HEADER_HEIGHT + 5 && rect.top >= HEADER_HEIGHT - 50;
-
-    if (phase === 'before') {
-      if (swipingDown && sectionAtHeader) {
-        isTransitioning.current = true;
-        setPhase('animating');
-        document.body.style.overflow = 'hidden';
-        setTimeout(() => { isTransitioning.current = false; }, 100);
-      }
-      touchStartY.current = null;
-      return;
-    }
-
-    if (phase === 'animating') {
-      if (swipingDown) {
-        isTransitioning.current = true;
-        if (currentStep < totalSteps) {
-          setCurrentStep(prev => prev + 1);
-        } else {
-          setPhase('after');
-          document.body.style.overflow = '';
-        }
-        setTimeout(() => { isTransitioning.current = false; }, 600);
-      } else if (swipingUp) {
-        isTransitioning.current = true;
-        if (currentStep > 1) {
-          setCurrentStep(prev => prev - 1);
-        } else {
-          setPhase('before');
-          document.body.style.overflow = '';
-        }
-        setTimeout(() => { isTransitioning.current = false; }, 600);
-      }
-      touchStartY.current = null;
-      return;
-    }
-
-    if (phase === 'after') {
-      if (swipingUp && sectionInView && rect.top >= HEADER_HEIGHT - 100) {
-        isTransitioning.current = true;
-        setPhase('animating');
-        setCurrentStep(totalSteps);
-        document.body.style.overflow = 'hidden';
-        const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-        window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
-        setTimeout(() => { isTransitioning.current = false; }, 800);
-      }
-      touchStartY.current = null;
-    }
-  }, [currentStep, phase, totalSteps]);
-
-  // Handle wheel scroll
-  const handleWheel = useCallback((e: WheelEvent) => {
-    if (isTransitioning.current) return;
-
-    const container = containerRef.current;
-    if (!container) return;
-
-    const rect = container.getBoundingClientRect();
-    const scrollingDown = e.deltaY > 0;
-    const scrollingUp = e.deltaY < 0;
-    const sectionInView = rect.top < window.innerHeight && rect.bottom > HEADER_HEIGHT;
-    const sectionAboveViewport = rect.bottom <= HEADER_HEIGHT;
-    const sectionAtHeader = rect.top <= HEADER_HEIGHT + 5 && rect.top >= HEADER_HEIGHT - 50;
-
-    if (phase === 'before') {
-      if (scrollingDown && sectionAtHeader) {
-        e.preventDefault();
-        isTransitioning.current = true;
-        setPhase('animating');
-        document.body.style.overflow = 'hidden';
-        setTimeout(() => { isTransitioning.current = false; }, 100);
-      }
-      return;
-    }
-
-    if (phase === 'animating') {
-      e.preventDefault();
-      if (scrollingDown) {
-        isTransitioning.current = true;
-        if (currentStep < totalSteps) {
-          setCurrentStep(prev => prev + 1);
-        } else {
-          setPhase('after');
-          document.body.style.overflow = '';
-        }
-        setTimeout(() => { isTransitioning.current = false; }, 600);
-      } else if (scrollingUp) {
-        isTransitioning.current = true;
-        if (currentStep > 1) {
-          setCurrentStep(prev => prev - 1);
-        } else {
-          setPhase('before');
-          document.body.style.overflow = '';
-        }
-        setTimeout(() => { isTransitioning.current = false; }, 600);
-      }
-      return;
-    }
-
-    if (phase === 'after') {
-      if (scrollingUp && sectionInView && !sectionAboveViewport) {
-        if (rect.top >= HEADER_HEIGHT - 100) {
-          e.preventDefault();
-          isTransitioning.current = true;
-          setPhase('animating');
-          setCurrentStep(totalSteps);
-          document.body.style.overflow = 'hidden';
-          const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-          window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
-          setTimeout(() => { isTransitioning.current = false; }, 800);
-        }
-      }
-    }
-  }, [currentStep, phase, totalSteps]);
-
-  useEffect(() => {
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [handleWheel, handleTouchStart, handleTouchMove, handleTouchEnd]);
-
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, []);
-
   const currentStepData = steps[currentStep - 1];
   const currentImage = IMAGE_MAP[currentStepData.image];
 
   return (
-    <section ref={containerRef} className="relative bg-white">
+    <section ref={containerRef} className="relative h-[500vh] bg-white">
       <div className="sticky top-16 h-[calc(100vh-64px)] w-full overflow-hidden">
         <div className="container-ecotree h-full flex flex-col justify-center">
           {/* Header - centered */}
