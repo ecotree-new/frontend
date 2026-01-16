@@ -717,9 +717,9 @@ export const FOODTRUCK_OPERATION_ROW1 = [
 export const FOODTRUCK_OPERATION_ROW2 = [
   { id: 6, title: '카페 케이터링', image: '/images/foodtruck/operation-6.jpeg' },
   { id: 7, title: '디저트 케이터링', image: '/images/foodtruck/operation-7.jpg' },
-  { id: 8, title: '한식 케이터링', image: '/images/foodtruck/operation-8.jpg' },
+  { id: 8, title: '닭강정 케이터링', image: '/images/foodtruck/operation-8.jpg' },
   { id: 9, title: '일식 케이터링', image: '/images/foodtruck/operation-9.jpeg' },
-  { id: 10, title: '카페 케이터링', image: '/images/foodtruck/operation-10.jpg' },
+  { id: 10, title: '츄러스 케이터링', image: '/images/foodtruck/operation-10.jpg' },
 ] as const;
 
 // Foodtruck page - CTA section
