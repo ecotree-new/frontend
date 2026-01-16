@@ -12,8 +12,8 @@ export default function Footer() {
             <Image
               src="/logo.png"
               alt="에코트리"
-              width={140}
-              height={40}
+              width={156}
+              height={50}
               className="md:w-[180px] md:h-[50px] brightness-0 invert"
             />
           </div>

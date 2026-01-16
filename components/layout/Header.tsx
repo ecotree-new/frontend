@@ -42,8 +42,8 @@ export default function Header() {
               <Image
                 src="/logo.png"
                 alt="에코트리"
-                width={120}
-                height={32}
+                width={156}
+                height={50}
                 priority
               />
             </Link>
@@ -134,8 +134,8 @@ export default function Header() {
                     <Image
                       src="/logo.png"
                       alt="에코트리"
-                      width={120}
-                      height={32}
+                      width={156}
+                      height={50}
                     />
                   </Link>
                   <button
