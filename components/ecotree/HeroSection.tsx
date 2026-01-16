@@ -11,6 +11,8 @@ export default function HeroSection() {
         muted
         loop
         playsInline
+        poster="/images/posters/ecotree-hero-poster.webp"
+        preload="metadata"
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src={ECOTREE_HERO.video} type="video/mp4" />

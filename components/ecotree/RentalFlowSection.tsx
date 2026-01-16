@@ -4,6 +4,7 @@ import { useRef, useState, useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ECOTREE_RENTAL_FLOW } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 const HEADER_HEIGHT = 64;
 
@@ -191,6 +192,7 @@ export default function RentalFlowSection() {
   }, []);
 
   const currentStepData = steps[currentStep - 1];
+  const currentImage = IMAGE_MAP[currentStepData.image];
 
   return (
     <section ref={containerRef} className="relative bg-white">
@@ -229,12 +231,13 @@ export default function RentalFlowSection() {
             </p>
 
             {/* Image */}
-            <div className="w-full h-[200px] relative rounded-2xl overflow-hidden">
+            <div className="w-full h-[200px] relative rounded-2xl overflow-hidden bg-gray-200">
               <Image
-                src={currentStepData.image}
+                src={currentImage || currentStepData.image}
                 alt={currentStepData.title}
                 fill
                 className="object-cover object-center"
+                placeholder={currentImage ? "blur" : undefined}
                 priority
               />
             </div>
@@ -334,7 +337,7 @@ export default function RentalFlowSection() {
             </div>
 
             {/* Right: Image */}
-            <div className="flex-1 aspect-[16/10] relative rounded-2xl overflow-hidden">
+            <div className="flex-1 aspect-[16/10] relative rounded-2xl overflow-hidden bg-gray-200">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentStep}
@@ -345,10 +348,11 @@ export default function RentalFlowSection() {
                   className="absolute inset-0"
                 >
                   <Image
-                    src={currentStepData.image}
+                    src={currentImage || currentStepData.image}
                     alt={currentStepData.title}
                     fill
                     className="object-cover object-center"
+                    placeholder={currentImage ? "blur" : undefined}
                     priority
                   />
                 </motion.div>

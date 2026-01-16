@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { ECOTREE_POST_WASHING } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 export default function PostWashingSection() {
   const cards = ECOTREE_POST_WASHING.cards;
@@ -21,17 +22,20 @@ export default function PostWashingSection() {
 
         {/* Cards - 2 columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-          {cards.map((card) => (
+          {cards.map((card) => {
+            const importedImage = IMAGE_MAP[card.image];
+            return (
             <div
               key={card.id}
-              className="relative h-[200px] md:h-[240px] lg:h-[280px] rounded-2xl overflow-hidden"
+              className="relative h-[200px] md:h-[240px] lg:h-[280px] rounded-2xl overflow-hidden bg-gray-200"
             >
               {/* Background Image - left aligned */}
               <Image
-                src={card.image}
+                src={importedImage || card.image}
                 alt={card.title}
                 fill
                 className="object-cover object-left"
+                placeholder={importedImage ? "blur" : undefined}
               />
 
               {/* Gradient Overlay */}
@@ -47,7 +51,8 @@ export default function PostWashingSection() {
                 </p>
               </div>
             </div>
-          ))}
+          );
+          })}
         </div>
       </div>
     </section>

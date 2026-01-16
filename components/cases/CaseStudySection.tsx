@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import { ECOTREE_CASES, FOODTRUCK_CASES } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 interface CaseCardProps {
   label: string;
@@ -13,16 +14,19 @@ interface CaseCardProps {
 }
 
 function CaseCard({ label, title, description, image }: CaseCardProps) {
+  const importedImage = IMAGE_MAP[image];
+
   return (
     <div className="flex flex-col md:flex-row gap-6 lg:gap-8">
       {/* Image - Fixed height, width shrinks with viewport */}
       <div className="w-full md:w-auto md:flex-shrink-0">
         <div className="relative w-full md:w-[280px] lg:w-[340px] xl:w-[400px] h-[150px] md:h-[200px] lg:h-[240px] bg-gray-200 rounded-lg overflow-hidden">
           <Image
-            src={image}
+            src={importedImage || image}
             alt={title}
             fill
             className="object-cover object-center"
+            placeholder={importedImage ? "blur" : undefined}
           />
         </div>
       </div>

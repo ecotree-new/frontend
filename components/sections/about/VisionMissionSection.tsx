@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ABOUT_VISION_MISSION } from '@/lib/constants';
+import { IMAGES } from '@/lib/images';
 
 export default function VisionMissionSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -136,10 +137,11 @@ export default function VisionMissionSection() {
               className="absolute inset-0"
             >
               <Image
-                src={vision.image}
+                src={IMAGES.visionImage}
                 alt={vision.title}
                 fill
                 className="object-cover object-right"
+                placeholder="blur"
                 priority
               />
             </motion.div>
@@ -190,10 +192,11 @@ export default function VisionMissionSection() {
               className="absolute inset-0"
             >
               <Image
-                src={mission.image}
+                src={IMAGES.missionImage}
                 alt={mission.title}
                 fill
                 className="object-cover object-right"
+                placeholder="blur"
                 priority
               />
             </motion.div>

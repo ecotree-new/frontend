@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { ECOTREE_BUSINESS_RANGE } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 export default function BusinessRangeSection() {
   const cards = ECOTREE_BUSINESS_RANGE.cards;
@@ -26,17 +27,20 @@ export default function BusinessRangeSection() {
         {/* Infinite Slider - contained within container */}
         <div className="relative overflow-hidden">
           <div className="animate-slide-business flex gap-4 md:gap-6">
-            {duplicatedCards.map((card, index) => (
+            {duplicatedCards.map((card, index) => {
+              const importedImage = IMAGE_MAP[card.image];
+              return (
               <div
                 key={`${card.id}-${index}`}
                 className="flex-shrink-0 w-[240px] md:w-[280px] lg:w-[320px]"
               >
-                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-200">
                   <Image
-                    src={card.image}
+                    src={importedImage || card.image}
                     alt={card.title}
                     fill
                     className="object-cover object-center"
+                    placeholder={importedImage ? "blur" : undefined}
                   />
                   {/* Blue Gradient Overlay */}
                   <div
@@ -53,7 +57,8 @@ export default function BusinessRangeSection() {
                   </div>
                 </div>
               </div>
-            ))}
+            );
+            })}
           </div>
         </div>
       </div>

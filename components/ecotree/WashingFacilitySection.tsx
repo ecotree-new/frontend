@@ -2,9 +2,11 @@
 
 import Image from 'next/image';
 import { ECOTREE_WASHING_FACILITY } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 export default function WashingFacilitySection() {
   const cards = ECOTREE_WASHING_FACILITY.cards;
+  const cardImages = cards.map(card => IMAGE_MAP[card.image]);
 
   return (
     <section className="py-16 md:py-24 lg:py-32 bg-white">
@@ -22,12 +24,13 @@ export default function WashingFacilitySection() {
         {/* Cards Grid - Custom Layout */}
         <div className="grid grid-cols-2 gap-3 md:gap-6">
           {/* Card 01 - Left, spans 2 rows */}
-          <div className="relative row-span-2 rounded-2xl overflow-hidden">
+          <div className="relative row-span-2 rounded-2xl overflow-hidden bg-gray-200">
             <Image
-              src={cards[0].image}
+              src={cardImages[0] || cards[0].image}
               alt={cards[0].title}
               fill
               className="object-cover object-center"
+              placeholder={cardImages[0] ? "blur" : undefined}
             />
             <div
               className="absolute top-0 left-0 right-0"
@@ -54,12 +57,13 @@ export default function WashingFacilitySection() {
           </div>
 
           {/* Card 02 - Top right */}
-          <div className="relative h-[120px] md:h-[240px] rounded-2xl overflow-hidden">
+          <div className="relative h-[120px] md:h-[240px] rounded-2xl overflow-hidden bg-gray-200">
             <Image
-              src={cards[1].image}
+              src={cardImages[1] || cards[1].image}
               alt={cards[1].title}
               fill
               className="object-cover object-center"
+              placeholder={cardImages[1] ? "blur" : undefined}
             />
             <div
               className="absolute top-0 left-0 right-0"
@@ -86,12 +90,13 @@ export default function WashingFacilitySection() {
           </div>
 
           {/* Card 03 - Middle right */}
-          <div className="relative h-[120px] md:h-[240px] rounded-2xl overflow-hidden">
+          <div className="relative h-[120px] md:h-[240px] rounded-2xl overflow-hidden bg-gray-200">
             <Image
-              src={cards[2].image}
+              src={cardImages[2] || cards[2].image}
               alt={cards[2].title}
               fill
               className="object-cover object-center"
+              placeholder={cardImages[2] ? "blur" : undefined}
             />
             <div
               className="absolute top-0 left-0 right-0"
@@ -118,12 +123,13 @@ export default function WashingFacilitySection() {
           </div>
 
           {/* Card 04 - Bottom, full width */}
-          <div className="relative h-[120px] md:h-[240px] col-span-2 rounded-2xl overflow-hidden">
+          <div className="relative h-[120px] md:h-[240px] col-span-2 rounded-2xl overflow-hidden bg-gray-200">
             <Image
-              src={cards[3].image}
+              src={cardImages[3] || cards[3].image}
               alt={cards[3].title}
               fill
               className="object-cover object-center"
+              placeholder={cardImages[3] ? "blur" : undefined}
             />
             <div
               className="absolute top-0 left-0 right-0"

@@ -12,6 +12,8 @@ export default function HeroSection() {
         loop
         muted
         playsInline
+        poster="/images/posters/hero-poster.webp"
+        preload="metadata"
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src="/videos/hero-background.mp4" type="video/mp4" />

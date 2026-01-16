@@ -5,6 +5,7 @@ import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { JOINT_CASES } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 export default function JointCaseSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -59,15 +60,18 @@ export default function JointCaseSection() {
           animate={isInView ? 'visible' : 'hidden'}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-6"
         >
-          {JOINT_CASES.map((caseItem) => (
+          {JOINT_CASES.map((caseItem) => {
+            const importedImage = IMAGE_MAP[caseItem.image];
+            return (
             <motion.div key={caseItem.id} variants={itemVariants}>
               {/* Card Image - Responsive height */}
               <div className="relative w-full h-[150px] md:h-[320px] lg:h-[400px] bg-gray-200 overflow-hidden mb-3 md:mb-4 rounded-lg md:rounded-none">
                 <Image
-                  src={caseItem.image}
+                  src={importedImage || caseItem.image}
                   alt={caseItem.title}
                   fill
                   className="object-cover object-center"
+                  placeholder={importedImage ? "blur" : undefined}
                 />
 
                 {/* Label Badge (Inside Image) - Left aligned */}
@@ -130,7 +134,8 @@ export default function JointCaseSection() {
                 </Link>
               </div>
             </motion.div>
-          ))}
+          );
+          })}
         </motion.div>
       </div>
     </section>

@@ -42,6 +42,8 @@ export default function ProductVideoSection() {
           muted
           loop
           playsInline
+          poster="/images/posters/product-video-poster.webp"
+          preload="metadata"
           className="min-w-full min-h-full object-cover"
           style={{ width: '1200px', height: 'auto' }}
         >
