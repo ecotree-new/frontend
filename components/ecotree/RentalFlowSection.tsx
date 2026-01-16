@@ -237,7 +237,7 @@ export default function RentalFlowSection() {
       <div className="sticky top-16 h-[calc(100vh-64px)] w-full overflow-hidden">
         <div className="container-ecotree h-full flex flex-col justify-center">
           {/* Header - centered */}
-          <div className="mb-8 md:mb-12 flex flex-col items-center">
+          <div className="mb-8 md:mb-12 short-h:md:mb-6 flex flex-col items-center">
             <div className="text-left">
               <p className="text-[10px] md:text-[16px] text-[#1B67FF] font-medium mb-2">
                 {ECOTREE_RENTAL_FLOW.label}
@@ -305,7 +305,7 @@ export default function RentalFlowSection() {
           </div>
 
           {/* Desktop Layout */}
-          <div className="hidden md:flex flex-row gap-12 lg:gap-16 items-center">
+          <div className="hidden md:flex flex-row gap-12 lg:gap-16 short-h:gap-8 items-center">
             {/* Left: Steps with connecting dashed line */}
             <div ref={stepsContainerRef} className="w-[320px] lg:w-[400px] flex-shrink-0 relative">
               {/* Vertical dashed connecting line - 실시간 위치 계산 */}
@@ -318,7 +318,7 @@ export default function RentalFlowSection() {
                 }}
               />
 
-              <div className="space-y-6">
+              <div className="space-y-6 short-h:space-y-3">
                 {steps.map((step, index) => {
                   const isActive = currentStep === step.id;
                   const isFirst = index === 0;

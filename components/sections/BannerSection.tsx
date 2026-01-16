@@ -23,7 +23,7 @@ export default function BannerSection() {
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="container-ecotree">
             <div
-              className="relative w-full rounded-2xl overflow-hidden max-w-[1110px] h-[400px] md:h-[500px] lg:h-[600px]"
+              className="relative w-full rounded-2xl overflow-hidden max-w-[1110px] h-[400px] md:h-[500px] lg:h-[600px] short-h:lg:h-[450px]"
             >
               {/* Background Image */}
               <div
@@ -68,7 +68,7 @@ export default function BannerSection() {
         >
           <div className="container-ecotree">
             <div
-              className="relative w-full rounded-2xl overflow-hidden max-w-[1110px] h-[400px] md:h-[500px] lg:h-[600px]"
+              className="relative w-full rounded-2xl overflow-hidden max-w-[1110px] h-[400px] md:h-[500px] lg:h-[600px] short-h:lg:h-[450px]"
             >
               {/* Background Image */}
               <div

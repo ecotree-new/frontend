@@ -13,7 +13,7 @@ export default function BusinessRangeSection() {
     <section className="h-[calc(100vh-64px)] bg-white flex items-center">
       <div className="container-ecotree w-full overflow-hidden">
         {/* Header - left aligned */}
-        <div className="mb-8 lg:mb-[125px]">
+        <div className="mb-8 lg:mb-[125px] short-h:lg:mb-12">
           <p className="text-[10px] md:text-[16px] text-[#1B67FF] font-medium mb-2">
             {ECOTREE_BUSINESS_RANGE.label}
           </p>

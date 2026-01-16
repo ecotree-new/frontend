@@ -100,7 +100,7 @@ export default function ProcessStrengthSection() {
         {/* Process Section */}
         <motion.div
           style={{ opacity: processOpacity }}
-          className="absolute inset-0 flex items-center justify-center py-8 md:py-10 lg:py-20"
+          className="absolute inset-0 flex items-center justify-center py-8 md:py-10 lg:py-20 short-h:lg:py-8"
         >
           <div className="container-ecotree">
             <AnimatePresence mode="wait">
@@ -114,7 +114,7 @@ export default function ProcessStrengthSection() {
                   {/* Title */}
                   <motion.div
                     variants={titleVariants}
-                    className="text-center mb-4 md:mb-6 lg:mb-12"
+                    className="text-center mb-4 md:mb-6 lg:mb-12 short-h:lg:mb-4"
                   >
                     <h2 className="text-[24px] md:text-[28px] lg:text-[40px] font-bold text-[#111111] mb-1 md:mb-2">
                       에코트리는
@@ -149,7 +149,7 @@ export default function ProcessStrengthSection() {
                         }`}
                       >
                         {/* Icon & Number Row */}
-                        <div className="flex justify-between items-start mb-3 md:mb-4 lg:mb-[46px]">
+                        <div className="flex justify-between items-start mb-3 md:mb-4 lg:mb-[46px] short-h:lg:mb-4">
                           {/* Icon - 배경 없이 아이콘만 */}
                           <div className="w-8 h-8 md:w-10 md:h-10 lg:w-16 lg:h-16 flex items-center justify-center">
                             <Image
@@ -171,7 +171,7 @@ export default function ProcessStrengthSection() {
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-[14px] md:text-[16px] lg:text-[28px] font-bold text-[#111111] mb-2 md:mb-3 lg:mb-[46px]">
+                        <h3 className="text-[14px] md:text-[16px] lg:text-[28px] font-bold text-[#111111] mb-2 md:mb-3 lg:mb-[46px] short-h:lg:mb-4">
                           {card.title}
                         </h3>
 
@@ -191,7 +191,7 @@ export default function ProcessStrengthSection() {
         {/* Strength Section */}
         <motion.div
           style={{ opacity: strengthOpacity }}
-          className="absolute inset-0 flex items-center justify-center py-8 md:py-10 lg:py-20"
+          className="absolute inset-0 flex items-center justify-center py-8 md:py-10 lg:py-20 short-h:lg:py-8"
         >
           <div className="container-ecotree">
             <AnimatePresence mode="wait">
@@ -205,7 +205,7 @@ export default function ProcessStrengthSection() {
                   {/* Title */}
                   <motion.div
                     variants={titleVariants}
-                    className="text-center mb-4 md:mb-6 lg:mb-12"
+                    className="text-center mb-4 md:mb-6 lg:mb-12 short-h:lg:mb-4"
                   >
                     <h2 className="text-[24px] md:text-[28px] lg:text-[40px] font-bold text-[#111111] mb-1 md:mb-2">
                       에코트리는
@@ -235,7 +235,7 @@ export default function ProcessStrengthSection() {
                       <motion.div
                         key={card.id}
                         variants={cardVariants}
-                        className={`bg-white rounded-[12px] md:rounded-[16px] lg:rounded-[24px] py-4 md:py-6 lg:py-[69px] px-3 md:px-4 lg:px-[35px] ${
+                        className={`bg-white rounded-[12px] md:rounded-[16px] lg:rounded-[24px] py-4 md:py-6 lg:py-[69px] short-h:lg:py-6 px-3 md:px-4 lg:px-[35px] ${
                           index === 2 ? 'col-span-2 lg:col-span-1' : ''
                         }`}
                       >

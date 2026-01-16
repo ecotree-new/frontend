@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Height-based responsive variant (for small height viewports like 13.3" laptops) */
+@custom-variant short-h (@media (max-height: 800px));
+
 /* SlowGothic Font (숫자용) */
 @font-face {
   font-family: 'SlowGothic';
