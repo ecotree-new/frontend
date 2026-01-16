@@ -106,14 +106,14 @@ export default function TruckSelectionSection() {
               </div>
 
               {/* Card Content */}
-              <div className="py-4 px-4 md:py-6 md:px-10">
+              <div className="py-4 px-4 md:py-6 md:px-10 text-center">
                 <h3 className="text-[16px] md:text-[18px] lg:text-[20px] font-semibold text-[#000000] mb-1">
                   {card.title}
                 </h3>
                 <p className="text-[13px] md:text-[14px] text-[#000000] mb-2 md:mb-3">
                   {card.description}
                 </p>
-                <div className="flex gap-2">
+                <div className="flex justify-center gap-2">
                   {card.tags.map((tag, index) => (
                     <span
                       key={index}
