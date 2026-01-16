@@ -10,7 +10,7 @@ export default function Footer() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Image
-              src="/logo.svg"
+              src="/logo.png"
               alt="에코트리"
               width={140}
               height={40}

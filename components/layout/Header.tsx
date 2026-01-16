@@ -40,7 +40,7 @@ export default function Header() {
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
               <Image
-                src="/logo.svg"
+                src="/logo.png"
                 alt="에코트리"
                 width={120}
                 height={32}
@@ -132,7 +132,7 @@ export default function Header() {
                 <div className="flex items-center justify-between h-16 px-5 md:hidden">
                   <Link href="/" onClick={handleMenuItemClick} className="flex-shrink-0">
                     <Image
-                      src="/logo.svg"
+                      src="/logo.png"
                       alt="에코트리"
                       width={120}
                       height={32}
