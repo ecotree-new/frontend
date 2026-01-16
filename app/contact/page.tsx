@@ -20,7 +20,7 @@ export default function ContactPage() {
           <h1 className="text-[28px] sm:text-[36px] md:text-[40px] lg:text-[48px] font-bold text-[#111111] text-center mb-3 sm:mb-4">
             문의하기
           </h1>
-          <p className="text-[14px] sm:text-[15px] md:text-[16px] text-[#727783] text-center mb-1 sm:mb-2">
+          <p className="text-[14px] sm:text-[15px] md:text-[16px] text-[#727783] text-center mb-1 sm:mb-1">
             에코트리에 대해 궁금하신 사항을 문의해 주세요.
           </p>
           <p className="text-[14px] sm:text-[15px] md:text-[16px] text-[#727783] text-center mb-8 sm:mb-10 md:mb-12">
