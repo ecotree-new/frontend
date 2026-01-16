@@ -1,8 +1,7 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import Link from 'next/link';
 import Image from 'next/image';
 import { ECOTREE_CASES, FOODTRUCK_CASES } from '@/lib/constants';
 
@@ -11,10 +10,9 @@ interface CaseCardProps {
   title: string;
   description: string;
   image: string;
-  link: string;
 }
 
-function CaseCard({ label, title, description, image, link }: CaseCardProps) {
+function CaseCard({ label, title, description, image }: CaseCardProps) {
   return (
     <div className="flex flex-col md:flex-row gap-6 lg:gap-8">
       {/* Image - Fixed height, width shrinks with viewport */}
@@ -42,30 +40,9 @@ function CaseCard({ label, title, description, image, link }: CaseCardProps) {
         </h3>
 
         {/* Description - wraps based on available width */}
-        <p className="text-[10px] md:text-[14px] lg:text-[16px] text-[#111111] leading-relaxed mb-3">
+        <p className="text-[10px] md:text-[14px] lg:text-[16px] text-[#111111] leading-relaxed">
           {description}
         </p>
-
-        {/* View More Button */}
-        <Link
-          href={link}
-          className="inline-flex items-center gap-1 text-[10px] md:text-[14px] lg:text-[16px] text-[#1B67FF] font-semibold hover:font-bold transition-all cursor-pointer group"
-        >
-          view more
-          <svg
-            className="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </Link>
       </div>
     </div>
   );
@@ -73,6 +50,14 @@ function CaseCard({ label, title, description, image, link }: CaseCardProps) {
 
 export default function CaseStudySection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -83,22 +68,78 @@ export default function CaseStudySection() {
   const ecotreeOpacity = useTransform(scrollYProgress, [0, 0.4, 0.5], [1, 1, 0]);
   const foodtruckOpacity = useTransform(scrollYProgress, [0.4, 0.5, 1], [0, 1, 1]);
 
+  // 모바일: 일반 플로우 레이아웃 (Ecotree + Foodtruck 순차 표시)
+  if (isMobile) {
+    return (
+      <section className="bg-white py-16">
+        <div className="container-ecotree">
+          {/* Ecotree 섹션 */}
+          <div className="mb-16">
+            <p className="text-[10px] text-[#1B67FF] font-medium mb-4">
+              에코트리 운영 사례
+            </p>
+            <h2 className="text-[18px] font-bold text-[#111111] leading-tight mb-8">
+              현장에서 나온 운영 인사이트,
+              <br />
+              사례로 확인하세요.
+            </h2>
+            <div className="space-y-6">
+              {ECOTREE_CASES.map((caseItem) => (
+                <CaseCard
+                  key={caseItem.id}
+                  label={caseItem.label}
+                  title={caseItem.title}
+                  description={caseItem.description}
+                  image={caseItem.image}
+                                  />
+              ))}
+            </div>
+          </div>
+
+          {/* Foodtruck 섹션 */}
+          <div>
+            <p className="text-[10px] text-[#1B67FF] font-medium mb-4">
+              한국 세계음식 푸드트럭 중앙회 운영 사례
+            </p>
+            <h2 className="text-[18px] font-bold text-[#111111] leading-tight mb-8">
+              현장에서 나온 운영 인사이트,
+              <br />
+              사례로 확인하세요.
+            </h2>
+            <div className="space-y-6">
+              {FOODTRUCK_CASES.map((caseItem) => (
+                <CaseCard
+                  key={caseItem.id}
+                  label={caseItem.label}
+                  title={caseItem.title}
+                  description={caseItem.description}
+                  image={caseItem.image}
+                                  />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // PC: 기존 sticky + scroll fade 레이아웃
   return (
     <div ref={containerRef} className="h-[200vh] relative">
       <div className="sticky top-16 h-[calc(100vh-64px)]">
         <section className="h-full bg-white flex flex-col justify-center overflow-hidden">
           <div className="container-ecotree">
             {/* Section Label (above Main Title) */}
-            <div className="relative h-4 md:h-6 mb-4">
+            <div className="relative h-6 mb-4">
               <motion.p
                 style={{ opacity: ecotreeOpacity }}
-                className="absolute inset-0 text-[10px] md:text-[14px] lg:text-[16px] text-[#1B67FF] font-medium"
+                className="absolute inset-0 text-[14px] lg:text-[16px] text-[#1B67FF] font-medium"
               >
                 에코트리 운영 사례
               </motion.p>
               <motion.p
                 style={{ opacity: foodtruckOpacity }}
-                className="absolute inset-0 text-[10px] md:text-[14px] lg:text-[16px] text-[#1B67FF] font-medium"
+                className="absolute inset-0 text-[14px] lg:text-[16px] text-[#1B67FF] font-medium"
               >
                 한국 세계음식 푸드트럭 중앙회 운영 사례
               </motion.p>
@@ -106,7 +147,7 @@ export default function CaseStudySection() {
 
             {/* Main Title (Fixed) - Line break at 839px */}
             <div className="mb-8 lg:mb-12">
-              <h2 className="text-[18px] md:text-[36px] lg:text-[40px] font-bold text-[#111111] leading-tight">
+              <h2 className="text-[36px] lg:text-[40px] font-bold text-[#111111] leading-tight">
                 <span className="hidden min-[840px]:inline">현장에서 나온 운영 인사이트, 사례로 확인하세요.</span>
                 <span className="min-[840px]:hidden">
                   현장에서 나온 운영 인사이트,
@@ -128,8 +169,7 @@ export default function CaseStudySection() {
                       title={caseItem.title}
                       description={caseItem.description}
                       image={caseItem.image}
-                      link={caseItem.link}
-                    />
+                                          />
                   ))}
                 </div>
               </motion.div>
@@ -147,8 +187,7 @@ export default function CaseStudySection() {
                       title={caseItem.title}
                       description={caseItem.description}
                       image={caseItem.image}
-                      link={caseItem.link}
-                    />
+                                          />
                   ))}
                 </div>
               </motion.div>
