@@ -3,12 +3,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ecotree.co.kr"),
-  title: "에코트리 | 친환경 행사 운영 서비스",
-  description: "대여부터 회수·세척까지, 다회용기 운영의 전 과정을 책임집니다. 행사를 바꾸는 친환경 솔루션, 에코트리",
-  keywords: ["에코트리", "다회용기", "친환경", "행사", "축제", "다회용기 대여", "친환경 행사"],
+  title: "에코트리 ECOTREE",
+  description: "다회용기로 쓰레기를 줄이는 푸드트럭·행사 전용 순환 서비스. 용기 제공부터 회수·세척까지 한 번에 관리합니다.",
+  keywords: ["에코트리", "다회용기", "친환경", "행사", "축제", "다회용기 대여", "친환경 행사", "푸드트럭"],
   openGraph: {
-    title: "에코트리 | 친환경 행사 운영 서비스",
-    description: "대여부터 회수·세척까지, 다회용기 운영의 전 과정을 책임집니다.",
+    title: "에코트리 ECOTREE",
+    description: "다회용기로 쓰레기를 줄이는 푸드트럭·행사 전용 순환 서비스. 용기 제공부터 회수·세척까지 한 번에 관리합니다.",
     type: "website",
     locale: "ko_KR",
     images: [
@@ -22,8 +22,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "에코트리 | 친환경 행사 운영 서비스",
-    description: "대여부터 회수·세척까지, 다회용기 운영의 전 과정을 책임집니다.",
+    title: "에코트리 ECOTREE",
+    description: "다회용기로 쓰레기를 줄이는 푸드트럭·행사 전용 순환 서비스. 용기 제공부터 회수·세척까지 한 번에 관리합니다.",
     images: ["/logo.png"],
   },
 };
