@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import { FOODTRUCK_MENU_SECTION, FOODTRUCK_MENU_IMAGES_ROW1, FOODTRUCK_MENU_IMAGES_ROW2, FOODTRUCK_MENU_BG } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 export default function MenuSliderSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -54,7 +55,7 @@ export default function MenuSliderSection() {
                 className="w-[160px] h-[120px] md:w-[180px] md:h-[135px] flex-shrink-0 rounded-lg overflow-hidden bg-gray-700 relative"
               >
                 <Image
-                  src={img.image}
+                  src={IMAGE_MAP[img.image] || img.image}
                   alt={img.alt}
                   fill
                   className="object-cover"
@@ -71,7 +72,7 @@ export default function MenuSliderSection() {
                 className="w-[160px] h-[120px] md:w-[180px] md:h-[135px] flex-shrink-0 rounded-lg overflow-hidden bg-gray-700 relative"
               >
                 <Image
-                  src={img.image}
+                  src={IMAGE_MAP[img.image] || img.image}
                   alt={img.alt}
                   fill
                   className="object-cover"
@@ -84,7 +85,7 @@ export default function MenuSliderSection() {
         {/* Globe Image */}
         <div className="relative w-full max-w-[1110px] mx-auto">
           <Image
-            src={FOODTRUCK_MENU_BG}
+            src={IMAGE_MAP[FOODTRUCK_MENU_BG] || FOODTRUCK_MENU_BG}
             alt="Globe"
             width={1110}
             height={600}

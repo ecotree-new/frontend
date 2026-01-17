@@ -35,7 +35,6 @@ export default function PostWashingSection() {
                 alt={card.title}
                 fill
                 className="object-cover object-left"
-                placeholder={importedImage ? "blur" : undefined}
               />
 
               {/* Gradient Overlay */}

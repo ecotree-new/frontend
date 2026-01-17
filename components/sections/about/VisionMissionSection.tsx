@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ABOUT_VISION_MISSION } from '@/lib/constants';
-import { IMAGES } from '@/lib/images';
+import { R2_IMAGES } from '@/lib/images';
 
 function VisionSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -69,12 +69,11 @@ function VisionSection() {
     return (
       <section className="relative h-screen w-full overflow-hidden">
         <Image
-          src={IMAGES.visionImage}
+          src={R2_IMAGES.visionImage}
           alt={vision.title}
           fill
           className="object-cover object-right"
-          placeholder="blur"
-          priority
+                    priority
         />
         <div className="absolute inset-0 bg-black/50" />
         <div className="absolute inset-0 z-10 flex items-center">
@@ -130,12 +129,11 @@ function VisionSection() {
             className="absolute inset-0"
           >
             <Image
-              src={IMAGES.visionImage}
+              src={R2_IMAGES.visionImage}
               alt={vision.title}
               fill
               className="object-cover object-right"
-              placeholder="blur"
-              priority
+                            priority
             />
           </motion.div>
           <motion.div
@@ -211,12 +209,11 @@ function MissionSection() {
     return (
       <section className="relative h-screen w-full overflow-hidden">
         <Image
-          src={IMAGES.missionImage}
+          src={R2_IMAGES.missionImage}
           alt={mission.title}
           fill
           className="object-cover object-right"
-          placeholder="blur"
-          priority
+                    priority
         />
         <div className="absolute inset-0 bg-black/50" />
         <div className="absolute inset-0 z-10 flex items-center">
@@ -272,12 +269,11 @@ function MissionSection() {
             className="absolute inset-0"
           >
             <Image
-              src={IMAGES.missionImage}
+              src={R2_IMAGES.missionImage}
               alt={mission.title}
               fill
               className="object-cover object-right"
-              placeholder="blur"
-              priority
+                            priority
             />
           </motion.div>
           <motion.div

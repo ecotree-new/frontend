@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { BANNER_CONTENT } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 export default function BannerSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -28,7 +29,7 @@ export default function BannerSection() {
               {/* Background Image */}
               <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${BANNER_CONTENT[1].image})` }}
+                style={{ backgroundImage: `url(${IMAGE_MAP[BANNER_CONTENT[1].image] || BANNER_CONTENT[1].image})` }}
               />
 
               {/* Gradient Overlay */}
@@ -73,7 +74,7 @@ export default function BannerSection() {
               {/* Background Image */}
               <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${BANNER_CONTENT[0].image})` }}
+                style={{ backgroundImage: `url(${IMAGE_MAP[BANNER_CONTENT[0].image] || BANNER_CONTENT[0].image})` }}
               />
 
               {/* Gradient Overlay */}

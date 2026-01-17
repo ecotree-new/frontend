@@ -4,6 +4,7 @@ import { useRef, useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ECOTREE_BRAND_TRANSITION } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 const HEADER_HEIGHT = 64;
 
@@ -206,7 +207,7 @@ export default function BrandTransitionSection() {
           {/* Product Images - directly below title */}
           <div className="relative w-[120vw] md:w-[1000px] lg:w-[1200px] h-[480vw] md:h-[4000px] lg:h-[4800px] left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:mx-auto -mt-[20vh]">
             <Image
-              src={ECOTREE_BRAND_TRANSITION.productImages}
+              src={IMAGE_MAP[ECOTREE_BRAND_TRANSITION.productImages] || ECOTREE_BRAND_TRANSITION.productImages}
               alt="다회용기 제품들"
               fill
               className="object-contain object-top"
@@ -235,7 +236,7 @@ export default function BrandTransitionSection() {
           {/* Brand Icon */}
           <div className="relative w-[60px] h-[60px] md:w-[80px] md:h-[80px]">
             <Image
-              src={ECOTREE_BRAND_TRANSITION.brandIcon}
+              src={IMAGE_MAP[ECOTREE_BRAND_TRANSITION.brandIcon] || ECOTREE_BRAND_TRANSITION.brandIcon}
               alt="Ecotree Icon"
               fill
               className="object-contain"

@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import { ABOUT_CORE_VALUES } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 export default function CoreValueSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -61,7 +62,7 @@ export default function CoreValueSection() {
                 {/* Icon */}
                 <div className="w-8 h-8 md:w-20 md:h-20 flex-shrink-0">
                   <Image
-                    src={value.icon}
+                    src={IMAGE_MAP[value.icon] || value.icon}
                     alt={value.title}
                     width={80}
                     height={80}

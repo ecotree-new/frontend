@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ABOUT_BUSINESS_PURPOSE } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 export default function BusinessPurposeSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -66,7 +67,7 @@ export default function BusinessPurposeSection() {
                   absolute inset-0 bg-cover bg-no-repeat
                   ${index === 2 ? 'bg-center md:bg-right lg:bg-center' : 'bg-center'}
                 `}
-                style={{ backgroundImage: `url(${card.image})` }}
+                style={{ backgroundImage: `url(${IMAGE_MAP[card.image] || card.image})` }}
               />
 
               {/* Overlay - 전체적으로 반투명 */}

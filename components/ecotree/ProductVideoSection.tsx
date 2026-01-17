@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from 'react';
 import { ECOTREE_PRODUCT_VIDEO } from '@/lib/constants';
+import { R2_IMAGES } from '@/lib/images';
 
 export default function ProductVideoSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -42,7 +43,7 @@ export default function ProductVideoSection() {
           muted
           loop
           playsInline
-          poster="/images/posters/product-video-poster.webp"
+          poster={R2_IMAGES.productVideoPoster}
           preload="metadata"
           className="min-w-full min-h-full object-cover"
           style={{ width: '1200px', height: 'auto' }}

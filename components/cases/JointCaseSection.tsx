@@ -71,7 +71,6 @@ export default function JointCaseSection() {
                   alt={caseItem.title}
                   fill
                   className="object-cover object-center"
-                  placeholder={importedImage ? "blur" : undefined}
                 />
 
                 {/* Gradient Overlay - transparent to #1E1F23 (top to bottom) */}

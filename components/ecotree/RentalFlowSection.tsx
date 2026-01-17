@@ -113,7 +113,6 @@ export default function RentalFlowSection() {
                 alt={currentStepData.title}
                 fill
                 className="object-cover object-center"
-                placeholder={currentImage ? "blur" : undefined}
                 priority
               />
             </div>
@@ -234,7 +233,6 @@ export default function RentalFlowSection() {
                     alt={currentStepData.title}
                     fill
                     className="object-cover object-center"
-                    placeholder={currentImage ? "blur" : undefined}
                     priority
                   />
                 </motion.div>

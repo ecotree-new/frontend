@@ -391,13 +391,13 @@ export const RESOURCES_DATA = [
     id: 1,
     title: '에코트리 제안서',
     date: '2025-12-29',
-    downloadUrl: '/downloads/ecotree_proposal.pdf',
+    downloadUrl: 'https://pub-e0dfe07f302b47a3adfaa7cbcdf4645e.r2.dev/documents/ecotree-proposal.pdf',
   },
   {
     id: 2,
     title: '한국 세계음식 푸드트럭 중앙회 제안서',
     date: '2025-12-29',
-    downloadUrl: '/downloads/foodtruck_proposal.pdf',
+    downloadUrl: 'https://pub-e0dfe07f302b47a3adfaa7cbcdf4645e.r2.dev/documents/foodtruck-proposal.pdf',
   },
 ] as const;
 
@@ -738,7 +738,7 @@ export const FOODTRUCK_CTA = {
 export const ECOTREE_HERO = {
   title: '다회용기 운영의 기준을 만들다.',
   subtitle: '에코트리는 다회용기 운영의 전 과정을 직접 설계하고 관리합니다.',
-  video: '/images/ecotree/hero/hero-video.mp4',
+  video: 'https://pub-e0dfe07f302b47a3adfaa7cbcdf4645e.r2.dev/images/ecotree/hero/hero-video.mp4',
 } as const;
 
 // Ecotree page - Rental flow steps
@@ -822,7 +822,7 @@ export const ECOTREE_PRODUCT_SHOWCASE = [
 
 // Ecotree page - Product video
 export const ECOTREE_PRODUCT_VIDEO = {
-  video: '/images/ecotree/products/product-video.mp4',
+  video: 'https://pub-e0dfe07f302b47a3adfaa7cbcdf4645e.r2.dev/images/ecotree/products/product-video.mp4',
 } as const;
 
 // Ecotree page - Washing process steps (circles)

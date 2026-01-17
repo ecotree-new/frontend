@@ -24,7 +24,8 @@ export default function ResourcesSection() {
           <div className="flex items-center pl-7 sm:pl-0">
             <a
               href={resource.downloadUrl}
-              download
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-1 px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 border border-[#E5E5E5] rounded-full text-[11px] sm:text-[12px] md:text-[14px] text-[#999999] hover:border-[#1B67FF] hover:text-[#1B67FF] transition-colors"
             >
               자료 다운

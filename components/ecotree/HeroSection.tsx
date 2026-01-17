@@ -1,6 +1,7 @@
 'use client';
 
 import { ECOTREE_HERO } from '@/lib/constants';
+import { R2_IMAGES } from '@/lib/images';
 
 export default function HeroSection() {
   return (
@@ -11,7 +12,7 @@ export default function HeroSection() {
         muted
         loop
         playsInline
-        poster="/images/posters/ecotree-hero-poster.webp"
+        poster={R2_IMAGES.ecotreeHeroPoster}
         preload="metadata"
         className="absolute inset-0 w-full h-full object-cover"
       >

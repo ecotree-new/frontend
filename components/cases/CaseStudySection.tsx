@@ -26,7 +26,6 @@ function CaseCard({ label, title, description, image }: CaseCardProps) {
             alt={title}
             fill
             className="object-cover object-center"
-            placeholder={importedImage ? "blur" : undefined}
           />
         </div>
       </div>

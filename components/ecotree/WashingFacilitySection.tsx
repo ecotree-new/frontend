@@ -30,7 +30,6 @@ export default function WashingFacilitySection() {
               alt={cards[0].title}
               fill
               className="object-cover object-center"
-              placeholder={cardImages[0] ? "blur" : undefined}
             />
             <div
               className="absolute top-0 left-0 right-0"
@@ -63,7 +62,6 @@ export default function WashingFacilitySection() {
               alt={cards[1].title}
               fill
               className="object-cover object-center"
-              placeholder={cardImages[1] ? "blur" : undefined}
             />
             <div
               className="absolute top-0 left-0 right-0"
@@ -96,7 +94,6 @@ export default function WashingFacilitySection() {
               alt={cards[2].title}
               fill
               className="object-cover object-center"
-              placeholder={cardImages[2] ? "blur" : undefined}
             />
             <div
               className="absolute top-0 left-0 right-0"
@@ -129,7 +126,6 @@ export default function WashingFacilitySection() {
               alt={cards[3].title}
               fill
               className="object-cover object-center"
-              placeholder={cardImages[3] ? "blur" : undefined}
             />
             <div
               className="absolute top-0 left-0 right-0"

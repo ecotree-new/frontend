@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import CountUp from '@/components/ui/CountUp';
 import { UNIVERSITY_LOGOS, REGIONAL_FESTIVALS, FESTIVAL_COUNTS } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 const HEADER_HEIGHT = 64;
 
@@ -180,7 +181,7 @@ export default function FestivalSection() {
             {UNIVERSITY_LOGOS.map((uni, index) => (
               <div key={index} className="flex items-center justify-center">
                 <Image
-                  src={uni.logo}
+                  src={IMAGE_MAP[uni.logo] || uni.logo}
                   alt={uni.name}
                   width={150}
                   height={36}

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FOODTRUCK_HERO_TILES, FOODTRUCK_HERO_MAIN_COPY } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 type ScrollPhase = 'before' | 'animating' | 'after';
 
@@ -290,7 +291,7 @@ export default function HeroStepSection() {
               {/* Background Image */}
               <div className="absolute inset-0">
                 <Image
-                  src={tile.image}
+                  src={IMAGE_MAP[tile.image] || tile.image}
                   alt={tile.title}
                   fill
                   className="object-cover"

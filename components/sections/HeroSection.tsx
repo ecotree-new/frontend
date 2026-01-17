@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { HERO_CONTENT } from '@/lib/constants';
+import { R2_VIDEOS, R2_IMAGES } from '@/lib/images';
 
 export default function HeroSection() {
   return (
@@ -12,11 +13,11 @@ export default function HeroSection() {
         loop
         muted
         playsInline
-        poster="/images/posters/hero-poster.webp"
+        poster={R2_IMAGES.heroPoster}
         preload="metadata"
         className="absolute inset-0 w-full h-full object-cover"
       >
-        <source src="/videos/hero-background.mp4" type="video/mp4" />
+        <source src={R2_VIDEOS.heroBackground} type="video/mp4" />
       </video>
 
       {/* Overlay */}

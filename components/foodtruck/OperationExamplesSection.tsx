@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import { FOODTRUCK_OPERATION_SECTION, FOODTRUCK_OPERATION_ROW1, FOODTRUCK_OPERATION_ROW2 } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 export default function OperationExamplesSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -50,7 +51,7 @@ export default function OperationExamplesSection() {
               {/* Card Image */}
               <div className="relative w-full flex-1 bg-gray-200">
                 <Image
-                  src={card.image}
+                  src={IMAGE_MAP[card.image] || card.image}
                   alt={card.title}
                   fill
                   className="object-cover"
@@ -76,7 +77,7 @@ export default function OperationExamplesSection() {
               {/* Card Image */}
               <div className="relative w-full flex-1 bg-gray-200">
                 <Image
-                  src={card.image}
+                  src={IMAGE_MAP[card.image] || card.image}
                   alt={card.title}
                   fill
                   className="object-cover"

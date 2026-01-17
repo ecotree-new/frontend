@@ -38,7 +38,6 @@ export default function BusinessRangeSection() {
                     alt={card.title}
                     fill
                     className="object-cover object-center"
-                    placeholder={importedImage ? "blur" : undefined}
                   />
                   {/* Blue Gradient Overlay */}
                   <div

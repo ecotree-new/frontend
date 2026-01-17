@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
 import { FOODTRUCK_TRUCK_SECTION, FOODTRUCK_TRUCK_CARDS, FOODTRUCK_BANNER_FEATURES } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 export default function TruckSelectionSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -98,7 +99,7 @@ export default function TruckSelectionSection() {
               {/* Card Image */}
               <div className="relative w-full aspect-[4/3] bg-gray-100 overflow-hidden">
                 <Image
-                  src={card.image}
+                  src={IMAGE_MAP[card.image] || card.image}
                   alt={card.title}
                   fill
                   className="object-cover object-center"
@@ -209,7 +210,7 @@ export default function TruckSelectionSection() {
                   className="flex items-center gap-4"
                 >
                   <Image
-                    src={feature.icon}
+                    src={IMAGE_MAP[feature.icon] || feature.icon}
                     alt={feature.title}
                     width={56}
                     height={56}
@@ -237,7 +238,7 @@ export default function TruckSelectionSection() {
                 style={{ background: 'linear-gradient(90deg, #1E1F23 0%, #1B67FF 100%)' }}
               >
                 <Image
-                  src={feature.icon}
+                  src={IMAGE_MAP[feature.icon] || feature.icon}
                   alt={feature.title}
                   width={40}
                   height={40}

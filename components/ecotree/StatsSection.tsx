@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import CountUp from '@/components/ui/CountUp';
 import { ECOTREE_STATS } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 export default function StatsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -49,7 +50,7 @@ export default function StatsSection() {
       {/* Background Graph Image - absolute bottom, fixed width, no padding */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1100px]">
         <Image
-          src={ECOTREE_STATS.backgroundImage}
+          src={IMAGE_MAP[ECOTREE_STATS.backgroundImage] || ECOTREE_STATS.backgroundImage}
           alt="Statistics Background"
           width={1110}
           height={300}

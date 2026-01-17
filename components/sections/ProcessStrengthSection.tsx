@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { PROCESS_CARDS, STRENGTH_CARDS } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 export default function ProcessStrengthSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -153,7 +154,7 @@ export default function ProcessStrengthSection() {
                           {/* Icon - 배경 없이 아이콘만 */}
                           <div className="w-8 h-8 md:w-10 md:h-10 lg:w-16 lg:h-16 flex items-center justify-center">
                             <Image
-                              src={card.icon}
+                              src={IMAGE_MAP[card.icon] || card.icon}
                               alt={card.title}
                               width={64}
                               height={64}

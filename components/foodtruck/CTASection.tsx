@@ -54,7 +54,7 @@ export default function CTASection() {
           {/* Foodtruck Image */}
           <div className="absolute -right-8 md:-right-12 -bottom-[24px] md:-bottom-[48px] w-[300px] md:w-[520px] h-[180px] md:h-[300px]">
             <Image
-              src="/images/foodtruck/foodtruck.png"
+              src="https://pub-e0dfe07f302b47a3adfaa7cbcdf4645e.r2.dev/images/foodtruck/foodtruck.png"
               alt="푸드트럭"
               fill
               className="object-contain object-bottom"

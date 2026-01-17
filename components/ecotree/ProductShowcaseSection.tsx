@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ECOTREE_PRODUCT_SHOWCASE } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 export default function ProductShowcaseSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -43,7 +44,7 @@ export default function ProductShowcaseSection() {
               {/* Image */}
               <div className="absolute inset-0 overflow-hidden z-0">
                 <Image
-                  src={slides[0].image}
+                  src={IMAGE_MAP[slides[0].image] || slides[0].image}
                   alt={slides[0].koreanTitle}
                   fill
                   className="object-cover object-center"
@@ -93,7 +94,7 @@ export default function ProductShowcaseSection() {
             {/* Image - wide landscape, centered */}
             <div className="relative w-[75%] aspect-[2/1] overflow-hidden z-0 -mt-[10%]">
               <Image
-                src={slides[1].image}
+                src={IMAGE_MAP[slides[1].image] || slides[1].image}
                 alt={slides[1].koreanTitle}
                 fill
                 className="object-cover object-center"
@@ -115,7 +116,7 @@ export default function ProductShowcaseSection() {
             {/* Image - left (z-0) */}
             <div className="absolute left-0 w-[784px] aspect-[784/500] overflow-hidden z-0">
               <Image
-                src={slides[2].image}
+                src={IMAGE_MAP[slides[2].image] || slides[2].image}
                 alt={slides[2].koreanTitle}
                 fill
                 className="object-cover object-center"
