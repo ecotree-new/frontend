@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { JOINT_CASE_ARTICLES } from '@/lib/constants';
+import { IMAGE_MAP } from '@/lib/images';
 
 interface ArticleData {
   id: string;
@@ -57,7 +58,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
       <div className="container-ecotree mb-8 md:mb-12 lg:mb-16">
         <div className="relative w-full aspect-[16/9] md:aspect-[2/1] overflow-hidden">
           <Image
-            src={article.heroImage}
+            src={IMAGE_MAP[article.heroImage] || article.heroImage}
             alt={article.title}
             fill
             className="object-cover"
@@ -93,7 +94,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
                 {/* Image with Label Badge */}
                 <div className="relative w-full aspect-[4/3] overflow-hidden rounded-lg">
                   <Image
-                    src={otherArticle.cardImage}
+                    src={IMAGE_MAP[otherArticle.cardImage] || otherArticle.cardImage}
                     alt={otherArticle.title}
                     fill
                     className="object-cover"
