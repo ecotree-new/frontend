@@ -36,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
+        <meta name="google-site-verification" content="bdND9CYPTi3oNyiOnfPs69Eaq32uew2Xq1wQoWlukoY" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="icon" href="/favicon.png" sizes="48x48" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
