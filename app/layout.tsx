@@ -13,10 +13,10 @@ export const metadata: Metadata = {
     locale: "ko_KR",
     images: [
       {
-        url: "/logo.png",
+        url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "에코트리 로고",
+        alt: "에코트리 ECOTREE",
       },
     ],
   },
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "에코트리 ECOTREE",
     description: "다회용기로 쓰레기를 줄이는 푸드트럭·행사 전용 순환 서비스. 용기 제공부터 회수·세척까지 한 번에 관리합니다.",
-    images: ["/logo.png"],
+    images: ["/og.png"],
   },
 };
 
