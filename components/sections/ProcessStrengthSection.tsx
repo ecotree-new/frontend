@@ -1,8 +1,8 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import { PROCESS_CARDS, STRENGTH_CARDS } from '@/lib/constants';
 import { IMAGE_MAP } from '@/lib/images';
 
@@ -10,23 +10,27 @@ export default function ProcessStrengthSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hasEntered, setHasEntered] = useState(false);
   const [currentSection, setCurrentSection] = useState<'process' | 'strength'>('process');
+  const [isInSection, setIsInSection] = useState(false);
+  const isAnimating = useRef(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end start'],
   });
 
-  // 섹션 전환 감지
-  useEffect(() => {
-    const unsubscribe = scrollYProgress.on('change', (value) => {
-      if (value > 0.4) {
-        setCurrentSection('strength');
-      } else {
-        setCurrentSection('process');
-      }
-    });
-    return () => unsubscribe();
-  }, [scrollYProgress]);
+  // Track if we're in the section and sync state
+  useMotionValueEvent(scrollYProgress, 'change', (value) => {
+    // We're in the section when progress is between 0 and ~0.67
+    const inSection = value > 0 && value < 0.67;
+    setIsInSection(inSection);
+
+    // Sync state with scroll position
+    if (value > 0.33 && currentSection !== 'strength') {
+      setCurrentSection('strength');
+    } else if (value <= 0.33 && currentSection !== 'process') {
+      setCurrentSection('process');
+    }
+  });
 
   // 뷰포트 진입/이탈 감지
   useEffect(() => {
@@ -47,6 +51,68 @@ export default function ProcessStrengthSection() {
 
     return () => observer.disconnect();
   }, []);
+
+  // Handle wheel event for snap-like transition
+  const handleWheel = useCallback((e: WheelEvent) => {
+    if (!containerRef.current || !isInSection || isAnimating.current) return;
+
+    const containerTop = containerRef.current.offsetTop;
+    const containerHeight = containerRef.current.offsetHeight;
+    const scrollY = window.scrollY;
+    const viewportHeight = window.innerHeight;
+
+    // Calculate snap positions
+    const processPosition = containerTop; // Start (Process)
+    const strengthPosition = containerTop + containerHeight / 2; // Middle (Strength)
+    const exitPosition = containerTop + containerHeight - viewportHeight; // End (exit)
+
+    // Determine current state based on scroll position
+    const middlePoint = containerTop + containerHeight / 4;
+    const isAtProcess = scrollY < middlePoint;
+    const isAtStrength = scrollY >= middlePoint && scrollY < exitPosition - 100;
+
+    if (e.deltaY > 0) {
+      // Scrolling down
+      if (isAtProcess) {
+        // Process → Strength
+        e.preventDefault();
+        isAnimating.current = true;
+        setCurrentSection('strength');
+        window.scrollTo({
+          top: strengthPosition,
+          behavior: 'smooth'
+        });
+        setTimeout(() => { isAnimating.current = false; }, 800);
+      } else if (isAtStrength) {
+        // Strength → Exit
+        e.preventDefault();
+        isAnimating.current = true;
+        window.scrollTo({
+          top: exitPosition + 100,
+          behavior: 'smooth'
+        });
+        setTimeout(() => { isAnimating.current = false; }, 800);
+      }
+    } else if (e.deltaY < 0) {
+      // Scrolling up
+      if (isAtStrength) {
+        // Strength → Process
+        e.preventDefault();
+        isAnimating.current = true;
+        setCurrentSection('process');
+        window.scrollTo({
+          top: processPosition,
+          behavior: 'smooth'
+        });
+        setTimeout(() => { isAnimating.current = false; }, 800);
+      }
+    }
+  }, [isInSection, currentSection]);
+
+  useEffect(() => {
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, [handleWheel]);
 
   // Process 섹션 opacity
   const processOpacity = useTransform(scrollYProgress, [0, 0.35, 0.45], [1, 1, 0]);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { motion, useScroll, useMotionValueEvent, useInView } from 'framer-motion';
 import { BANNER_CONTENT } from '@/lib/constants';
 import { IMAGE_MAP } from '@/lib/images';
@@ -10,20 +10,89 @@ export default function BannerSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
   const [showSolution, setShowSolution] = useState(false);
+  const [isInBannerSection, setIsInBannerSection] = useState(false);
+  const isAnimating = useRef(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end start'],
   });
 
-  // Toggle between Problem/Solution based on scroll threshold
+  // Track if we're in the banner section
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    if (latest > 0.1 && !showSolution) {
+    // We're in the banner section when progress is between 0 and ~0.67 (before leaving)
+    const inSection = latest > 0 && latest < 0.67;
+    setIsInBannerSection(inSection);
+
+    // Sync state with scroll position (for manual scrolling or page load)
+    if (latest > 0.33 && !showSolution) {
       setShowSolution(true);
-    } else if (latest <= 0.1 && showSolution) {
+    } else if (latest <= 0.33 && showSolution) {
       setShowSolution(false);
     }
   });
+
+  // Handle wheel event for snap-like transition
+  const handleWheel = useCallback((e: WheelEvent) => {
+    if (!containerRef.current || !isInBannerSection || isAnimating.current) return;
+
+    const containerTop = containerRef.current.offsetTop;
+    const containerHeight = containerRef.current.offsetHeight;
+    const scrollY = window.scrollY;
+    const viewportHeight = window.innerHeight;
+
+    // Calculate snap positions
+    const problemPosition = containerTop; // Start of banner (Problem)
+    const solutionPosition = containerTop + containerHeight / 2; // Middle (Solution)
+    const exitPosition = containerTop + containerHeight - viewportHeight; // End (exit)
+
+    // Determine current state based on scroll position
+    const middlePoint = containerTop + containerHeight / 4;
+    const isAtProblem = scrollY < middlePoint;
+    const isAtSolution = scrollY >= middlePoint && scrollY < exitPosition - 100;
+
+    if (e.deltaY > 0) {
+      // Scrolling down
+      if (isAtProblem) {
+        // Problem → Solution
+        e.preventDefault();
+        isAnimating.current = true;
+        setShowSolution(true);
+        window.scrollTo({
+          top: solutionPosition,
+          behavior: 'smooth'
+        });
+        setTimeout(() => { isAnimating.current = false; }, 800);
+      } else if (isAtSolution) {
+        // Solution → Exit (let scroll snap handle it)
+        e.preventDefault();
+        isAnimating.current = true;
+        window.scrollTo({
+          top: exitPosition + 100,
+          behavior: 'smooth'
+        });
+        setTimeout(() => { isAnimating.current = false; }, 800);
+      }
+    } else if (e.deltaY < 0) {
+      // Scrolling up
+      if (isAtSolution) {
+        // Solution → Problem
+        e.preventDefault();
+        isAnimating.current = true;
+        setShowSolution(false);
+        window.scrollTo({
+          top: problemPosition,
+          behavior: 'smooth'
+        });
+        setTimeout(() => { isAnimating.current = false; }, 800);
+      }
+    }
+  }, [isInBannerSection, showSolution]);
+
+  useEffect(() => {
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, [handleWheel]);
 
   const renderBannerContent = (
     content: (typeof BANNER_CONTENT)[number],
