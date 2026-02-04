@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { useRef, useState } from 'react';
+import { motion, useScroll, useMotionValueEvent, useInView } from 'framer-motion';
 import { BANNER_CONTENT } from '@/lib/constants';
 import { IMAGE_MAP } from '@/lib/images';
 
@@ -9,14 +9,21 @@ export default function BannerSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
+  const [showSolution, setShowSolution] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end start'],
   });
 
-  // Transform for the first banner opacity (fades out as you scroll)
-  const firstBannerOpacity = useTransform(scrollYProgress, [0.3, 0.5], [1, 0]);
+  // Toggle between Problem/Solution based on scroll threshold
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    if (latest > 0.1 && !showSolution) {
+      setShowSolution(true);
+    } else if (latest <= 0.1 && showSolution) {
+      setShowSolution(false);
+    }
+  });
 
   const renderBannerContent = (
     content: (typeof BANNER_CONTENT)[number],
@@ -146,7 +153,9 @@ export default function BannerSection() {
 
         {/* First Banner - Problem (fades out to reveal second) */}
         <motion.div
-          style={{ opacity: firstBannerOpacity }}
+          initial={{ opacity: 1 }}
+          animate={{ opacity: showSolution ? 0 : 1 }}
+          transition={{ duration: 0.8, ease: 'easeInOut' }}
           className="absolute inset-0"
         >
           {renderBannerContent(BANNER_CONTENT[0], 0)}
