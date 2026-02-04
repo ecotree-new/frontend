@@ -1,12 +1,14 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { BANNER_CONTENT } from '@/lib/constants';
 import { IMAGE_MAP } from '@/lib/images';
 
 export default function BannerSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -16,92 +18,138 @@ export default function BannerSection() {
   // Transform for the first banner opacity (fades out as you scroll)
   const firstBannerOpacity = useTransform(scrollYProgress, [0.3, 0.5], [1, 0]);
 
-  return (
-    <div ref={containerRef} className="relative h-[300vh]">
-      {/* Sticky container - accounts for header height */}
-      <div className="sticky top-16 h-[calc(100vh-64px)] w-full overflow-hidden flex items-center justify-center">
-        {/* Second Banner - Insight (always visible, behind) */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="container-ecotree">
+  const renderBannerContent = (
+    content: (typeof BANNER_CONTENT)[number],
+    index: number
+  ) => {
+    const imageUrl = IMAGE_MAP[content.image] || content.image;
+
+    return (
+      <>
+        {/* Desktop Layout (>1399px): 2-column */}
+        <div className="hidden min-[1400px]:flex absolute inset-0">
+          {/* Left: Image with dim overlay (62.5% = 1200/1920) */}
+          <div className="relative w-[62.5%] h-full">
             <div
-              className="relative w-full rounded-2xl overflow-hidden max-w-[1110px] h-[400px] md:h-[500px] lg:h-[600px] short-h:lg:h-[450px]"
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${imageUrl})` }}
+            />
+            {/* Dim overlay: right to left gradient */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'linear-gradient(270deg, rgba(30, 31, 35, 0.5) 0%, rgba(30, 31, 35, 0) 100%)',
+              }}
+            />
+          </div>
+
+          {/* Right: Text panel (37.5% = 720/1920) */}
+          <div className="w-[37.5%] h-full flex items-center bg-white">
+            <motion.div
+              className="pl-16 xl:pl-24 pr-8"
+              initial={{ opacity: 0, x: 30 }}
+              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              {/* Background Image */}
+              {/* Label */}
+              <p className="text-[16px] font-medium text-[#1B67FF] mb-4">
+                {content.label}
+              </p>
+
+              {/* Title + Highlight (2 lines) */}
+              <div className="text-[40px] font-bold text-[#111111] leading-tight mb-6">
+                <p>{content.title}</p>
+                <p>{content.highlight}</p>
+              </div>
+
+              {/* Description */}
+              <div className="text-[20px] font-medium text-[#111111] leading-relaxed">
+                {content.description.split('\n').map((line, i) => (
+                  <p key={i}>{line}</p>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Responsive Layout (≤1399px): 1-column stacked */}
+        <div className="flex min-[1400px]:hidden flex-col absolute inset-0">
+          {/* Top: Image */}
+          <div className="flex-1 relative min-h-0">
+            <motion.div
+              className="absolute inset-0"
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={
+                isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.05 }
+              }
+              transition={{ duration: 0.8, delay: index * 0.1 }}
+            >
               <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${IMAGE_MAP[BANNER_CONTENT[1].image] || BANNER_CONTENT[1].image})` }}
+                style={{ backgroundImage: `url(${imageUrl})` }}
               />
-
-              {/* Gradient Overlay */}
+              {/* Dim overlay for mobile as well */}
               <div
                 className="absolute inset-0"
                 style={{
-                  background: 'linear-gradient(to left, #1B67FF 10%, rgba(27, 103, 255, 0.7) 20%, transparent 100%)'
+                  background:
+                    'linear-gradient(270deg, rgba(30, 31, 35, 0.5) 0%, rgba(30, 31, 35, 0) 100%)',
                 }}
               />
-
-              {/* Content */}
-              <div className="relative h-full flex items-center justify-end p-6 md:p-12 pr-8 md:pr-16">
-                <div className="text-left text-white">
-                  <p className="text-[24px] md:text-[28px] lg:text-[32px] font-light">
-                    {BANNER_CONTENT[1].preTitle}
-                  </p>
-                  <p className="text-[24px] md:text-[28px] lg:text-[32px] font-bold">
-                    {BANNER_CONTENT[1].title}
-                  </p>
-                  <p className="text-[24px] md:text-[28px] lg:text-[32px] font-light mb-4 md:mb-8">
-                    {BANNER_CONTENT[1].highlight}
-                  </p>
-                  <div className="text-[14px] md:text-[16px] font-normal text-white/90">
-                    <p>다회용기로 운영된 행사는</p>
-                    <p>일회용품 쓰레기를 95% 이상 줄입니다.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </motion.div>
           </div>
+
+          {/* Bottom: Text panel */}
+          <div className="flex-shrink-0 bg-white flex items-center">
+            <motion.div
+              className="container-ecotree py-8 md:py-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: index * 0.1 + 0.2 }}
+            >
+              {/* Label */}
+              <p className="text-[10px] md:text-[14px] font-medium text-[#1B67FF] mb-2 md:mb-3">
+                {content.label}
+              </p>
+
+              {/* Title + Highlight (2 lines) */}
+              <div className="text-[18px] md:text-[28px] font-bold text-[#111111] leading-tight mb-3 md:mb-4">
+                <p>{content.title}</p>
+                <p>{content.highlight}</p>
+              </div>
+
+              {/* Description */}
+              <div className="text-[12px] md:text-[16px] font-medium text-[#111111] leading-relaxed">
+                {content.description.split('\n').map((line, i) => (
+                  <p key={i}>{line}</p>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  return (
+    <div ref={containerRef} className="relative h-[300vh]">
+      {/* Sticky container - full screen, accounts for header height */}
+      <div
+        ref={sectionRef}
+        className="sticky top-16 h-[calc(100vh-64px)] w-full overflow-hidden"
+      >
+        {/* Second Banner - Solution (always visible, behind) */}
+        <div className="absolute inset-0">
+          {renderBannerContent(BANNER_CONTENT[1], 1)}
         </div>
 
         {/* First Banner - Problem (fades out to reveal second) */}
         <motion.div
           style={{ opacity: firstBannerOpacity }}
-          className="absolute inset-0 flex items-center justify-center"
+          className="absolute inset-0"
         >
-          <div className="container-ecotree">
-            <div
-              className="relative w-full rounded-2xl overflow-hidden max-w-[1110px] h-[400px] md:h-[500px] lg:h-[600px] short-h:lg:h-[450px]"
-            >
-              {/* Background Image */}
-              <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                style={{ backgroundImage: `url(${IMAGE_MAP[BANNER_CONTENT[0].image] || BANNER_CONTENT[0].image})` }}
-              />
-
-              {/* Gradient Overlay */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  background: 'linear-gradient(to left, #1B67FF 10%, rgba(27, 103, 255, 0.7) 20%, transparent 100%)'
-                }}
-              />
-
-              {/* Content */}
-              <div className="relative h-full flex items-center justify-end p-6 md:p-12 pr-8 md:pr-16">
-                <div className="text-left text-white">
-                  <p className="text-[24px] md:text-[28px] lg:text-[32px] font-light">
-                    {BANNER_CONTENT[0].title}
-                  </p>
-                  <p className="text-[24px] md:text-[28px] lg:text-[32px] font-bold mb-4 md:mb-8">
-                    {BANNER_CONTENT[0].highlight}
-                  </p>
-                  <div className="text-[14px] md:text-[16px] font-normal text-white/90">
-                    <p>매년 수백 개의 축제와 행사에서</p>
-                    <p>수십만 개의 일회용품이 버려집니다.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          {renderBannerContent(BANNER_CONTENT[0], 0)}
         </motion.div>
       </div>
     </div>

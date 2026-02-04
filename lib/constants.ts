@@ -191,17 +191,19 @@ export const HERO_CONTENT = {
 export const BANNER_CONTENT = [
   {
     id: 1,
+    label: 'Problem',
     title: '행사가 끝나면',
     highlight: '쓰레기는 쌓입니다.',
-    description: '매년 수백 개의 축제와 행사에서 수십만 개의 일회용품이 버려집니다.',
+    description: '매년 수백 개의 축제와 행사에서\n수십만 개의 일회용품이 버려집니다.',
     image: '/images/problem-banner.jpg',
   },
   {
     id: 2,
+    label: 'Solution',
     preTitle: '하지만',
     title: '운영 방식이 바뀌면',
     highlight: '결과도 달라집니다.',
-    description: '다회용기로 운영된 행사는 일회용품 쓰레기를 95% 이상 줄입니다.',
+    description: '다회용기로 운영된 행사는\n일회용품 쓰레기를 95% 이상 줄입니다.',
     image: '/images/insight-banner.jpg',
   },
 ] as const;
