@@ -94,6 +94,12 @@
 }
 
 /* Base styles */
+html {
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: 64px;
+  overscroll-behavior: none;
+}
+
 body {
   font-family: var(--font-pretendard);
   background-color: var(--bg-default);

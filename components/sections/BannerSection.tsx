@@ -140,7 +140,7 @@ export default function BannerSection() {
   };
 
   return (
-    <div ref={containerRef} className="relative h-[300vh]">
+    <div ref={containerRef} className="snap-section relative h-[300vh]">
       {/* Sticky container - full screen, accounts for header height */}
       <div
         ref={sectionRef}

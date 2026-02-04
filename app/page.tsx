@@ -1,3 +1,6 @@
+'use client';
+
+import { useRef } from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import HeroSection from '@/components/sections/HeroSection';
@@ -5,12 +8,16 @@ import BannerSection from '@/components/sections/BannerSection';
 import ProcessStrengthSection from '@/components/sections/ProcessStrengthSection';
 import FestivalSection from '@/components/sections/FestivalSection';
 import CTASection from '@/components/sections/CTASection';
+import ScrollSnapController from '@/components/ScrollSnapController';
 
 export default function Home() {
+  const festivalRef = useRef<HTMLDivElement>(null);
+
   return (
     <>
       <Header />
-      <main>
+      <ScrollSnapController snapEndRef={festivalRef} />
+      <main className="pt-16">
         {/* main_1: Hero Section */}
         <HeroSection />
 
@@ -20,8 +27,10 @@ export default function Home() {
         {/* main_3: Process & Strength Section */}
         <ProcessStrengthSection />
 
-        {/* main_4: Festival Section */}
-        <FestivalSection />
+        {/* main_4: Festival Section - snap ends here */}
+        <div ref={festivalRef}>
+          <FestivalSection />
+        </div>
 
         {/* main_5: CTA Section */}
         <CTASection />

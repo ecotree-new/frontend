@@ -95,7 +95,7 @@ export default function ProcessStrengthSection() {
   };
 
   return (
-    <div ref={containerRef} className="relative h-[300vh]">
+    <div ref={containerRef} className="snap-section relative h-[300vh]">
       <div className="sticky top-16 h-[calc(100vh-64px)] w-full overflow-hidden flex items-center justify-center bg-[#EDF3FF]">
 
         {/* Process Section */}
