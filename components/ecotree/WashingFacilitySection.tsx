@@ -9,14 +9,14 @@ export default function WashingFacilitySection() {
   const cardImages = cards.map(card => IMAGE_MAP[card.image]);
 
   return (
-    <section className="py-16 md:py-24 lg:py-32 bg-white">
+    <section className="py-16 md:py-24 lg:py-32 bg-[#FBFBFB]">
       <div className="container-ecotree">
         {/* Header */}
         <div className="mb-10 md:mb-14 lg:mb-16">
           <h2 className="text-[18px] md:text-[40px] font-bold text-[#111111] mb-2">
             {ECOTREE_WASHING_FACILITY.title}
           </h2>
-          <p className="text-[12px] md:text-[20px] font-light text-[#111111]">
+          <p className="text-[12px] md:text-[20px] font-medium text-[#111111]">
             {ECOTREE_WASHING_FACILITY.subtitle}
           </p>
         </div>
@@ -35,7 +35,7 @@ export default function WashingFacilitySection() {
               className="absolute top-0 left-0 right-0"
               style={{
                 height: '200px',
-                background: 'linear-gradient(to bottom, rgba(27, 103, 255, 0.9) 0%, rgba(27, 103, 255, 0.7) 50%, transparent 100%)',
+                background: 'linear-gradient(180deg, rgba(30, 31, 35, 0.9) 0%, rgba(30, 31, 35, 0) 100%)',
               }}
             />
             <div className="absolute top-0 left-0 right-0 p-6 md:p-8">
@@ -67,7 +67,7 @@ export default function WashingFacilitySection() {
               className="absolute top-0 left-0 right-0"
               style={{
                 height: '150px',
-                background: 'linear-gradient(to bottom, rgba(27, 103, 255, 0.9) 0%, rgba(27, 103, 255, 0.7) 50%, transparent 100%)',
+                background: 'linear-gradient(180deg, rgba(30, 31, 35, 0.9) 0%, rgba(30, 31, 35, 0) 100%)',
               }}
             />
             <div className="absolute top-0 left-0 right-0 p-6">
@@ -99,7 +99,7 @@ export default function WashingFacilitySection() {
               className="absolute top-0 left-0 right-0"
               style={{
                 height: '150px',
-                background: 'linear-gradient(to bottom, rgba(27, 103, 255, 0.9) 0%, rgba(27, 103, 255, 0.7) 50%, transparent 100%)',
+                background: 'linear-gradient(180deg, rgba(30, 31, 35, 0.9) 0%, rgba(30, 31, 35, 0) 100%)',
               }}
             />
             <div className="absolute top-0 left-0 right-0 p-6">
@@ -131,7 +131,7 @@ export default function WashingFacilitySection() {
               className="absolute top-0 left-0 right-0"
               style={{
                 height: '150px',
-                background: 'linear-gradient(to bottom, rgba(27, 103, 255, 0.9) 0%, rgba(27, 103, 255, 0.7) 50%, transparent 100%)',
+                background: 'linear-gradient(180deg, rgba(30, 31, 35, 0.9) 0%, rgba(30, 31, 35, 0) 100%)',
               }}
             />
             <div className="absolute top-0 left-0 right-0 p-6 md:p-8">

@@ -1,39 +1,265 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence, useScroll } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ECOTREE_RENTAL_FLOW } from '@/lib/constants';
 import { IMAGE_MAP } from '@/lib/images';
 
+// Custom smooth scroll with snap disable during animation
+function smoothScrollTo(target: number, duration: number = 800) {
+  const start = window.scrollY;
+  const distance = target - start;
+  const startTime = performance.now();
+
+  document.documentElement.style.scrollSnapType = 'none';
+
+  const easeInOutCubic = (t: number) => {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  };
+
+  const animate = (currentTime: number) => {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easeProgress = easeInOutCubic(progress);
+    window.scrollTo(0, start + distance * easeProgress);
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      document.documentElement.style.scrollSnapType = 'y mandatory';
+    }
+  };
+
+  requestAnimationFrame(animate);
+}
+
 export default function RentalFlowSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const stepsContainerRef = useRef<HTMLDivElement>(null);
   const firstIndicatorRef = useRef<HTMLDivElement>(null);
   const lastIndicatorRef = useRef<HTMLDivElement>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [lineStyle, setLineStyle] = useState({ top: 7, height: 200 });
+  const [isInSection, setIsInSection] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [canExitDown, setCanExitDown] = useState(false);
+  const [canExitUp, setCanExitUp] = useState(false);
+  const isAnimating = useRef(false);
+  const accumulatedDelta = useRef(0);
+  const deltaResetTimer = useRef<NodeJS.Timeout | null>(null);
 
   const steps = ECOTREE_RENTAL_FLOW.steps;
   const totalSteps = steps.length;
+  const DELTA_THRESHOLD = 50; // 트랙패드 누적 threshold
 
-  // useScroll로 스크롤 진행도 추적
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end start'],
-  });
-
-  // 스크롤 진행도에 따라 currentStep 업데이트
+  // Check if mobile
   useEffect(() => {
-    const unsubscribe = scrollYProgress.on('change', (value) => {
-      // 0~0.25: step 1, 0.25~0.5: step 2, 0.5~0.75: step 3, 0.75~1: step 4
-      const step = Math.min(totalSteps, Math.max(1, Math.floor(value * totalSteps) + 1));
-      setCurrentStep(step);
-    });
-    return () => unsubscribe();
-  }, [scrollYProgress, totalSteps]);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
-  // 점선 위치 계산 - 첫 번째와 마지막 인디케이터 중앙을 연결
+  // Check if section is in view
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+
+      const rect = sectionRef.current.getBoundingClientRect();
+      const headerHeight = 64;
+      const threshold = 10;
+
+      const inSection = Math.abs(rect.top - headerHeight) < threshold;
+      setIsInSection(inSection);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Lock body scroll when in section (both desktop and mobile)
+  useEffect(() => {
+    if (isInSection) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isInSection]);
+
+  // Reset exit flags when step changes
+  useEffect(() => {
+    if (currentStep !== totalSteps) {
+      setCanExitDown(false);
+    }
+    if (currentStep !== 1) {
+      setCanExitUp(false);
+    }
+  }, [currentStep, totalSteps]);
+
+  // Wheel event handler for step transitions
+  const handleWheel = useCallback((e: WheelEvent) => {
+    if (!sectionRef.current || !isInSection || isAnimating.current || isMobile) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Accumulate delta for trackpad
+    accumulatedDelta.current += e.deltaY;
+
+    // Reset accumulated delta after a short delay
+    if (deltaResetTimer.current) {
+      clearTimeout(deltaResetTimer.current);
+    }
+    deltaResetTimer.current = setTimeout(() => {
+      accumulatedDelta.current = 0;
+    }, 150);
+
+    // Only trigger action when threshold is reached
+    if (Math.abs(accumulatedDelta.current) < DELTA_THRESHOLD) return;
+
+    const direction = accumulatedDelta.current > 0 ? 'down' : 'up';
+    accumulatedDelta.current = 0; // Reset after triggering
+
+    const animationDuration = 600;
+
+    if (direction === 'down') {
+      if (currentStep < totalSteps) {
+        isAnimating.current = true;
+        setCurrentStep(prev => prev + 1);
+        setTimeout(() => {
+          isAnimating.current = false;
+        }, animationDuration);
+      } else if (currentStep === totalSteps) {
+        if (!canExitDown) {
+          setCanExitDown(true);
+        } else {
+          isAnimating.current = true;
+          document.body.style.overflow = '';
+          const nextSection = sectionRef.current.nextElementSibling as HTMLElement;
+          if (nextSection) {
+            smoothScrollTo(nextSection.offsetTop - 64, 800);
+          }
+          setTimeout(() => {
+            isAnimating.current = false;
+            setCanExitDown(false);
+          }, 900);
+        }
+      }
+    } else {
+      if (currentStep > 1) {
+        isAnimating.current = true;
+        setCurrentStep(prev => prev - 1);
+        setTimeout(() => {
+          isAnimating.current = false;
+        }, animationDuration);
+      } else if (currentStep === 1) {
+        if (!canExitUp) {
+          setCanExitUp(true);
+        } else {
+          isAnimating.current = true;
+          document.body.style.overflow = '';
+          const prevSection = sectionRef.current.previousElementSibling as HTMLElement;
+          if (prevSection) {
+            smoothScrollTo(prevSection.offsetTop - 64, 800);
+          }
+          setTimeout(() => {
+            isAnimating.current = false;
+            setCanExitUp(false);
+          }, 900);
+        }
+      }
+    }
+  }, [currentStep, totalSteps, isInSection, isMobile, canExitDown, canExitUp]);
+
+  useEffect(() => {
+    if (isMobile) return;
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      if (deltaResetTimer.current) {
+        clearTimeout(deltaResetTimer.current);
+      }
+    };
+  }, [handleWheel, isMobile]);
+
+  // Touch event handler for mobile
+  const touchStartY = useRef(0);
+  const handleTouchStart = useCallback((e: TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: TouchEvent) => {
+    if (!sectionRef.current || !isInSection || isAnimating.current || !isMobile) return;
+
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaY = touchStartY.current - touchEndY;
+    const threshold = 50;
+    const animationDuration = 600;
+
+    if (Math.abs(deltaY) < threshold) return;
+
+    e.preventDefault();
+
+    if (deltaY > 0) {
+      if (currentStep < totalSteps) {
+        isAnimating.current = true;
+        setCurrentStep(prev => prev + 1);
+        setTimeout(() => { isAnimating.current = false; }, animationDuration);
+      } else if (currentStep === totalSteps) {
+        if (!canExitDown) {
+          setCanExitDown(true);
+        } else {
+          isAnimating.current = true;
+          const nextSection = sectionRef.current.nextElementSibling as HTMLElement;
+          if (nextSection) {
+            smoothScrollTo(nextSection.offsetTop - 64, 800);
+          }
+          setTimeout(() => {
+            isAnimating.current = false;
+            setCanExitDown(false);
+          }, 900);
+        }
+      }
+    } else {
+      if (currentStep > 1) {
+        isAnimating.current = true;
+        setCurrentStep(prev => prev - 1);
+        setTimeout(() => { isAnimating.current = false; }, animationDuration);
+      } else if (currentStep === 1) {
+        if (!canExitUp) {
+          setCanExitUp(true);
+        } else {
+          isAnimating.current = true;
+          const prevSection = sectionRef.current.previousElementSibling as HTMLElement;
+          if (prevSection) {
+            smoothScrollTo(prevSection.offsetTop - 64, 800);
+          }
+          setTimeout(() => {
+            isAnimating.current = false;
+            setCanExitUp(false);
+          }, 900);
+        }
+      }
+    }
+  }, [currentStep, totalSteps, isInSection, isMobile, canExitDown, canExitUp]);
+
+  useEffect(() => {
+    if (!isMobile) return;
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: false });
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [handleTouchStart, handleTouchEnd, isMobile]);
+
+  // 점선 위치 계산
   useEffect(() => {
     const updateLinePosition = () => {
       if (!firstIndicatorRef.current || !lastIndicatorRef.current || !stepsContainerRef.current) return;
@@ -51,7 +277,6 @@ export default function RentalFlowSection() {
 
     updateLinePosition();
 
-    // ResizeObserver로 애니메이션 중 실시간 위치 업데이트
     const resizeObserver = new ResizeObserver(() => {
       requestAnimationFrame(updateLinePosition);
     });
@@ -71,25 +296,22 @@ export default function RentalFlowSection() {
   const currentImage = IMAGE_MAP[currentStepData.image];
 
   return (
-    <section ref={containerRef} className="relative h-[500vh] bg-white">
-      <div className="sticky top-16 h-[calc(100vh-64px)] w-full overflow-hidden">
+    <section ref={sectionRef} className="snap-section relative h-[calc(100vh-64px)] bg-white">
+      <div className="h-full w-full overflow-hidden">
         <div className="container-ecotree h-full flex flex-col justify-center">
-          {/* Header - centered */}
-          <div className="mb-8 md:mb-12 short-h:md:mb-6 flex flex-col items-center">
-            <div className="text-left">
-              <p className="text-[10px] md:text-[16px] text-[#1B67FF] font-medium mb-2">
-                {ECOTREE_RENTAL_FLOW.label}
-              </p>
-              <h2 className="text-[18px] md:text-[40px] font-bold text-[#111111]">
-                {ECOTREE_RENTAL_FLOW.title}
-              </h2>
-            </div>
+          {/* Header - left aligned */}
+          <div className="mb-8 md:mb-12 short-h:md:mb-6">
+            <p className="text-[10px] md:text-[16px] text-[#1B67FF] font-medium mb-2">
+              {ECOTREE_RENTAL_FLOW.label}
+            </p>
+            <h2 className="text-[18px] md:text-[40px] font-bold text-[#111111]">
+              {ECOTREE_RENTAL_FLOW.title}
+            </h2>
           </div>
 
           {/* Mobile Layout */}
-          <div className="md:hidden flex flex-col items-center">
-            {/* Step number and title */}
-            <div className="text-center mb-4">
+          <div className="md:hidden flex flex-col">
+            <div className="mb-4">
               <span
                 className="text-[32px] text-[#1B67FF] font-normal"
                 style={{ fontFamily: 'SlowGothic, sans-serif' }}
@@ -101,12 +323,10 @@ export default function RentalFlowSection() {
               </span>
             </div>
 
-            {/* Description */}
-            <p className="text-[10px] font-medium text-[#000000] text-center mb-6 px-4">
+            <p className="text-[10px] font-medium text-[#000000] mb-6">
               {currentStepData.description}
             </p>
 
-            {/* Image */}
             <div className="w-full h-[200px] relative rounded-2xl overflow-hidden bg-gray-200">
               <Image
                 src={currentImage || currentStepData.image}
@@ -117,20 +337,17 @@ export default function RentalFlowSection() {
               />
             </div>
 
-            {/* Concentric circle indicators */}
-            <div className="flex gap-3 mt-6">
+            <div className="flex justify-center gap-3 mt-6">
               {steps.map((step) => (
                 <div
                   key={step.id}
                   className="relative w-[14px] h-[14px] flex items-center justify-center"
                 >
-                  {/* Outer circle */}
                   <div
                     className={`absolute w-[14px] h-[14px] rounded-full transition-colors duration-300 ${
                       currentStep === step.id ? 'bg-[#97BAFF]' : 'bg-[#E0EBFF]'
                     }`}
                   />
-                  {/* Inner circle */}
                   <div
                     className={`absolute w-[7px] h-[7px] rounded-full transition-colors duration-300 ${
                       currentStep === step.id ? 'bg-[#1B67FF]' : 'bg-[#97BAFF]'
@@ -143,9 +360,7 @@ export default function RentalFlowSection() {
 
           {/* Desktop Layout */}
           <div className="hidden md:flex flex-row gap-12 lg:gap-16 short-h:gap-8 items-center">
-            {/* Left: Steps with connecting dashed line */}
             <div ref={stepsContainerRef} className="w-[320px] lg:w-[400px] flex-shrink-0 relative">
-              {/* Vertical dashed connecting line - 실시간 위치 계산 */}
               <div
                 className="absolute left-[7px] w-[2px] -translate-x-1/2"
                 style={{
@@ -165,24 +380,19 @@ export default function RentalFlowSection() {
                       key={step.id}
                       className="flex items-start gap-4"
                     >
-                      {/* Double circle indicator */}
                       <div
                         ref={isFirst ? firstIndicatorRef : isLast ? lastIndicatorRef : null}
                         className="flex-shrink-0 relative z-10 w-[14px] h-[14px] flex items-center justify-center mt-[9px]"
                       >
-                        {/* White background to cover dashed line */}
                         <div className="absolute w-[16px] h-[16px] rounded-full bg-white" />
-                        {/* Outer circle */}
                         <div className={`absolute w-[14px] h-[14px] rounded-full transition-colors duration-300 ${
                           isActive ? 'bg-[#97BAFF]' : 'bg-[#E0EBFF]'
                         }`} />
-                        {/* Inner circle */}
                         <div className={`absolute w-[7px] h-[7px] rounded-full transition-colors duration-300 ${
                           isActive ? 'bg-[#1B67FF]' : 'bg-[#97BAFF]'
                         }`} />
                       </div>
 
-                      {/* Number and Text */}
                       <div className={`flex-1 transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-50'}`}>
                         <div className="flex items-baseline gap-3">
                           <span
@@ -204,7 +414,7 @@ export default function RentalFlowSection() {
                               animate={{ opacity: 1, height: 'auto' }}
                               exit={{ opacity: 0, height: 0 }}
                               transition={{ duration: 0.3 }}
-                              className="text-[14px] font-medium text-[#000000] leading-relaxed mt-2 pl-[44px]"
+                              className="text-[16px] font-medium text-[#000000] leading-relaxed mt-2 pl-[44px]"
                             >
                               {step.description}
                             </motion.p>
@@ -217,7 +427,6 @@ export default function RentalFlowSection() {
               </div>
             </div>
 
-            {/* Right: Image */}
             <div className="flex-1 aspect-[16/10] relative rounded-2xl overflow-hidden bg-gray-200">
               <AnimatePresence mode="wait">
                 <motion.div

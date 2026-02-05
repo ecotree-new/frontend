@@ -68,14 +68,14 @@ export default function WashingProcessSection() {
             {duplicatedSteps.map((step, index) => (
               <div
                 key={`${step.id}-${index}`}
-                className="washing-card flex-shrink-0 w-[140px] md:w-[280px] lg:w-[320px] aspect-square rounded-full flex flex-col items-center justify-center text-center p-4 md:p-8 transition-colors duration-100"
+                className="washing-card flex-shrink-0 w-[150px] md:w-[280px] lg:w-[280px] aspect-square rounded-full flex flex-col items-center justify-center text-center p-4 md:p-8 transition-colors duration-100"
                 style={{ backgroundColor: cardColors[index] || '#1B67FF' }}
               >
-                <h3 className="text-white text-[15px] md:text-[32px] font-semibold mb-2 whitespace-pre-line">
+                <h3 className="text-white text-[14px] md:text-[24px] font-semibold mb-2 whitespace-pre-line">
                   {step.title}
                 </h3>
                 <div className="w-8 border-t border-white/40 my-2" />
-                <p className="text-white text-[9px] md:text-[20px] font-medium leading-relaxed whitespace-pre-line">
+                <p className="text-white text-[10px] md:text-[16px] font-medium leading-relaxed whitespace-pre-line">
                   {step.description}
                 </p>
               </div>

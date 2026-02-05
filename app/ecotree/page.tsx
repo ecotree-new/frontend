@@ -1,5 +1,9 @@
+'use client';
+
+import { useRef } from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import ScrollSnapController from '@/components/ScrollSnapController';
 import HeroSection from '@/components/ecotree/HeroSection';
 import RentalFlowSection from '@/components/ecotree/RentalFlowSection';
 import BusinessRangeSection from '@/components/ecotree/BusinessRangeSection';
@@ -12,20 +16,25 @@ import PostWashingSection from '@/components/ecotree/PostWashingSection';
 import StatsSection from '@/components/ecotree/StatsSection';
 
 export default function EcotreePage() {
+  const snapEndRef = useRef<HTMLDivElement>(null);
+
   return (
     <>
       <Header />
-      <main>
+      <ScrollSnapController snapEndRef={snapEndRef} />
+      <main className="pt-16">
         <HeroSection />
         <RentalFlowSection />
         <BusinessRangeSection />
         <BrandTransitionSection />
-        <ProductShowcaseSection />
-        <ProductVideoSection />
-        <WashingProcessSection />
-        <WashingFacilitySection />
-        <PostWashingSection />
-        <StatsSection />
+        <div ref={snapEndRef}>
+          <ProductShowcaseSection />
+          <ProductVideoSection />
+          <WashingProcessSection />
+          <WashingFacilitySection />
+          <PostWashingSection />
+          <StatsSection />
+        </div>
       </main>
       <Footer />
     </>

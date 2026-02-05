@@ -5,7 +5,7 @@ import { R2_IMAGES } from '@/lib/images';
 
 export default function HeroSection() {
   return (
-    <section className="relative h-[calc(100vh-64px)] w-full overflow-hidden">
+    <section className="snap-section relative h-[calc(100vh-64px)] w-full overflow-hidden">
       {/* Video Background */}
       <video
         autoPlay
