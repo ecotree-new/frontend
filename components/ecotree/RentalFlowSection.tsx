@@ -20,8 +20,8 @@ export default function RentalFlowSection() {
   const [currentStep, setCurrentStep] = useState(1);
   const [lineStyle, setLineStyle] = useState({ top: 7, height: 200 });
   const [isLocked, setIsLocked] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);  // 탈출 의도 플래그
   const isTransitioning = useRef(false);
-  const isExiting = useRef(false);  // 탈출 의도 플래그
   const touchStartY = useRef<number | null>(null);
 
   const steps = ECOTREE_RENTAL_FLOW.steps;
@@ -46,7 +46,7 @@ export default function RentalFlowSection() {
   // Detect when section enters viewport and lock immediately
   useEffect(() => {
     if (!containerRef.current || isLocked) return;
-    if (isExiting.current) return;  // 탈출 중이면 observer 설정 안 함
+    if (isExiting) return;  // 탈출 중이면 observer 설정 안 함
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -68,7 +68,7 @@ export default function RentalFlowSection() {
 
     observer.observe(containerRef.current);
     return () => observer.disconnect();
-  }, [isLocked]);
+  }, [isLocked, isExiting]);
 
   // Handle touch start
   const handleTouchStart = useCallback((e: TouchEvent) => {
@@ -103,7 +103,7 @@ export default function RentalFlowSection() {
         setCurrentStep(prev => prev + 1);
       } else if (sc && container) {
         // Last step, go to next section
-        isExiting.current = true;  // 탈출 의도 표시
+        setIsExiting(true);  // 탈출 의도 표시
         setIsLocked(false);
         sc.style.overflow = '';
         sc.style.scrollSnapType = 'none';
@@ -112,7 +112,7 @@ export default function RentalFlowSection() {
         sc.scrollTo({ top: sc.scrollTop + sectionHeight, behavior: 'smooth' });
         setTimeout(() => {
           sc.style.scrollSnapType = '';
-          isExiting.current = false;  // 탈출 완료 후 리셋
+          setIsExiting(false);  // 탈출 완료 후 리셋
         }, 1000);
       }
     } else {
@@ -121,7 +121,7 @@ export default function RentalFlowSection() {
         setCurrentStep(prev => prev - 1);
       } else if (sc && container) {
         // First step, go to previous section
-        isExiting.current = true;  // 탈출 의도 표시
+        setIsExiting(true);  // 탈출 의도 표시
         setIsLocked(false);
         sc.style.overflow = '';
         sc.style.scrollSnapType = 'none';
@@ -130,7 +130,7 @@ export default function RentalFlowSection() {
         sc.scrollTo({ top: sc.scrollTop - sectionHeight, behavior: 'smooth' });
         setTimeout(() => {
           sc.style.scrollSnapType = '';
-          isExiting.current = false;  // 탈출 완료 후 리셋
+          setIsExiting(false);  // 탈출 완료 후 리셋
         }, 1000);
       }
     }
@@ -157,7 +157,7 @@ export default function RentalFlowSection() {
         setTimeout(() => { isTransitioning.current = false; }, 500);
       } else if (sc && container) {
         // Last step, go to next section
-        isExiting.current = true;  // 탈출 의도 표시
+        setIsExiting(true);  // 탈출 의도 표시
         setIsLocked(false);
         sc.style.overflow = '';
         sc.style.scrollSnapType = 'none';
@@ -167,7 +167,7 @@ export default function RentalFlowSection() {
         setTimeout(() => {
           sc.style.scrollSnapType = '';
           isTransitioning.current = false;
-          isExiting.current = false;  // 탈출 완료 후 리셋
+          setIsExiting(false);  // 탈출 완료 후 리셋
         }, 1000);
       }
     } else {
@@ -177,7 +177,7 @@ export default function RentalFlowSection() {
         setTimeout(() => { isTransitioning.current = false; }, 500);
       } else if (sc && container) {
         // First step, go to previous section
-        isExiting.current = true;  // 탈출 의도 표시
+        setIsExiting(true);  // 탈출 의도 표시
         setIsLocked(false);
         sc.style.overflow = '';
         sc.style.scrollSnapType = 'none';
@@ -187,7 +187,7 @@ export default function RentalFlowSection() {
         setTimeout(() => {
           sc.style.scrollSnapType = '';
           isTransitioning.current = false;
-          isExiting.current = false;  // 탈출 완료 후 리셋
+          setIsExiting(false);  // 탈출 완료 후 리셋
         }, 1000);
       }
     }
