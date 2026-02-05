@@ -17,7 +17,7 @@ export default function MenuSliderSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-[#1E1F23] pt-16 md:pt-24 lg:pt-40 pb-[10vw] overflow-hidden"
+      className="relative bg-[#010411] pt-16 md:pt-24 lg:pt-40 pb-[10vw] overflow-hidden"
     >
       {/* Background Video */}
       <div className="absolute bottom-0 left-0 right-0 w-full h-[32vw] overflow-hidden">
@@ -30,7 +30,7 @@ export default function MenuSliderSection() {
           className="absolute top-0 left-0 w-full h-auto"
         />
         {/* Overlay */}
-        <div className="absolute inset-0 bg-[#1E1F23]/60" />
+        <div className="absolute inset-0 bg-[#010411]/60" />
       </div>
 
       {/* Content */}
