@@ -217,7 +217,7 @@ export default function RentalFlowSection() {
   }, [isInSection, isMobile]);
 
   const handleTouchEnd = useCallback(() => {
-    if (!sectionRef.current || !isInSection || isAnimating.current || !isMobile) return;
+    if (!sectionRef.current || !isInSection || isAnimating.current || !isMobile || isExiting.current) return;
 
     const deltaY = touchDeltaY.current;
     const threshold = 30;
