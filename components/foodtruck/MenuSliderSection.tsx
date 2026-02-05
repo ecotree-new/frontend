@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import { motion, useInView } from 'framer-motion';
-import { FOODTRUCK_MENU_SECTION, FOODTRUCK_MENU_IMAGES_ROW1, FOODTRUCK_MENU_IMAGES_ROW2, FOODTRUCK_MENU_BG } from '@/lib/constants';
+import { FOODTRUCK_MENU_SECTION, FOODTRUCK_MENU_IMAGES_ROW1, FOODTRUCK_MENU_IMAGES_ROW2 } from '@/lib/constants';
 import { IMAGE_MAP } from '@/lib/images';
 
 export default function MenuSliderSection() {
@@ -17,10 +17,24 @@ export default function MenuSliderSection() {
   return (
     <section
       ref={sectionRef}
-      className="bg-[#1E1F23] pt-16 md:pt-24 lg:pt-40 overflow-hidden"
+      className="relative bg-[#1E1F23] pt-16 md:pt-24 lg:pt-40 pb-[10vw] overflow-hidden"
     >
+      {/* Background Video */}
+      <div className="absolute bottom-0 left-0 right-0 w-full h-[32vw] overflow-hidden">
+        <video
+          src="https://pub-e0dfe07f302b47a3adfaa7cbcdf4645e.r2.dev/images/foodtruck/menu-bg-globe.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-0 left-0 w-full h-auto"
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-[#1E1F23]/60" />
+      </div>
+
       {/* Content */}
-      <div className="relative">
+      <div className="relative z-10">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -81,17 +95,6 @@ export default function MenuSliderSection() {
             ))}
           </div>
         </motion.div>
-
-        {/* Globe Image */}
-        <div className="relative w-full max-w-[1110px] mx-auto">
-          <Image
-            src={IMAGE_MAP[FOODTRUCK_MENU_BG] || FOODTRUCK_MENU_BG}
-            alt="Globe"
-            width={1110}
-            height={600}
-            className="w-full h-auto"
-          />
-        </div>
       </div>
     </section>
   );

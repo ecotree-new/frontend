@@ -86,51 +86,51 @@ export const STRENGTH_CARDS = [
 
 // University logos (sample data)
 export const UNIVERSITY_LOGOS = [
-  { name: '서울대학교', logo: '/images/universities/서울대로고.png' },
-  { name: '고려대학교', logo: '/images/universities/고려대로고.png' },
-  { name: '연세대학교', logo: '/images/universities/연세대로고.png' },
-  { name: '서울시립대학교', logo: '/images/universities/서울시립대로고.png' },
-  { name: '성균관대학교', logo: '/images/universities/성균관대로고.png' },
-  { name: '한양대학교', logo: '/images/universities/한양대로고.png' },
-  { name: '중앙대학교', logo: '/images/universities/중앙대로고.png' },
-  { name: '경희대학교', logo: '/images/universities/경희대로고.png' },
-  { name: '한국외국어대학교', logo: '/images/universities/한국외대로고.png' },
-  { name: '홍익대학교', logo: '/images/universities/홍익대로고.png' },
-  { name: '건국대학교', logo: '/images/universities/건국대로고.png' },
-  { name: '동국대학교', logo: '/images/universities/동국대로고.png' },
-  { name: '단국대학교', logo: '/images/universities/단국대로고.png' },
-  { name: '명지대학교', logo: '/images/universities/명지대로고.png' },
-  { name: '차의과학대학교', logo: '/images/universities/차의과대로고.png' },
-  { name: '숭실대학교', logo: '/images/universities/숭실대로고.png' },
-  { name: '가천대학교', logo: '/images/universities/가천대로고.png' },
-  { name: '서원대학교', logo: '/images/universities/서원대로고.png' },
-  { name: '전북대학교', logo: '/images/universities/전북대로고.png' },
-  { name: '극동대학교', logo: '/images/universities/극동대로고.png' },
-  { name: '국립공주대학교', logo: '/images/universities/국립공주대로고.png' },
-  { name: '공주교육대학교', logo: '/images/universities/공주교육대로고.png' },
-  { name: '한국복지대학교', logo: '/images/universities/한국복지대로고.png' },
-  { name: '남서울대학교', logo: '/images/universities/남서울대로고.png' },
-  { name: '여주대학교', logo: '/images/universities/여주대로고.png' },
-  { name: '한신대학교', logo: '/images/universities/한신대로고.png' },
-  { name: '국제대학교', logo: '/images/universities/국제대로고.png' },
-  { name: '한세대학교', logo: '/images/universities/한세대로고.png' },
-  { name: '용인예술과학대학교', logo: '/images/universities/용인예술과학대로고.png' },
-  { name: '한경국립대학교', logo: '/images/universities/한경국립대로고.png' },
-  { name: '중부대학교', logo: '/images/universities/중부대로고.png' },
-  { name: '호원대학교', logo: '/images/universities/호원대로고.png' },
-  { name: '경기대학교', logo: '/images/universities/경기대로고.png' },
-  { name: '수원대학교', logo: '/images/universities/수원대로고.png' },
-  { name: '강남대학교', logo: '/images/universities/강남대로고.png' },
-  { name: '한국공학대학교', logo: '/images/universities/한국공대로고.png' },
-  { name: '전남대학교', logo: '/images/universities/전남대로고.png' },
-  { name: '목원대학교', logo: '/images/universities/목원대로고.png' },
-  { name: '충남대학교', logo: '/images/universities/충남대로고.png' },
-  { name: '장안대학교', logo: '/images/universities/장안대로고.png' },
-  { name: '한양여자대학교', logo: '/images/universities/한양여대로고.png' },
-  { name: '대전대학교', logo: '/images/universities/대전대로고.png' },
-  { name: '한남대학교', logo: '/images/universities/한남대로고.png' },
-  { name: '한성대학교', logo: '/images/universities/한성대로고.png' },
-  { name: '아주대학교', logo: '/images/universities/아주대로고.png' },
+  { name: '서울대학교', logo: '/images/universities/서울대로고.webp' },
+  { name: '고려대학교', logo: '/images/universities/고려대로고.webp' },
+  { name: '연세대학교', logo: '/images/universities/연세대로고.webp' },
+  { name: '서울시립대학교', logo: '/images/universities/서울시립대로고.webp' },
+  { name: '성균관대학교', logo: '/images/universities/성균관대로고.webp' },
+  { name: '한양대학교', logo: '/images/universities/한양대로고.webp' },
+  { name: '중앙대학교', logo: '/images/universities/중앙대로고.webp' },
+  { name: '경희대학교', logo: '/images/universities/경희대로고.webp' },
+  { name: '한국외국어대학교', logo: '/images/universities/한국외대로고.webp' },
+  { name: '홍익대학교', logo: '/images/universities/홍익대로고.webp' },
+  { name: '건국대학교', logo: '/images/universities/건국대로고.webp' },
+  { name: '동국대학교', logo: '/images/universities/동국대로고.webp' },
+  { name: '단국대학교', logo: '/images/universities/단국대로고.webp' },
+  { name: '명지대학교', logo: '/images/universities/명지대로고.webp' },
+  { name: '차의과학대학교', logo: '/images/universities/차의과대로고.webp' },
+  { name: '숭실대학교', logo: '/images/universities/숭실대로고.webp' },
+  { name: '가천대학교', logo: '/images/universities/가천대로고.webp' },
+  { name: '서원대학교', logo: '/images/universities/서원대로고.webp' },
+  { name: '전북대학교', logo: '/images/universities/전북대로고.webp' },
+  { name: '극동대학교', logo: '/images/universities/극동대로고.webp' },
+  { name: '국립공주대학교', logo: '/images/universities/국립공주대로고.webp' },
+  { name: '공주교육대학교', logo: '/images/universities/공주교육대로고.webp' },
+  { name: '한국복지대학교', logo: '/images/universities/한국복지대로고.webp' },
+  { name: '남서울대학교', logo: '/images/universities/남서울대로고.webp' },
+  { name: '여주대학교', logo: '/images/universities/여주대로고.webp' },
+  { name: '한신대학교', logo: '/images/universities/한신대로고.webp' },
+  { name: '국제대학교', logo: '/images/universities/국제대로고.webp' },
+  { name: '한세대학교', logo: '/images/universities/한세대로고.webp' },
+  { name: '용인예술과학대학교', logo: '/images/universities/용인예술과학대로고.webp' },
+  { name: '한경국립대학교', logo: '/images/universities/한경국립대로고.webp' },
+  { name: '중부대학교', logo: '/images/universities/중부대로고.webp' },
+  { name: '호원대학교', logo: '/images/universities/호원대로고.webp' },
+  { name: '경기대학교', logo: '/images/universities/경기대로고.webp' },
+  { name: '수원대학교', logo: '/images/universities/수원대로고.webp' },
+  { name: '강남대학교', logo: '/images/universities/강남대로고.webp' },
+  { name: '한국공학대학교', logo: '/images/universities/한국공대로고.webp' },
+  { name: '전남대학교', logo: '/images/universities/전남대로고.webp' },
+  { name: '목원대학교', logo: '/images/universities/목원대로고.webp' },
+  { name: '충남대학교', logo: '/images/universities/충남대로고.webp' },
+  { name: '장안대학교', logo: '/images/universities/장안대로고.webp' },
+  { name: '한양여자대학교', logo: '/images/universities/한양여대로고.webp' },
+  { name: '대전대학교', logo: '/images/universities/대전대로고.webp' },
+  { name: '한남대학교', logo: '/images/universities/한남대로고.webp' },
+  { name: '한성대학교', logo: '/images/universities/한성대로고.webp' },
+  { name: '아주대학교', logo: '/images/universities/아주대로고.webp' },
 ] as const;
 
 
@@ -195,7 +195,7 @@ export const BANNER_CONTENT = [
     title: '행사가 끝나면',
     highlight: '쓰레기는 쌓입니다.',
     description: '매년 수백 개의 축제와 행사에서\n수십만 개의 일회용품이 버려집니다.',
-    image: '/images/problem-banner.jpg',
+    image: '/images/problem-banner.webp',
   },
   {
     id: 2,
@@ -204,7 +204,7 @@ export const BANNER_CONTENT = [
     title: '운영 방식이 바뀌면',
     highlight: '결과도 달라집니다.',
     description: '다회용기로 운영된 행사는\n일회용품 쓰레기를 95% 이상 줄입니다.',
-    image: '/images/insight-banner.jpg',
+    image: '/images/insight-banner.webp',
   },
 ] as const;
 
@@ -229,14 +229,14 @@ export const ABOUT_VISION_MISSION = [
     label: 'Vision',
     title: '기업비전',
     description: '친환경을 \'캠페인\'이 아닌 실제 현장에서 작동하는 운영 체계로 구현합니다.\n공급, 회수, 세척, 재사용이 끊기지 않는 순환 구조를 현장 중심으로 설계합니다.',
-    image: '/images/vision.jpeg',
+    image: '/images/vision.webp',
   },
   {
     id: 2,
     label: 'Mission',
     title: '미션',
     description: '공공 행사와 다중 이용 환경에서 다회용기 운영이\n안정적으로 이루어질 수 있도록 전 과정을 직접 관리합니다.',
-    image: '/images/mission.jpeg',
+    image: '/images/mission.webp',
   },
 ] as const;
 
@@ -278,19 +278,19 @@ export const ABOUT_BUSINESS_PURPOSE = [
     id: 1,
     title: '환경 개선',
     description: '탄소 배출 및 쓰레기 반출량 절감',
-    image: '/images/about/purpose-1.jpeg',
+    image: '/images/about/purpose-1.webp',
   },
   {
     id: 2,
     title: '지속 가능한 행사 운영',
     description: '반복 가능한 친환경 운영 방식 구축',
-    image: '/images/about/purpose-2.jpeg',
+    image: '/images/about/purpose-2.webp',
   },
   {
     id: 3,
     title: '일자리 창출',
     description: '취약계층 및 사회초년생 일자리 창출',
-    image: '/images/about/purpose-3.jpeg',
+    image: '/images/about/purpose-3.webp',
   },
 ] as const;
 
@@ -445,7 +445,7 @@ export const ECOTREE_CASES = [
     label: 'S 기업 행사',
     title: '쓰레기 처리 부담이 줄어\n행사 마무리가 수월했습니다.',
     description: '행사 운영에서 큰 부담 중 하나는 행사 종료 후 쓰레기 처리 였습니다. 다회용기 사용을 도입하며 현장 정리와 쓰레기 처리 부담이 눈에 띄게 줄었고 운영팀은 행사 마무리에만 집중할 수 있었습니다.',
-    image: '/images/cases/placeholder-1.jpeg',
+    image: '/images/cases/placeholder-1.webp',
     link: '/cases/ecotree-1',
   },
   {
@@ -453,7 +453,7 @@ export const ECOTREE_CASES = [
     label: 'B 지자체 행사',
     title: '행사 내내 공간이 정돈된 상태로\n쾌적하게 유지됐습니다.',
     description: '일회용기를 사용할 때는 식사 후 테이블과 주변 공간에 쓰레기가 빠르게 쌓였지만 다회용기 사용 도입 후 현장 곳곳에서 회수가 가능하면서 행사 공간이 깔끔하게 유지되었습니다.',
-    image: '/images/cases/placeholder-2.jpeg',
+    image: '/images/cases/placeholder-2.webp',
     link: '/cases/ecotree-2',
   },
 ] as const;
@@ -465,7 +465,7 @@ export const FOODTRUCK_CASES = [
     label: 'K 대학 축제',
     title: '행사 규모에 맞춘 구성으로\n현장 혼선이 줄었습니다.',
     description: '행사 운영에서 큰 부담 중 하나는 행사 종료 후 쓰레기 처리 였습니다. 다회용기 사용을 도입하며 현장 정리와 쓰레기 처리 부담이 눈에 띄게 줄었고 운영팀은 행사 마무리에만 집중할 수 있었습니다.',
-    image: '/images/cases/placeholder-3.jpeg',
+    image: '/images/cases/placeholder-3.webp',
     link: '/cases/foodtruck-1',
   },
   {
@@ -473,7 +473,7 @@ export const FOODTRUCK_CASES = [
     label: 'S 지역 행사',
     title: '메뉴가 겹치지 않아서\n선택하기 편했습니다.',
     description: '보통 푸드트럭 여러 대 들어오면 메뉴가 비슷해지는 경우가 많은데 이번에는 메뉴가 잘 나누어졌습니다. 특정 트럭에만 줄이 몰리지 않아 현장에서 메뉴 관련 민원이 거의 없었습니다.',
-    image: '/images/cases/placeholder-4.jpeg',
+    image: '/images/cases/placeholder-4.webp',
     link: '/cases/foodtruck-2',
   },
 ] as const;
@@ -484,21 +484,21 @@ export const JOINT_CASES = [
     id: 1,
     label: 'C 지자체 행사',
     title: '운영이 훨씬\n단순해졌습니다.',
-    image: '/images/cases/placeholder-5.jpeg',
+    image: '/images/cases/placeholder-5.webp',
     link: '/cases/joint-1',
   },
   {
     id: 2,
     label: 'R 페스티벌',
     title: '현장에서 신경 쓸 게\n줄어들었습니다.',
-    image: '/images/cases/placeholder-6.jpeg',
+    image: '/images/cases/placeholder-6.webp',
     link: '/cases/joint-2',
   },
   {
     id: 3,
     label: 'H 대학축제',
     title: '행사 위생이 확연히\n깔끔해졌습니다.',
-    image: '/images/cases/placeholder-7.jpeg',
+    image: '/images/cases/placeholder-7.webp',
     link: '/cases/joint-3',
   },
 ] as const;
@@ -519,8 +519,8 @@ export const JOINT_CASE_ARTICLES: Record<string, {
     label: 'C 지자체 행사',
     date: '2024.03',
     title: '운영이 훨씬 단순해졌습니다.',
-    heroImage: '/images/cases/placeholder-5.jpeg',
-    cardImage: '/images/cases/placeholder-5.jpeg',
+    heroImage: '/images/cases/placeholder-5.webp',
+    cardImage: '/images/cases/placeholder-5.webp',
     cardTitle: '운영이 훨씬\n단순해졌습니다.',
     sections: [
       {
@@ -542,8 +542,8 @@ export const JOINT_CASE_ARTICLES: Record<string, {
     label: 'R 페스티벌',
     date: '2025.07',
     title: '현장에서 신경 쓸 게 줄어들었습니다.',
-    heroImage: '/images/cases/placeholder-6.jpeg',
-    cardImage: '/images/cases/placeholder-6.jpeg',
+    heroImage: '/images/cases/placeholder-6.webp',
+    cardImage: '/images/cases/placeholder-6.webp',
     cardTitle: '현장에서 신경 쓸 게\n줄어들었습니다.',
     sections: [
       {
@@ -565,8 +565,8 @@ export const JOINT_CASE_ARTICLES: Record<string, {
     label: 'H 대학축제',
     date: '2025.09',
     title: '행사 위생이 확연히 깔끔해졌습니다.',
-    heroImage: '/images/cases/placeholder-7.jpeg',
-    cardImage: '/images/cases/placeholder-7.jpeg',
+    heroImage: '/images/cases/placeholder-7.webp',
+    cardImage: '/images/cases/placeholder-7.webp',
     cardTitle: '행사 위생이 확연히\n깔끔해졌습니다.',
     sections: [
       {
@@ -624,9 +624,9 @@ export const TESTIMONIALS = [
 
 // Foodtruck page - Hero tiles
 export const FOODTRUCK_HERO_TILES = [
-  { id: 1, title: '축제', image: '/images/foodtruck/festival.jpeg', objectPosition: 'center bottom' },
-  { id: 2, title: '기업 행사', image: '/images/foodtruck/corporate.jpeg', objectPosition: 'center center' },
-  { id: 3, title: '연예인 서포트', image: '/images/foodtruck/celebrity.jpeg', objectPosition: 'center center' },
+  { id: 1, title: '축제', image: '/images/foodtruck/festival.webp', objectPosition: 'center bottom' },
+  { id: 2, title: '기업 행사', image: '/images/foodtruck/corporate.webp', objectPosition: 'center center' },
+  { id: 3, title: '연예인 서포트', image: '/images/foodtruck/celebrity.webp', objectPosition: 'center center' },
 ] as const;
 
 export const FOODTRUCK_HERO_MAIN_COPY = {
@@ -660,25 +660,25 @@ export const FOODTRUCK_MENU_SECTION = {
 
 // Foodtruck page - Menu images (12장 - 위 6개, 아래 6개)
 export const FOODTRUCK_MENU_IMAGES_ROW1 = [
-  { id: 1, image: '/images/foodtruck/menu-1.jpg', alt: '메뉴 1' },
-  { id: 2, image: '/images/foodtruck/menu-2.jpg', alt: '메뉴 2' },
-  { id: 3, image: '/images/foodtruck/menu-3.jpg', alt: '메뉴 3' },
-  { id: 4, image: '/images/foodtruck/menu-4.jpg', alt: '메뉴 4' },
-  { id: 5, image: '/images/foodtruck/menu-5.jpg', alt: '메뉴 5' },
-  { id: 6, image: '/images/foodtruck/menu-6.jpg', alt: '메뉴 6' },
+  { id: 1, image: '/images/foodtruck/menu-1.webp', alt: '메뉴 1' },
+  { id: 2, image: '/images/foodtruck/menu-2.webp', alt: '메뉴 2' },
+  { id: 3, image: '/images/foodtruck/menu-3.webp', alt: '메뉴 3' },
+  { id: 4, image: '/images/foodtruck/menu-4.webp', alt: '메뉴 4' },
+  { id: 5, image: '/images/foodtruck/menu-5.webp', alt: '메뉴 5' },
+  { id: 6, image: '/images/foodtruck/menu-6.webp', alt: '메뉴 6' },
 ] as const;
 
 export const FOODTRUCK_MENU_IMAGES_ROW2 = [
-  { id: 7, image: '/images/foodtruck/menu-7.jpg', alt: '메뉴 7' },
-  { id: 8, image: '/images/foodtruck/menu-8.jpg', alt: '메뉴 8' },
-  { id: 9, image: '/images/foodtruck/menu-9.jpg', alt: '메뉴 9' },
-  { id: 10, image: '/images/foodtruck/menu-10.jpg', alt: '메뉴 10' },
-  { id: 11, image: '/images/foodtruck/menu-11.jpg', alt: '메뉴 11' },
-  { id: 12, image: '/images/foodtruck/menu-12.jpg', alt: '메뉴 12' },
+  { id: 7, image: '/images/foodtruck/menu-7.webp', alt: '메뉴 7' },
+  { id: 8, image: '/images/foodtruck/menu-8.webp', alt: '메뉴 8' },
+  { id: 9, image: '/images/foodtruck/menu-9.webp', alt: '메뉴 9' },
+  { id: 10, image: '/images/foodtruck/menu-10.webp', alt: '메뉴 10' },
+  { id: 11, image: '/images/foodtruck/menu-11.webp', alt: '메뉴 11' },
+  { id: 12, image: '/images/foodtruck/menu-12.webp', alt: '메뉴 12' },
 ] as const;
 
 // Foodtruck page - Menu background image
-export const FOODTRUCK_MENU_BG = '/images/foodtruck/menu-bg-globe.png';
+export const FOODTRUCK_MENU_BG = '/images/foodtruck/menu-bg-globe.webp';
 
 // Foodtruck page - Truck selection section
 export const FOODTRUCK_TRUCK_SECTION = {
@@ -688,16 +688,16 @@ export const FOODTRUCK_TRUCK_SECTION = {
 
 // Foodtruck page - Truck cards
 export const FOODTRUCK_TRUCK_CARDS = [
-  { id: 1, title: '공공·기관 행사', description: '격식을 갖춘 공식 행사', tags: ['#차분', '#단정'], image: '/images/foodtruck/truck-1.png' },
-  { id: 2, title: '기업·사내 행사', description: '사내 복지/브랜딩 행사', tags: ['#모던', '#미니멀'], image: '/images/foodtruck/truck-2.png' },
-  { id: 3, title: '지역·축제 행사', description: '현장 분위기가 활기찬 행사', tags: ['#화려', '#활기'], image: '/images/foodtruck/truck-3.png' },
+  { id: 1, title: '공공·기관 행사', description: '격식을 갖춘 공식 행사', tags: ['#차분', '#단정'], image: '/images/foodtruck/truck-1.webp' },
+  { id: 2, title: '기업·사내 행사', description: '사내 복지/브랜딩 행사', tags: ['#모던', '#미니멀'], image: '/images/foodtruck/truck-2.webp' },
+  { id: 3, title: '지역·축제 행사', description: '현장 분위기가 활기찬 행사', tags: ['#화려', '#활기'], image: '/images/foodtruck/truck-3.webp' },
 ] as const;
 
 // Foodtruck page - Banner features
 export const FOODTRUCK_BANNER_FEATURES = [
-  { id: 1, icon: '/images/foodtruck/icon-kitchen.png', title: '완벽한 주방 시설', description: '조리에 필요한 모든 장비 완비' },
-  { id: 2, icon: '/images/foodtruck/icon-hygiene.png', title: '위생 인증', description: '식품 위생 기준 충족' },
-  { id: 3, icon: '/images/foodtruck/icon-safety.png', title: '안전 관리', description: '소방 및 안전 설비 구비' },
+  { id: 1, icon: '/images/foodtruck/icon-kitchen.webp', title: '완벽한 주방 시설', description: '조리에 필요한 모든 장비 완비' },
+  { id: 2, icon: '/images/foodtruck/icon-hygiene.webp', title: '위생 인증', description: '식품 위생 기준 충족' },
+  { id: 3, icon: '/images/foodtruck/icon-safety.webp', title: '안전 관리', description: '소방 및 안전 설비 구비' },
 ] as const;
 
 // Foodtruck page - Operation examples section
@@ -708,20 +708,20 @@ export const FOODTRUCK_OPERATION_SECTION = {
 
 // Foodtruck page - Operation example cards - Row 1 (푸드트럭 5개)
 export const FOODTRUCK_OPERATION_ROW1 = [
-  { id: 1, title: '큐브 스테이크 푸드트럭', image: '/images/foodtruck/operation-1.jpg' },
-  { id: 2, title: '감자튀김 푸드트럭', image: '/images/foodtruck/operation-2.jpeg' },
-  { id: 3, title: '분식 푸드트럭', image: '/images/foodtruck/operation-3.jpg' },
-  { id: 4, title: '오꼬노미야끼 푸드트럭', image: '/images/foodtruck/operation-4.png' },
-  { id: 5, title: '칵테일 푸드트럭', image: '/images/foodtruck/operation-5.jpg' },
+  { id: 1, title: '큐브 스테이크 푸드트럭', image: '/images/foodtruck/operation-1.webp' },
+  { id: 2, title: '감자튀김 푸드트럭', image: '/images/foodtruck/operation-2.webp' },
+  { id: 3, title: '분식 푸드트럭', image: '/images/foodtruck/operation-3.webp' },
+  { id: 4, title: '오꼬노미야끼 푸드트럭', image: '/images/foodtruck/operation-4.webp' },
+  { id: 5, title: '칵테일 푸드트럭', image: '/images/foodtruck/operation-5.webp' },
 ] as const;
 
 // Foodtruck page - Operation example cards - Row 2 (케이터링 5개)
 export const FOODTRUCK_OPERATION_ROW2 = [
-  { id: 6, title: '카페 케이터링', image: '/images/foodtruck/operation-6.jpeg' },
-  { id: 7, title: '디저트 케이터링', image: '/images/foodtruck/operation-7.jpg' },
-  { id: 8, title: '닭강정 케이터링', image: '/images/foodtruck/operation-8.jpg' },
-  { id: 9, title: '일식 케이터링', image: '/images/foodtruck/operation-9.jpeg' },
-  { id: 10, title: '츄러스 케이터링', image: '/images/foodtruck/operation-10.jpg' },
+  { id: 6, title: '카페 케이터링', image: '/images/foodtruck/operation-6.webp' },
+  { id: 7, title: '디저트 케이터링', image: '/images/foodtruck/operation-7.webp' },
+  { id: 8, title: '닭강정 케이터링', image: '/images/foodtruck/operation-8.webp' },
+  { id: 9, title: '일식 케이터링', image: '/images/foodtruck/operation-9.webp' },
+  { id: 10, title: '츄러스 케이터링', image: '/images/foodtruck/operation-10.webp' },
 ] as const;
 
 // Foodtruck page - CTA section
@@ -753,28 +753,28 @@ export const ECOTREE_RENTAL_FLOW = {
       number: '01',
       title: '대여',
       description: '행사 일정과 규모에 맞춰 필요한 수량의 다회용기를 대여합니다. 옵션과 수량 확정 후 대여를 진행합니다.',
-      image: '/images/ecotree/rental-flow/step-01.jpeg',
+      image: '/images/ecotree/rental-flow/step-01.webp',
     },
     {
       id: 2,
       number: '02',
       title: '세척',
       description: '에코트리만의 전용 세척 공정으로 위생적으로 세척을 진행합니다.',
-      image: '/images/ecotree/rental-flow/step-02.jpg',
+      image: '/images/ecotree/rental-flow/step-02.webp',
     },
     {
       id: 3,
       number: '03',
       title: '살균 및 소독',
       description: '세척이 끝난 용기는 살균·소독 공정을 한 번 더 거칩니다. 건조 및 정리 후 포장을 합니다.',
-      image: '/images/ecotree/rental-flow/step-03.jpg',
+      image: '/images/ecotree/rental-flow/step-03.webp',
     },
     {
       id: 4,
       number: '04',
       title: '수거 및 배송',
       description: '사용한 다회용기는 수거 후 다시 에코트리로 반납됩니다.',
-      image: '/images/ecotree/rental-flow/step-04.png',
+      image: '/images/ecotree/rental-flow/step-04.webp',
     },
   ],
 } as const;
@@ -784,11 +784,11 @@ export const ECOTREE_BUSINESS_RANGE = {
   label: '사업 범위',
   title: '다양한 공간과 행사에서 함께합니다.',
   cards: [
-    { id: 1, title: '지자체 행사', image: '/images/ecotree/business-range/local-event.jpeg' },
-    { id: 2, title: '기업 행사', image: '/images/ecotree/business-range/corporate-event.jpeg' },
-    { id: 3, title: '스포츠 경기', image: '/images/ecotree/business-range/sports.jpeg' },
-    { id: 4, title: '페스티벌', image: '/images/ecotree/business-range/festival.jpeg' },
-    { id: 5, title: '장례식장', image: '/images/ecotree/business-range/funeral.jpeg' },
+    { id: 1, title: '지자체 행사', image: '/images/ecotree/business-range/local-event.webp' },
+    { id: 2, title: '기업 행사', image: '/images/ecotree/business-range/corporate-event.webp' },
+    { id: 3, title: '스포츠 경기', image: '/images/ecotree/business-range/sports.webp' },
+    { id: 4, title: '페스티벌', image: '/images/ecotree/business-range/festival.webp' },
+    { id: 5, title: '장례식장', image: '/images/ecotree/business-range/funeral.webp' },
   ],
 } as const;
 
@@ -796,8 +796,8 @@ export const ECOTREE_BUSINESS_RANGE = {
 export const ECOTREE_BRAND_TRANSITION = {
   title: '다회용기의 새로운 기준',
   brandName: 'ECOTREE',
-  brandIcon: '/images/ecotree/products/eco-icon.png',
-  productImages: '/images/ecotree/products/brand-items.png',
+  brandIcon: '/images/ecotree/products/eco-icon.webp',
+  productImages: '/images/ecotree/products/brand-items.webp',
 } as const;
 
 // Ecotree page - Product showcase slides
@@ -806,19 +806,19 @@ export const ECOTREE_PRODUCT_SHOWCASE = [
     id: 1,
     englishTitle: 'EVERY\nWHERE',
     koreanTitle: '언제 어디서나',
-    image: '/images/ecotree/products/everywhere.png',
+    image: '/images/ecotree/products/everywhere.webp',
   },
   {
     id: 2,
     englishTitle: 'VARIOUS',
     koreanTitle: '다양한 종류의 다회용기를',
-    image: '/images/ecotree/products/various.png',
+    image: '/images/ecotree/products/various.webp',
   },
   {
     id: 3,
     englishTitle: 'EASY',
     koreanTitle: '간편하고 쉽게\n대여하세요',
-    image: '/images/ecotree/products/easy.png',
+    image: '/images/ecotree/products/easy.webp',
   },
 ] as const;
 
@@ -852,7 +852,7 @@ export const ECOTREE_WASHING_FACILITY = {
       number: '01',
       title: '애벌 세척대',
       description: '음식물 잔여물·기름때 등 굵은 오염 1차 제거',
-      image: '/images/ecotree/washing-facility/facility-01.jpg',
+      image: '/images/ecotree/washing-facility/facility-01.webp',
       overlayHeight: 350,
     },
     {
@@ -860,7 +860,7 @@ export const ECOTREE_WASHING_FACILITY = {
       number: '02',
       title: '초음파 세척대',
       description: '미세 오염을 진동으로 분해해 틈새까지 깨끗하게 세척',
-      image: '/images/ecotree/washing-facility/facility-02.jpg',
+      image: '/images/ecotree/washing-facility/facility-02.webp',
       overlayHeight: 300,
     },
     {
@@ -868,7 +868,7 @@ export const ECOTREE_WASHING_FACILITY = {
       number: '03',
       title: '외류형 세척대',
       description: '세척 중 발생한 이물 및 거품을 외부로 배출하며 순환 세척',
-      image: '/images/ecotree/washing-facility/facility-03.jpg',
+      image: '/images/ecotree/washing-facility/facility-03.webp',
       overlayHeight: 300,
     },
     {
@@ -876,7 +876,7 @@ export const ECOTREE_WASHING_FACILITY = {
       number: '04',
       title: '고압살균세척대',
       description: '고압 살균으로 마무리 단계 청결도 향상',
-      image: '/images/ecotree/washing-facility/facility-04.jpg',
+      image: '/images/ecotree/washing-facility/facility-04.webp',
       overlayHeight: 250,
     },
   ],
@@ -891,13 +891,13 @@ export const ECOTREE_POST_WASHING = {
       id: 1,
       title: '살균 건조실',
       description: '세척 후 살균 건조로 수분을 제거',
-      image: '/images/ecotree/post-washing/drying-room.png',
+      image: '/images/ecotree/post-washing/drying-room.webp',
     },
     {
       id: 2,
       title: '진공 포장기',
       description: '진공 포장으로 상태 유지',
-      image: '/images/ecotree/post-washing/vacuum-packer.jpg',
+      image: '/images/ecotree/post-washing/vacuum-packer.webp',
     },
   ],
 } as const;
@@ -906,7 +906,7 @@ export const ECOTREE_POST_WASHING = {
 export const ECOTREE_STATS = {
   title: '데이터로 확인되는 친환경 성과',
   subtitle: '에코트리의 행사 운영은 환경 개선으로 이어진 실제 성과를 만들어냅니다.',
-  backgroundImage: '/images/ecotree/stats-bg.png',
+  backgroundImage: '/images/ecotree/stats-bg.webp',
   stats: [
     { id: 1, label: '탄소 절감 수', value: 1250, unit: '톤' },
     { id: 2, label: '플라스틱 감소', value: 85, unit: '%' },
