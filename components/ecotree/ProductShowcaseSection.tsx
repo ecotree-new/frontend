@@ -138,6 +138,7 @@ export default function ProductShowcaseSection() {
   }, []);
 
   // Lock scroll container when in section (but not after exiting down)
+  // 데스크톱 전용 - 모바일은 touchmove에서 처리
   useEffect(() => {
     const container = getScrollContainer();
     if (!container || !sectionRef.current) return;
@@ -150,11 +151,13 @@ export default function ProductShowcaseSection() {
 
       container.style.overflow = 'hidden';
       container.scrollTop = targetScroll;
-    } else {
+    } else if (!isMobile) {
       container.style.overflow = '';
     }
     return () => {
-      container.style.overflow = '';
+      if (!isMobile) {
+        container.style.overflow = '';
+      }
     };
   }, [isInSection, isMobile, hasExitedDown]);
 
@@ -297,6 +300,13 @@ export default function ProductShowcaseSection() {
     touchStartY.current = e.touches[0].clientY;
   }, []);
 
+  // 섹션 내에서 터치 스크롤 막기
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    if (!isInSection || hasExitedDownRef.current) return;
+    // 섹션 내에서는 터치 스크롤 막기
+    e.preventDefault();
+  }, [isInSection]);
+
   const handleTouchEnd = useCallback((e: TouchEvent) => {
     if (!sectionRef.current || !isInSection || isAnimating.current || !isMobile) return;
 
@@ -360,12 +370,14 @@ export default function ProductShowcaseSection() {
     if (!container) return;
 
     container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchmove', handleTouchMove, { passive: false });
     container.addEventListener('touchend', handleTouchEnd, { passive: false });
     return () => {
       container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchmove', handleTouchMove);
       container.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [handleTouchStart, handleTouchEnd, isMobile]);
+  }, [handleTouchStart, handleTouchMove, handleTouchEnd, isMobile]);
 
   // English title style
   const englishTitleStyle = {
