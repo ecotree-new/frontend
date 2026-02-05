@@ -43,31 +43,41 @@ export default function RentalFlowSection() {
     };
   }, [isLocked]);
 
-  // Detect when section enters viewport and lock immediately
+  // Detect when scroll snap completes on this section
   useEffect(() => {
-    if (!containerRef.current || isLocked) return;
+    if (isLocked) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          // 탈출 중이면 lock하지 않음 (callback 내부에서 체크)
-          if (entry.isIntersecting && !isLocked && !isExiting.current) {
-            const sc = getScrollContainer();
-            if (sc) {
-              // 즉시 스크롤 멈춤
-              sc.style.overflow = 'hidden';
-              // 정확한 위치로 이동
-              sc.scrollTop = containerRef.current!.offsetTop;
-              setIsLocked(true);
-            }
-          }
-        });
-      },
-      { threshold: 0.7 }
-    );
+    const sc = getScrollContainer();
+    if (!sc || !containerRef.current) return;
 
-    observer.observe(containerRef.current);
-    return () => observer.disconnect();
+    let scrollTimeout: NodeJS.Timeout;
+
+    const handleScroll = () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        // 탈출 중이면 lock하지 않음
+        if (isExiting.current || !containerRef.current) return;
+
+        const sectionTop = containerRef.current.offsetTop;
+        const scrollTop = sc.scrollTop;
+
+        // 스크롤 위치가 섹션 상단과 정확히 일치할 때만 lock
+        if (Math.abs(scrollTop - sectionTop) < 10) {
+          sc.style.overflow = 'hidden';
+          setIsLocked(true);
+        }
+      }, 150); // 스크롤이 멈춘 후 150ms 대기
+    };
+
+    sc.addEventListener('scroll', handleScroll, { passive: true });
+
+    // 초기 체크 (이미 섹션에 있는 경우)
+    handleScroll();
+
+    return () => {
+      sc.removeEventListener('scroll', handleScroll);
+      clearTimeout(scrollTimeout);
+    };
   }, [isLocked]);
 
   // Handle touch start
