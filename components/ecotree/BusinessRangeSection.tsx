@@ -47,8 +47,8 @@ export default function BusinessRangeSection() {
                     }}
                   />
                   {/* Title */}
-                  <div className="absolute bottom-8 left-10 right-10">
-                    <h3 className="text-white text-[10px] md:text-[24px] font-semibold">
+                  <div className="absolute bottom-5 md:bottom-8 left-5 md:left-10 right-10">
+                    <h3 className="text-white text-[10px] md:text-[24px] font-bold">
                       {card.title}
                     </h3>
                   </div>
