@@ -63,7 +63,7 @@ export default function RentalFlowSection() {
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.7 }
     );
 
     observer.observe(containerRef.current);
