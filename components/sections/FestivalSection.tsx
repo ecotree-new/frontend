@@ -192,7 +192,7 @@ export default function FestivalSection() {
           </div>
         </motion.div>
 
-        {/* Regional Section */}
+        {/* Regional Section - Title & Count */}
         <motion.div
           id="regional-festival-section"
           initial="hidden"
@@ -209,22 +209,31 @@ export default function FestivalSection() {
               <span className="text-[12px] md:text-[20px] lg:text-[20px] font-medium text-[#111111] ml-2">곳</span>
             </p>
           </div>
-
-          {/* Regional Festival Names */}
-          <p className="text-[14px] md:text-[16px] text-[#111111] font-bold leading-loose text-center">
-            {REGIONAL_FESTIVALS.map((festival, index) => (
-              <span
-                key={index}
-                className="inline-block whitespace-nowrap"
-                style={{ wordBreak: 'keep-all' }}
-              >
-                {festival}
-                {index < REGIONAL_FESTIVALS.length - 1 && <span className="mr-2">,</span>}
-              </span>
-            ))}
-          </p>
         </motion.div>
       </div>
+
+      {/* Regional Festival Names - Wider container */}
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeInUp}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className="max-w-[1400px] mx-auto px-4 md:px-8"
+      >
+        <p className="text-[14px] md:text-[16px] text-[#111111] font-bold leading-loose text-center">
+          {REGIONAL_FESTIVALS.map((festival, index) => (
+            <span
+              key={index}
+              className="inline-block whitespace-nowrap"
+              style={{ wordBreak: 'keep-all' }}
+            >
+              {festival}
+              {index < REGIONAL_FESTIVALS.length - 1 && <span className="mr-1">,</span>}
+            </span>
+          ))}
+        </p>
+      </motion.div>
     </section>
   );
 }

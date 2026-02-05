@@ -96,6 +96,9 @@ export const R2_IMAGES = {
   foodtruckIconHygiene: getR2Url('/images/foodtruck/icon-hygiene.webp'),
   foodtruckIconSafety: getR2Url('/images/foodtruck/icon-safety.webp'),
 
+  // CTA
+  ctaMain: getR2Url('/images/cta_main.png'),
+
   // Posters
   heroPoster: getR2Url('/images/posters/hero-poster.webp'),
   ecotreeHeroPoster: getR2Url('/images/posters/ecotree-hero-poster.webp'),
@@ -263,6 +266,9 @@ export const R2_IMAGE_MAP: Record<string, string> = {
   '/images/foodtruck/icon-kitchen.webp': R2_IMAGES.foodtruckIconKitchen,
   '/images/foodtruck/icon-hygiene.webp': R2_IMAGES.foodtruckIconHygiene,
   '/images/foodtruck/icon-safety.webp': R2_IMAGES.foodtruckIconSafety,
+
+  // CTA
+  '/images/cta_main.png': R2_IMAGES.ctaMain,
 
   // Posters
   '/images/posters/hero-poster.webp': R2_IMAGES.heroPoster,
