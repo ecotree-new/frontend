@@ -243,7 +243,7 @@ export default function ProcessStrengthSection() {
   };
 
   return (
-    <div ref={containerRef} className="snap-section relative h-[300vh]">
+    <div ref={containerRef} className="relative h-[300vh]" style={{ scrollSnapAlign: 'none' }}>
       <div className="sticky top-16 h-[calc(100vh-64px)] w-full overflow-hidden flex items-center justify-center bg-[#F4F5F7]">
 
         {/* Process Section */}
