@@ -13,7 +13,7 @@ export default function BrandTransitionSection() {
   const [isMobile, setIsMobile] = useState(false);
 
   // Get current position from ScrollSnapManager context
-  const { currentSection, internalStep } = useScrollContext();
+  const { currentSection, internalStep, setAnimating } = useScrollContext();
 
   // This section is at index 3 in SNAP_SECTIONS
   const isActiveSection = currentSection === 3;
@@ -59,11 +59,19 @@ export default function BrandTransitionSection() {
 
     // Animate to target progress based on position
     const targetProgress = isAtLogo ? 1 : 0;
+
+    // Notify ScrollSnapManager that animation is starting
+    setAnimating(true);
+
     animate(scrollProgress, targetProgress, {
       duration: 4,
       ease: [0.25, 0.1, 0.25, 1], // Custom easing for smooth feel
+      onComplete: () => {
+        // Notify ScrollSnapManager that animation is complete
+        setAnimating(false);
+      },
     });
-  }, [isActiveSection, isAtLogo, scrollProgress]);
+  }, [isActiveSection, isAtLogo, scrollProgress, setAnimating]);
 
   // Transform values based on animated progress
   const titleOpacity = useTransform(scrollProgress, [0, 0.15, 0.25], [1, 1, 0]);

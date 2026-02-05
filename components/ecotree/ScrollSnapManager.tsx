@@ -28,12 +28,14 @@ interface ScrollContextType {
   currentSection: number;
   internalStep: number;
   isInSnapZone: boolean;
+  setAnimating: (animating: boolean) => void;
 }
 
 const ScrollContext = createContext<ScrollContextType>({
   currentSection: 0,
   internalStep: 0,
   isInSnapZone: true,
+  setAnimating: () => {},
 });
 
 export const useScrollContext = () => useContext(ScrollContext);
@@ -51,6 +53,7 @@ export default function ScrollSnapManager({ children }: ScrollSnapManagerProps) 
   const [currentSection, setCurrentSection] = useState(0);
   const [internalStep, setInternalStep] = useState(0);
   const [isInSnapZone, setIsInSnapZone] = useState(true);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const isTransitioning = useRef(false);
   const touchStartY = useRef<number | null>(null);
@@ -94,7 +97,7 @@ export default function ScrollSnapManager({ children }: ScrollSnapManagerProps) 
 
   // Handle navigation logic
   const handleNavigation = useCallback((direction: 'up' | 'down') => {
-    if (isTransitioning.current) return;
+    if (isTransitioning.current || isAnimating) return;
 
     const section = SNAP_SECTIONS[currentSection];
 
@@ -145,7 +148,7 @@ export default function ScrollSnapManager({ children }: ScrollSnapManagerProps) 
     setTimeout(() => {
       isTransitioning.current = false;
     }, TRANSITION_DURATION);
-  }, [currentSection, internalStep, scrollToSection]);
+  }, [currentSection, internalStep, scrollToSection, isAnimating]);
 
   // Wheel event handler
   const handleWheel = useCallback((e: WheelEvent) => {
@@ -281,7 +284,7 @@ export default function ScrollSnapManager({ children }: ScrollSnapManagerProps) 
   }, [children]);
 
   return (
-    <ScrollContext.Provider value={{ currentSection, internalStep, isInSnapZone }}>
+    <ScrollContext.Provider value={{ currentSection, internalStep, isInSnapZone, setAnimating: setIsAnimating }}>
       {children}
     </ScrollContext.Provider>
   );
