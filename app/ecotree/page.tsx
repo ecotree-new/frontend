@@ -1,5 +1,6 @@
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import ScrollSnapManager from '@/components/ecotree/ScrollSnapManager';
 import HeroSection from '@/components/ecotree/HeroSection';
 import RentalFlowSection from '@/components/ecotree/RentalFlowSection';
 import BusinessRangeSection from '@/components/ecotree/BusinessRangeSection';
@@ -16,20 +17,31 @@ export default function EcotreePage() {
     <>
       <Header />
       <main className="fixed top-16 left-0 right-0 bottom-0 overflow-y-auto snap-y snap-mandatory scroll-smooth">
-        <HeroSection />
-        <RentalFlowSection />
-        <BusinessRangeSection />
-        <BrandTransitionSection />
-        {/* Free scroll sections */}
-        <div className="snap-start">
-          <ProductShowcaseSection />
-          <ProductVideoSection />
-          <WashingProcessSection />
-          <WashingFacilitySection />
-          <PostWashingSection />
-          <StatsSection />
-          <Footer />
-        </div>
+        <ScrollSnapManager>
+          {/* Snap sections */}
+          <div data-snap-section="hero">
+            <HeroSection />
+          </div>
+          <div data-snap-section="rental">
+            <RentalFlowSection />
+          </div>
+          <div data-snap-section="business">
+            <BusinessRangeSection />
+          </div>
+          <div data-snap-section="brand">
+            <BrandTransitionSection />
+          </div>
+          {/* Free scroll sections */}
+          <div data-free-scroll className="snap-start">
+            <ProductShowcaseSection />
+            <ProductVideoSection />
+            <WashingProcessSection />
+            <WashingFacilitySection />
+            <PostWashingSection />
+            <StatsSection />
+            <Footer />
+          </div>
+        </ScrollSnapManager>
       </main>
     </>
   );

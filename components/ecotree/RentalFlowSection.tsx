@@ -1,228 +1,36 @@
 'use client';
 
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ECOTREE_RENTAL_FLOW } from '@/lib/constants';
 import { IMAGE_MAP } from '@/lib/images';
-
-// Helper to get scroll container (snap container)
-const getScrollContainer = () => {
-  const snapContainer = document.querySelector('.snap-y');
-  return snapContainer as HTMLElement | null;
-};
+import { useScrollContext } from './ScrollSnapManager';
 
 export default function RentalFlowSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
   const stepsContainerRef = useRef<HTMLDivElement>(null);
   const firstIndicatorRef = useRef<HTMLDivElement>(null);
   const lastIndicatorRef = useRef<HTMLDivElement>(null);
-  const [currentStep, setCurrentStep] = useState(1);
   const [lineStyle, setLineStyle] = useState({ top: 7, height: 200 });
-  const [isLocked, setIsLocked] = useState(false);
-  const isExiting = useRef(false);  // 탈출 의도 플래그
-  const isTransitioning = useRef(false);
-  const touchStartY = useRef<number | null>(null);
 
   const steps = ECOTREE_RENTAL_FLOW.steps;
-  const totalSteps = steps.length;
 
-  // Lock/unlock scroll container
-  useEffect(() => {
-    const sc = getScrollContainer();
-    if (!sc) return;
+  // Get current step from ScrollSnapManager context
+  const { currentSection, internalStep } = useScrollContext();
 
-    if (isLocked) {
-      sc.style.overflow = 'hidden';
-    } else {
-      sc.style.overflow = '';
-    }
+  // This section is at index 1 in SNAP_SECTIONS
+  const isActiveSection = currentSection === 1;
 
-    return () => {
-      sc.style.overflow = '';
-    };
-  }, [isLocked]);
-
-  // Detect when scroll snap completes on this section
-  useEffect(() => {
-    if (isLocked) return;
-
-    const sc = getScrollContainer();
-    if (!sc || !containerRef.current) return;
-
-    let scrollTimeout: NodeJS.Timeout;
-
-    const handleScroll = () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        // 탈출 중이면 lock하지 않음
-        if (isExiting.current || !containerRef.current) return;
-
-        const sectionTop = containerRef.current.offsetTop;
-        const scrollTop = sc.scrollTop;
-
-        // 스크롤 위치가 섹션 상단과 정확히 일치할 때만 lock
-        if (Math.abs(scrollTop - sectionTop) < 10) {
-          sc.style.overflow = 'hidden';
-          setIsLocked(true);
-        }
-      }, 150); // 스크롤이 멈춘 후 150ms 대기
-    };
-
-    sc.addEventListener('scroll', handleScroll, { passive: true });
-
-    // 초기 체크 (이미 섹션에 있는 경우)
-    handleScroll();
-
-    return () => {
-      sc.removeEventListener('scroll', handleScroll);
-      clearTimeout(scrollTimeout);
-    };
-  }, [isLocked]);
-
-  // Handle touch start
-  const handleTouchStart = useCallback((e: TouchEvent) => {
-    if (!isLocked) return;
-    touchStartY.current = e.touches[0].clientY;
-  }, [isLocked]);
-
-  // Handle touch move - prevent scroll when locked
-  const handleTouchMove = useCallback((e: TouchEvent) => {
-    if (!isLocked) return;
-    e.preventDefault();
-  }, [isLocked]);
-
-  // Handle touch end
-  const handleTouchEnd = useCallback((e: TouchEvent) => {
-    if (!isLocked || isTransitioning.current || touchStartY.current === null) return;
-
-    const touchEndY = e.changedTouches[0].clientY;
-    const deltaY = touchStartY.current - touchEndY;
-    touchStartY.current = null;
-
-    if (Math.abs(deltaY) < 30) return;
-
-    isTransitioning.current = true;
-
-    const sc = getScrollContainer();
-    const container = containerRef.current;
-
-    if (deltaY > 0) {
-      // Swipe up (scroll down)
-      if (currentStep < totalSteps) {
-        setCurrentStep(prev => prev + 1);
-      } else if (sc && container) {
-        // Last step, go to next section
-        const nextSection = container.nextElementSibling as HTMLElement;
-        if (nextSection) {
-          isExiting.current = true;
-          setIsLocked(false);
-          sc.style.overflow = '';
-          sc.style.scrollSnapType = 'none';
-
-          sc.scrollTo({ top: nextSection.offsetTop, behavior: 'smooth' });
-          setTimeout(() => {
-            sc.style.scrollSnapType = '';
-            isExiting.current = false;
-          }, 1000);
-        }
-      }
-    } else {
-      // Swipe down (scroll up)
-      if (currentStep > 1) {
-        setCurrentStep(prev => prev - 1);
-      } else if (sc && container) {
-        // First step, go to previous section
-        const prevSection = container.previousElementSibling as HTMLElement;
-        if (prevSection) {
-          isExiting.current = true;
-          setIsLocked(false);
-          sc.style.overflow = '';
-          sc.style.scrollSnapType = 'none';
-
-          sc.scrollTo({ top: prevSection.offsetTop, behavior: 'smooth' });
-          setTimeout(() => {
-            sc.style.scrollSnapType = '';
-            isExiting.current = false;
-          }, 1000);
-        }
-      }
-    }
-
-    setTimeout(() => {
-      isTransitioning.current = false;
-    }, 500);
-  }, [isLocked, currentStep, totalSteps]);
-
-  // Handle wheel scroll
-  const handleWheel = useCallback((e: WheelEvent) => {
-    if (!isLocked || isTransitioning.current) return;
-
-    e.preventDefault();
-    isTransitioning.current = true;
-
-    const sc = getScrollContainer();
-    const container = containerRef.current;
-
-    if (e.deltaY > 0) {
-      // Scroll down
-      if (currentStep < totalSteps) {
-        setCurrentStep(prev => prev + 1);
-        setTimeout(() => { isTransitioning.current = false; }, 500);
-      } else if (sc && container) {
-        // Last step, go to next section
-        const nextSection = container.nextElementSibling as HTMLElement;
-        if (nextSection) {
-          isExiting.current = true;
-          setIsLocked(false);
-          sc.style.overflow = '';
-          sc.style.scrollSnapType = 'none';
-
-          sc.scrollTo({ top: nextSection.offsetTop, behavior: 'smooth' });
-          setTimeout(() => {
-            sc.style.scrollSnapType = '';
-            isTransitioning.current = false;
-            isExiting.current = false;
-          }, 1000);
-        }
-      }
-    } else {
-      // Scroll up
-      if (currentStep > 1) {
-        setCurrentStep(prev => prev - 1);
-        setTimeout(() => { isTransitioning.current = false; }, 500);
-      } else if (sc && container) {
-        // First step, go to previous section
-        const prevSection = container.previousElementSibling as HTMLElement;
-        if (prevSection) {
-          isExiting.current = true;
-          setIsLocked(false);
-          sc.style.overflow = '';
-          sc.style.scrollSnapType = 'none';
-
-          sc.scrollTo({ top: prevSection.offsetTop, behavior: 'smooth' });
-          setTimeout(() => {
-            sc.style.scrollSnapType = '';
-            isTransitioning.current = false;
-            isExiting.current = false;
-          }, 1000);
-        }
-      }
-    }
-  }, [isLocked, currentStep, totalSteps]);
-
-  useEffect(() => {
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [handleWheel, handleTouchStart, handleTouchMove, handleTouchEnd]);
+  // Only use context's internalStep when this section is active
+  // Otherwise, show first step (before) or last step (after)
+  let displayStep = 1;
+  if (isActiveSection) {
+    displayStep = internalStep + 1;
+  } else if (currentSection > 1) {
+    // We've passed this section, show the last step
+    displayStep = steps.length;
+  }
+  const currentStep = Math.min(Math.max(displayStep, 1), steps.length);
 
   // 점선 위치 계산
   useEffect(() => {
@@ -261,7 +69,7 @@ export default function RentalFlowSection() {
   const currentImage = IMAGE_MAP[currentStepData.image];
 
   return (
-    <div ref={containerRef} className="relative h-[calc(100vh-64px)] snap-start snap-always bg-white">
+    <div className="relative h-[calc(100vh-64px)] snap-start snap-always bg-white">
       <div className="h-full w-full overflow-hidden">
         <div className="container-ecotree h-full flex flex-col justify-center">
           {/* Header - left aligned */}
