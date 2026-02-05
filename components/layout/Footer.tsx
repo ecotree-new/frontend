@@ -14,7 +14,7 @@ export default function Footer() {
               alt="에코트리"
               width={156}
               height={50}
-              className="md:w-[180px] md:h-[50px] brightness-0 invert"
+              className="w-[156px] md:w-[180px] h-auto brightness-0 invert"
             />
           </div>
 
