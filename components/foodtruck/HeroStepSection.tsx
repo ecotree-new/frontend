@@ -19,6 +19,8 @@ export default function HeroStepSection() {
   const touchStartY = useRef<number | null>(null);
   const touchStartTime = useRef<number>(0);
 
+  const totalSteps = FOODTRUCK_HERO_TILES.length + 1; // tiles + main copy
+
   // Check viewport width
   useEffect(() => {
     const checkWidth = () => {
@@ -64,10 +66,9 @@ export default function HeroStepSection() {
     if (!container) return;
 
     const rect = container.getBoundingClientRect();
-    const swipingDown = deltaY > 0; // finger moved up = scrolling down
-    const swipingUp = deltaY < 0;   // finger moved down = scrolling up
+    const swipingDown = deltaY > 0;
+    const swipingUp = deltaY < 0;
 
-    // Section position checks
     const sectionInView = rect.top < window.innerHeight && rect.bottom > HEADER_HEIGHT;
     const sectionAboveViewport = rect.bottom <= HEADER_HEIGHT;
     const sectionAtHeader = rect.top <= HEADER_HEIGHT + 10 && rect.top >= HEADER_HEIGHT - 100;
@@ -90,7 +91,7 @@ export default function HeroStepSection() {
     if (phase === 'animating') {
       if (swipingDown) {
         isTransitioning.current = true;
-        if (currentStep < 4) {
+        if (currentStep < totalSteps) {
           setCurrentStep(prev => prev + 1);
         } else {
           setPhase('after');
@@ -121,7 +122,7 @@ export default function HeroStepSection() {
         if (rect.top >= HEADER_HEIGHT - 100) {
           isTransitioning.current = true;
           setPhase('animating');
-          setCurrentStep(4);
+          setCurrentStep(totalSteps);
           document.body.style.overflow = 'hidden';
           const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
           window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
@@ -135,7 +136,7 @@ export default function HeroStepSection() {
     }
 
     touchStartY.current = null;
-  }, [currentStep, phase]);
+  }, [currentStep, phase, totalSteps]);
 
   // Handle wheel scroll
   const handleWheel = useCallback((e: WheelEvent) => {
@@ -148,15 +149,12 @@ export default function HeroStepSection() {
     const scrollingDown = e.deltaY > 0;
     const scrollingUp = e.deltaY < 0;
 
-    // Section position checks (accounting for header)
     const sectionInView = rect.top < window.innerHeight && rect.bottom > HEADER_HEIGHT;
     const sectionAboveViewport = rect.bottom <= HEADER_HEIGHT;
-    // Section top is at or below header (ready to animate)
     const sectionAtHeader = rect.top <= HEADER_HEIGHT + 10 && rect.top >= HEADER_HEIGHT - 100;
 
-    // Phase: BEFORE (user is above hero, hasn't started animation yet)
+    // Phase: BEFORE
     if (phase === 'before') {
-      // Scrolling down and section is at header level - start animation
       if (scrollingDown && sectionAtHeader) {
         e.preventDefault();
         isTransitioning.current = true;
@@ -165,20 +163,18 @@ export default function HeroStepSection() {
         setTimeout(() => { isTransitioning.current = false; }, 100);
         return;
       }
-      // Otherwise allow normal scroll
       return;
     }
 
-    // Phase: ANIMATING (step 1-4 animation)
+    // Phase: ANIMATING
     if (phase === 'animating') {
       e.preventDefault();
 
       if (scrollingDown) {
         isTransitioning.current = true;
-        if (currentStep < 4) {
+        if (currentStep < totalSteps) {
           setCurrentStep(prev => prev + 1);
         } else {
-          // Exit to next section
           setPhase('after');
           document.body.style.overflow = '';
         }
@@ -191,7 +187,6 @@ export default function HeroStepSection() {
         if (currentStep > 1) {
           setCurrentStep(prev => prev - 1);
         } else {
-          // Exit to above
           setPhase('before');
           document.body.style.overflow = '';
         }
@@ -200,28 +195,24 @@ export default function HeroStepSection() {
       }
     }
 
-    // Phase: AFTER (user has scrolled past hero)
+    // Phase: AFTER
     if (phase === 'after') {
-      // Scrolling up and section is coming back into view
       if (scrollingUp && sectionInView && !sectionAboveViewport) {
-        // If section top is near header level, re-enter animation
         if (rect.top >= HEADER_HEIGHT - 100) {
           e.preventDefault();
           isTransitioning.current = true;
           setPhase('animating');
-          setCurrentStep(4); // Re-enter at step 4
+          setCurrentStep(totalSteps);
           document.body.style.overflow = 'hidden';
-          // Scroll to position section right below header
           const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
           window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
           setTimeout(() => { isTransitioning.current = false; }, 800);
           return;
         }
       }
-      // Otherwise allow normal scroll
       return;
     }
-  }, [currentStep, phase]);
+  }, [currentStep, phase, totalSteps]);
 
   useEffect(() => {
     window.addEventListener('wheel', handleWheel, { passive: false });
@@ -236,13 +227,12 @@ export default function HeroStepSection() {
     };
   }, [handleWheel, handleTouchStart, handleTouchMove, handleTouchEnd]);
 
-  // Initial setup - check if section is at header level on mount
+  // Initial setup
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const rect = container.getBoundingClientRect();
-    // If section starts right below header, go directly to animating phase
     if (rect.top <= HEADER_HEIGHT + 10 && rect.top >= HEADER_HEIGHT - 10) {
       setPhase('animating');
       document.body.style.overflow = 'hidden';
@@ -253,25 +243,13 @@ export default function HeroStepSection() {
     };
   }, []);
 
-  // Get visible tiles based on current step
-  const getVisibleTiles = () => {
-    if (currentStep === 1) return FOODTRUCK_HERO_TILES.slice(0, 1);
-    if (currentStep === 2) return FOODTRUCK_HERO_TILES.slice(0, 2);
-    return FOODTRUCK_HERO_TILES;
-  };
+  const showMainCopy = currentStep === totalSteps;
 
-  const visibleTiles = getVisibleTiles();
-  const showMainCopy = currentStep === 4;
-
-  // Grid classes based on step and viewport
+  // Grid classes - always show all 3 tiles
   const getGridClass = () => {
     if (isWide) {
-      if (currentStep === 1) return 'grid-cols-1';
-      if (currentStep === 2) return 'grid-cols-2';
       return 'grid-cols-3';
     } else {
-      if (currentStep === 1) return 'grid-cols-1';
-      if (currentStep === 2) return 'grid-cols-1 grid-rows-2';
       return 'grid-cols-1 grid-rows-3';
     }
   };
@@ -282,8 +260,9 @@ export default function HeroStepSection() {
       className="relative h-[calc(100vh-64px)]"
     >
       <div className="sticky top-16 h-[calc(100vh-64px)] overflow-hidden">
+        {/* Background Grid - Always show all tiles */}
         <div className={`grid ${getGridClass()} h-full w-full`}>
-          {visibleTiles.map((tile) => (
+          {FOODTRUCK_HERO_TILES.map((tile, index) => (
             <div
               key={tile.id}
               className="relative overflow-hidden"
@@ -303,14 +282,14 @@ export default function HeroStepSection() {
               {/* Dark Overlay */}
               <div className="absolute inset-0 bg-black/40" />
 
-              {/* Tile Title - Hidden on step 4 */}
+              {/* Tile Title - Show based on step (stays visible once appeared) */}
               <AnimatePresence>
-                {!showMainCopy && (
+                {currentStep >= index + 1 && !showMainCopy && (
                   <motion.div
                     className="absolute inset-0 flex items-center justify-center"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 30 }}
+                    exit={{ opacity: 0, y: -30 }}
                     transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
                   >
                     <h2 className="text-[32px] md:text-[48px] lg:text-[56px] font-bold text-white">
@@ -323,14 +302,14 @@ export default function HeroStepSection() {
           ))}
         </div>
 
-        {/* Main Copy - Step 4 */}
+        {/* Main Copy - Final Step */}
         <AnimatePresence>
           {showMainCopy && (
             <motion.div
               className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 30 }}
+              exit={{ opacity: 0, y: -30 }}
               transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
             >
               <div className="text-center px-4">
@@ -344,7 +323,7 @@ export default function HeroStepSection() {
 
         {/* Step Indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-          {[1, 2, 3, 4].map((step) => (
+          {Array.from({ length: totalSteps }, (_, i) => i + 1).map((step) => (
             <div
               key={step}
               className={`w-2 h-2 rounded-full transition-all duration-300 ${
