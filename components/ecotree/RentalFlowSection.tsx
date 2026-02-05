@@ -82,7 +82,12 @@ export default function RentalFlowSection() {
 
   // Lock body scroll when in section (both desktop and mobile)
   useEffect(() => {
-    if (isInSection) {
+    if (isInSection && sectionRef.current) {
+      // 정확한 위치로 스크롤 보정
+      const targetY = sectionRef.current.offsetTop - 64;
+      if (Math.abs(window.scrollY - targetY) > 1) {
+        window.scrollTo(0, targetY);
+      }
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -190,21 +195,30 @@ export default function RentalFlowSection() {
 
   // Touch event handler for mobile
   const touchStartY = useRef(0);
+  const touchDeltaY = useRef(0);
+
   const handleTouchStart = useCallback((e: TouchEvent) => {
     touchStartY.current = e.touches[0].clientY;
+    touchDeltaY.current = 0;
   }, []);
 
-  const handleTouchEnd = useCallback((e: TouchEvent) => {
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    if (!isInSection || !isMobile) return;
+
+    touchDeltaY.current = touchStartY.current - e.touches[0].clientY;
+
+    // 섹션 내에 있을 때 스크롤 방지
+    e.preventDefault();
+  }, [isInSection, isMobile]);
+
+  const handleTouchEnd = useCallback(() => {
     if (!sectionRef.current || !isInSection || isAnimating.current || !isMobile) return;
 
-    const touchEndY = e.changedTouches[0].clientY;
-    const deltaY = touchStartY.current - touchEndY;
-    const threshold = 50;
+    const deltaY = touchDeltaY.current;
+    const threshold = 30;
     const animationDuration = 600;
 
     if (Math.abs(deltaY) < threshold) return;
-
-    e.preventDefault();
 
     if (deltaY > 0) {
       if (currentStep < totalSteps) {
@@ -216,6 +230,7 @@ export default function RentalFlowSection() {
           setCanExitDown(true);
         } else {
           isAnimating.current = true;
+          document.body.style.overflow = '';
           const nextSection = sectionRef.current.nextElementSibling as HTMLElement;
           if (nextSection) {
             smoothScrollTo(nextSection.offsetTop - 64, 800);
@@ -236,6 +251,7 @@ export default function RentalFlowSection() {
           setCanExitUp(true);
         } else {
           isAnimating.current = true;
+          document.body.style.overflow = '';
           const prevSection = sectionRef.current.previousElementSibling as HTMLElement;
           if (prevSection) {
             smoothScrollTo(prevSection.offsetTop - 64, 800);
@@ -252,12 +268,14 @@ export default function RentalFlowSection() {
   useEffect(() => {
     if (!isMobile) return;
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: false });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
     return () => {
       window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [handleTouchStart, handleTouchEnd, isMobile]);
+  }, [handleTouchStart, handleTouchMove, handleTouchEnd, isMobile]);
 
   // 점선 위치 계산
   useEffect(() => {
@@ -311,9 +329,9 @@ export default function RentalFlowSection() {
 
           {/* Mobile Layout */}
           <div className="md:hidden flex flex-col">
-            <div className="mb-4">
+            <div className="mb-2">
               <span
-                className="text-[32px] text-[#1B67FF] font-normal"
+                className="text-[20px] md:text-[32px] text-[#1B67FF] font-normal"
                 style={{ fontFamily: 'SlowGothic, sans-serif' }}
               >
                 {currentStepData.number}
@@ -427,7 +445,7 @@ export default function RentalFlowSection() {
               </div>
             </div>
 
-            <div className="flex-1 aspect-[16/10] relative rounded-2xl overflow-hidden bg-gray-200">
+            <div className="h-[400px] aspect-[16/10] relative rounded-2xl overflow-hidden bg-gray-200">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentStep}

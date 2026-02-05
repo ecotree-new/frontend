@@ -22,7 +22,7 @@ export default function EcotreePage() {
     <>
       <Header />
       <ScrollSnapController snapEndRef={snapEndRef} />
-      <main className="pt-16">
+      <main>
         <HeroSection />
         <RentalFlowSection />
         <BusinessRangeSection />

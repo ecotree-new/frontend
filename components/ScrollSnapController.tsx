@@ -24,6 +24,7 @@ export default function ScrollSnapController({ snapEndRef }: ScrollSnapControlle
 
       if (shouldEnableSnap && !isSnapEnabled.current) {
         document.documentElement.style.scrollSnapType = 'y mandatory';
+        document.documentElement.style.scrollPaddingTop = '64px';
         isSnapEnabled.current = true;
       } else if (!shouldEnableSnap && isSnapEnabled.current) {
         document.documentElement.style.scrollSnapType = 'none';

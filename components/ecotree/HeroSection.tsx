@@ -24,11 +24,15 @@ export default function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 h-full flex flex-col justify-center container-ecotree">
-        <h1 className="text-[30px] md:text-[60px] font-bold text-white">
-          {ECOTREE_HERO.title}
+        <h1 className="text-[30px] md:text-[64px] font-bold text-white">
+          다회용기 운영의
+          <br className="md:hidden" />
+          {' '}기준을 만들다.
         </h1>
         <p className="text-[12px] md:text-[20px] font-medium text-white mt-4">
-          {ECOTREE_HERO.subtitle}
+          에코트리는 다회용기 운영의 전 과정을
+          <br className="md:hidden" />
+          {' '}직접 설계하고 관리합니다.
         </p>
       </div>
     </section>
