@@ -6,280 +6,205 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ECOTREE_RENTAL_FLOW } from '@/lib/constants';
 import { IMAGE_MAP } from '@/lib/images';
 
-// Custom smooth scroll with snap disable during animation
-function smoothScrollTo(target: number, duration: number = 800) {
-  const start = window.scrollY;
-  const distance = target - start;
-  const startTime = performance.now();
-
-  document.documentElement.style.scrollSnapType = 'none';
-
-  const easeInOutCubic = (t: number) => {
-    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-  };
-
-  const animate = (currentTime: number) => {
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const easeProgress = easeInOutCubic(progress);
-    window.scrollTo(0, start + distance * easeProgress);
-    if (progress < 1) {
-      requestAnimationFrame(animate);
-    } else {
-      document.documentElement.style.scrollSnapType = 'y mandatory';
-    }
-  };
-
-  requestAnimationFrame(animate);
-}
+// Helper to get scroll container (snap container)
+const getScrollContainer = () => {
+  const snapContainer = document.querySelector('.snap-y');
+  return snapContainer as HTMLElement | null;
+};
 
 export default function RentalFlowSection() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const stepsContainerRef = useRef<HTMLDivElement>(null);
   const firstIndicatorRef = useRef<HTMLDivElement>(null);
   const lastIndicatorRef = useRef<HTMLDivElement>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const [lineStyle, setLineStyle] = useState({ top: 7, height: 200 });
-  const [isInSection, setIsInSection] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [canExitDown, setCanExitDown] = useState(false);
-  const [canExitUp, setCanExitUp] = useState(false);
-  const isAnimating = useRef(false);
-  const isExiting = useRef(false);
-  const accumulatedDelta = useRef(0);
-  const deltaResetTimer = useRef<NodeJS.Timeout | null>(null);
+  const [isLocked, setIsLocked] = useState(false);
+  const isTransitioning = useRef(false);
+  const isExiting = useRef(false);  // 탈출 의도 플래그
+  const touchStartY = useRef<number | null>(null);
 
   const steps = ECOTREE_RENTAL_FLOW.steps;
   const totalSteps = steps.length;
-  const DELTA_THRESHOLD = 50; // 트랙패드 누적 threshold
 
-  // Check if mobile
+  // Lock/unlock scroll container
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    const sc = getScrollContainer();
+    if (!sc) return;
 
-  // Check if section is in view
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-
-      const rect = sectionRef.current.getBoundingClientRect();
-      const headerHeight = 64;
-      const threshold = 10;
-
-      const inSection = Math.abs(rect.top - headerHeight) < threshold;
-      setIsInSection(inSection);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Lock body scroll when in section (both desktop and mobile)
-  useEffect(() => {
-    if (isInSection && !isExiting.current) {
-      document.body.style.overflow = 'hidden';
+    if (isLocked) {
+      sc.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = '';
+      sc.style.overflow = '';
     }
+
     return () => {
-      document.body.style.overflow = '';
+      sc.style.overflow = '';
     };
-  }, [isInSection]);
+  }, [isLocked]);
 
-  // Reset exit flags when step changes
+  // Detect when section enters viewport and lock immediately
   useEffect(() => {
-    if (currentStep !== totalSteps) {
-      setCanExitDown(false);
-    }
-    if (currentStep !== 1) {
-      setCanExitUp(false);
-    }
-  }, [currentStep, totalSteps]);
+    if (!containerRef.current || isLocked) return;
+    if (isExiting.current) return;  // 탈출 중이면 observer 설정 안 함
 
-  // Wheel event handler for step transitions
-  const handleWheel = useCallback((e: WheelEvent) => {
-    if (!sectionRef.current || !isInSection || isAnimating.current || isMobile) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    // Accumulate delta for trackpad
-    accumulatedDelta.current += e.deltaY;
-
-    // Reset accumulated delta after a short delay
-    if (deltaResetTimer.current) {
-      clearTimeout(deltaResetTimer.current);
-    }
-    deltaResetTimer.current = setTimeout(() => {
-      accumulatedDelta.current = 0;
-    }, 150);
-
-    // Only trigger action when threshold is reached
-    if (Math.abs(accumulatedDelta.current) < DELTA_THRESHOLD) return;
-
-    const direction = accumulatedDelta.current > 0 ? 'down' : 'up';
-    accumulatedDelta.current = 0; // Reset after triggering
-
-    const animationDuration = 600;
-
-    if (direction === 'down') {
-      if (currentStep < totalSteps) {
-        isAnimating.current = true;
-        setCurrentStep(prev => prev + 1);
-        setTimeout(() => {
-          isAnimating.current = false;
-        }, animationDuration);
-      } else if (currentStep === totalSteps) {
-        if (!canExitDown) {
-          setCanExitDown(true);
-        } else {
-          isAnimating.current = true;
-          isExiting.current = true;
-          document.body.style.overflow = '';
-          const nextSection = sectionRef.current.nextElementSibling as HTMLElement;
-          if (nextSection) {
-            smoothScrollTo(nextSection.offsetTop - 64, 800);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isLocked) {
+            const sc = getScrollContainer();
+            if (sc) {
+              // 즉시 스크롤 멈춤
+              sc.style.overflow = 'hidden';
+              // 정확한 위치로 이동
+              sc.scrollTop = containerRef.current!.offsetTop;
+              setIsLocked(true);
+            }
           }
-          setTimeout(() => {
-            isAnimating.current = false;
-            isExiting.current = false;
-            setCanExitDown(false);
-          }, 1000);
-        }
-      }
-    } else {
-      if (currentStep > 1) {
-        isAnimating.current = true;
-        setCurrentStep(prev => prev - 1);
-        setTimeout(() => {
-          isAnimating.current = false;
-        }, animationDuration);
-      } else if (currentStep === 1) {
-        if (!canExitUp) {
-          setCanExitUp(true);
-        } else {
-          isAnimating.current = true;
-          isExiting.current = true;
-          document.body.style.overflow = '';
-          const prevSection = sectionRef.current.previousElementSibling as HTMLElement;
-          if (prevSection) {
-            smoothScrollTo(prevSection.offsetTop - 64, 800);
-          }
-          setTimeout(() => {
-            isAnimating.current = false;
-            isExiting.current = false;
-            setCanExitUp(false);
-          }, 1000);
-        }
-      }
-    }
-  }, [currentStep, totalSteps, isInSection, isMobile, canExitDown, canExitUp]);
+        });
+      },
+      { threshold: 0.3 }
+    );
 
-  useEffect(() => {
-    if (isMobile) return;
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-      if (deltaResetTimer.current) {
-        clearTimeout(deltaResetTimer.current);
-      }
-    };
-  }, [handleWheel, isMobile]);
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, [isLocked]);
 
-  // Touch event handler for mobile
-  const touchStartY = useRef(0);
-  const touchDeltaY = useRef(0);
-
+  // Handle touch start
   const handleTouchStart = useCallback((e: TouchEvent) => {
+    if (!isLocked) return;
     touchStartY.current = e.touches[0].clientY;
-    touchDeltaY.current = 0;
-  }, []);
+  }, [isLocked]);
 
+  // Handle touch move - prevent scroll when locked
   const handleTouchMove = useCallback((e: TouchEvent) => {
-    if (!isInSection || !isMobile || isExiting.current) return;
-
-    touchDeltaY.current = touchStartY.current - e.touches[0].clientY;
-
-    // 섹션 내에 있을 때 스크롤 방지 (나가는 중이 아닐 때만)
+    if (!isLocked) return;
     e.preventDefault();
-  }, [isInSection, isMobile]);
+  }, [isLocked]);
 
-  const handleTouchEnd = useCallback(() => {
-    if (!sectionRef.current || !isInSection || isAnimating.current || !isMobile || isExiting.current) return;
+  // Handle touch end
+  const handleTouchEnd = useCallback((e: TouchEvent) => {
+    if (!isLocked || isTransitioning.current || touchStartY.current === null) return;
 
-    const deltaY = touchDeltaY.current;
-    const threshold = 30;
-    const animationDuration = 600;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaY = touchStartY.current - touchEndY;
+    touchStartY.current = null;
 
-    if (Math.abs(deltaY) < threshold) return;
+    if (Math.abs(deltaY) < 30) return;
+
+    isTransitioning.current = true;
+
+    const sc = getScrollContainer();
+    const container = containerRef.current;
 
     if (deltaY > 0) {
+      // Swipe up (scroll down)
       if (currentStep < totalSteps) {
-        isAnimating.current = true;
         setCurrentStep(prev => prev + 1);
-        setTimeout(() => { isAnimating.current = false; }, animationDuration);
-      } else if (currentStep === totalSteps) {
-        if (!canExitDown) {
-          setCanExitDown(true);
-        } else {
-          isAnimating.current = true;
-          isExiting.current = true;
-          document.body.style.overflow = '';
-          const nextSection = sectionRef.current.nextElementSibling as HTMLElement;
-          if (nextSection) {
-            smoothScrollTo(nextSection.offsetTop - 64, 800);
-          }
-          setTimeout(() => {
-            isAnimating.current = false;
-            isExiting.current = false;
-            setCanExitDown(false);
-          }, 1000);
-        }
+      } else if (sc && container) {
+        // Last step, go to next section
+        isExiting.current = true;  // 탈출 의도 표시
+        setIsLocked(false);
+        sc.style.overflow = '';
+        sc.style.scrollSnapType = 'none';
+
+        const sectionHeight = container.offsetHeight;
+        sc.scrollTo({ top: sc.scrollTop + sectionHeight, behavior: 'smooth' });
+        setTimeout(() => {
+          sc.style.scrollSnapType = '';
+          isExiting.current = false;  // 탈출 완료 후 리셋
+        }, 1000);
       }
     } else {
+      // Swipe down (scroll up)
       if (currentStep > 1) {
-        isAnimating.current = true;
         setCurrentStep(prev => prev - 1);
-        setTimeout(() => { isAnimating.current = false; }, animationDuration);
-      } else if (currentStep === 1) {
-        if (!canExitUp) {
-          setCanExitUp(true);
-        } else {
-          isAnimating.current = true;
-          isExiting.current = true;
-          document.body.style.overflow = '';
-          const prevSection = sectionRef.current.previousElementSibling as HTMLElement;
-          if (prevSection) {
-            smoothScrollTo(prevSection.offsetTop - 64, 800);
-          }
-          setTimeout(() => {
-            isAnimating.current = false;
-            isExiting.current = false;
-            setCanExitUp(false);
-          }, 1000);
-        }
+      } else if (sc && container) {
+        // First step, go to previous section
+        isExiting.current = true;  // 탈출 의도 표시
+        setIsLocked(false);
+        sc.style.overflow = '';
+        sc.style.scrollSnapType = 'none';
+
+        const sectionHeight = container.offsetHeight;
+        sc.scrollTo({ top: sc.scrollTop - sectionHeight, behavior: 'smooth' });
+        setTimeout(() => {
+          sc.style.scrollSnapType = '';
+          isExiting.current = false;  // 탈출 완료 후 리셋
+        }, 1000);
       }
     }
-  }, [currentStep, totalSteps, isInSection, isMobile, canExitDown, canExitUp]);
+
+    setTimeout(() => {
+      isTransitioning.current = false;
+    }, 500);
+  }, [isLocked, currentStep, totalSteps]);
+
+  // Handle wheel scroll
+  const handleWheel = useCallback((e: WheelEvent) => {
+    if (!isLocked || isTransitioning.current) return;
+
+    e.preventDefault();
+    isTransitioning.current = true;
+
+    const sc = getScrollContainer();
+    const container = containerRef.current;
+
+    if (e.deltaY > 0) {
+      // Scroll down
+      if (currentStep < totalSteps) {
+        setCurrentStep(prev => prev + 1);
+        setTimeout(() => { isTransitioning.current = false; }, 500);
+      } else if (sc && container) {
+        // Last step, go to next section
+        isExiting.current = true;  // 탈출 의도 표시
+        setIsLocked(false);
+        sc.style.overflow = '';
+        sc.style.scrollSnapType = 'none';
+
+        const sectionHeight = container.offsetHeight;
+        sc.scrollTo({ top: sc.scrollTop + sectionHeight, behavior: 'smooth' });
+        setTimeout(() => {
+          sc.style.scrollSnapType = '';
+          isTransitioning.current = false;
+          isExiting.current = false;  // 탈출 완료 후 리셋
+        }, 1000);
+      }
+    } else {
+      // Scroll up
+      if (currentStep > 1) {
+        setCurrentStep(prev => prev - 1);
+        setTimeout(() => { isTransitioning.current = false; }, 500);
+      } else if (sc && container) {
+        // First step, go to previous section
+        isExiting.current = true;  // 탈출 의도 표시
+        setIsLocked(false);
+        sc.style.overflow = '';
+        sc.style.scrollSnapType = 'none';
+
+        const sectionHeight = container.offsetHeight;
+        sc.scrollTo({ top: sc.scrollTop - sectionHeight, behavior: 'smooth' });
+        setTimeout(() => {
+          sc.style.scrollSnapType = '';
+          isTransitioning.current = false;
+          isExiting.current = false;  // 탈출 완료 후 리셋
+        }, 1000);
+      }
+    }
+  }, [isLocked, currentStep, totalSteps]);
 
   useEffect(() => {
-    if (!isMobile) return;
+    window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: false });
     window.addEventListener('touchend', handleTouchEnd, { passive: true });
     return () => {
+      window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [handleTouchStart, handleTouchMove, handleTouchEnd, isMobile]);
+  }, [handleWheel, handleTouchStart, handleTouchMove, handleTouchEnd]);
 
   // 점선 위치 계산
   useEffect(() => {
@@ -318,7 +243,7 @@ export default function RentalFlowSection() {
   const currentImage = IMAGE_MAP[currentStepData.image];
 
   return (
-    <section ref={sectionRef} className="snap-section relative h-[calc(100vh-64px)] bg-white">
+    <div ref={containerRef} className="relative h-[calc(100vh-64px)] snap-start snap-always bg-white">
       <div className="h-full w-full overflow-hidden">
         <div className="container-ecotree h-full flex flex-col justify-center">
           {/* Header - left aligned */}
@@ -472,6 +397,6 @@ export default function RentalFlowSection() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

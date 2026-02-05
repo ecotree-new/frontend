@@ -298,10 +298,10 @@ export default function BrandTransitionSection() {
   const logoY = useTransform(scrollYProgress, [0.55, 0.7], [30, 0]);
 
   return (
-    <section ref={containerRef} className="snap-section relative h-[600vh] bg-[#FBFBFB]">
+    <section ref={containerRef} className="relative h-[600vh] bg-[#FBFBFB] snap-start">
       <motion.div
         style={{ backgroundColor: bgColor }}
-        className="sticky top-16 h-[calc(100vh-64px)] w-full overflow-hidden z-10"
+        className="sticky top-0 h-[calc(100vh-64px)] w-full overflow-hidden z-10"
       >
         {/* Title + Image Container */}
         <motion.div

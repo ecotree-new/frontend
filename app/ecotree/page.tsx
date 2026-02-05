@@ -1,9 +1,5 @@
-'use client';
-
-import { useRef } from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import ScrollSnapController from '@/components/ScrollSnapController';
 import HeroSection from '@/components/ecotree/HeroSection';
 import RentalFlowSection from '@/components/ecotree/RentalFlowSection';
 import BusinessRangeSection from '@/components/ecotree/BusinessRangeSection';
@@ -16,27 +12,25 @@ import PostWashingSection from '@/components/ecotree/PostWashingSection';
 import StatsSection from '@/components/ecotree/StatsSection';
 
 export default function EcotreePage() {
-  const snapEndRef = useRef<HTMLDivElement>(null);
-
   return (
     <>
       <Header />
-      <ScrollSnapController snapEndRef={snapEndRef} />
-      <main>
+      <main className="fixed top-16 left-0 right-0 bottom-0 overflow-y-auto snap-y snap-mandatory scroll-smooth">
         <HeroSection />
         <RentalFlowSection />
         <BusinessRangeSection />
         <BrandTransitionSection />
-        <div ref={snapEndRef}>
+        {/* Free scroll sections */}
+        <div className="snap-start">
           <ProductShowcaseSection />
           <ProductVideoSection />
           <WashingProcessSection />
           <WashingFacilitySection />
           <PostWashingSection />
           <StatsSection />
+          <Footer />
         </div>
       </main>
-      <Footer />
     </>
   );
 }

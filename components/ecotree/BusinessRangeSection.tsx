@@ -10,7 +10,7 @@ export default function BusinessRangeSection() {
   const duplicatedCards = [...cards, ...cards];
 
   return (
-    <section className="snap-section h-[calc(100vh-64px)] bg-white flex items-center">
+    <section className="h-[calc(100vh-64px)] bg-white flex items-center snap-start snap-always">
       <div className="container-ecotree w-full overflow-hidden">
         {/* Header - left aligned */}
         <div className="mb-8 lg:mb-[125px] short-h:lg:mb-12">
