@@ -12,6 +12,7 @@ export default function ProcessStrengthSection() {
   const [currentSection, setCurrentSection] = useState<'process' | 'strength'>('process');
   const [isInSection, setIsInSection] = useState(false);
   const isAnimating = useRef(false);
+  const touchStartY = useRef(0);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -32,15 +33,14 @@ export default function ProcessStrengthSection() {
     }
   });
 
-  // 뷰포트 진입/이탈 감지
+  // 뷰포트 진입/이탈 감지 - 한번 진입하면 상태 유지 (once: true 방식)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !hasEntered) {
           setHasEntered(true);
-        } else {
-          setHasEntered(false);
         }
+        // 섹션을 벗어나도 hasEntered를 false로 하지 않음 - 터치 스크롤 시 초기화 방지
       },
       { threshold: 0.1 }
     );
@@ -50,7 +50,7 @@ export default function ProcessStrengthSection() {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [hasEntered]);
 
   // Handle wheel event for snap-like transition
   const handleWheel = useCallback((e: WheelEvent) => {
@@ -109,10 +109,80 @@ export default function ProcessStrengthSection() {
     }
   }, [isInSection, currentSection]);
 
+  // Touch event handlers for mobile
+  const handleTouchStart = useCallback((e: TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: TouchEvent) => {
+    if (!containerRef.current || !isInSection || isAnimating.current) return;
+
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaY = touchStartY.current - touchEndY; // positive = swipe up (scroll down)
+    const swipeThreshold = 50; // minimum swipe distance
+
+    if (Math.abs(deltaY) < swipeThreshold) return;
+
+    const containerTop = containerRef.current.offsetTop;
+    const containerHeight = containerRef.current.offsetHeight;
+    const scrollY = window.scrollY;
+    const viewportHeight = window.innerHeight;
+
+    // Calculate snap positions
+    const processPosition = containerTop;
+    const strengthPosition = containerTop + containerHeight / 2;
+    const exitPosition = containerTop + containerHeight - viewportHeight;
+
+    // Determine current state based on scroll position
+    const middlePoint = containerTop + containerHeight / 4;
+    const isAtProcess = scrollY < middlePoint;
+    const isAtStrength = scrollY >= middlePoint && scrollY < exitPosition - 100;
+
+    if (deltaY > 0) {
+      // Swiping up (scroll down)
+      if (isAtProcess) {
+        // Process → Strength
+        isAnimating.current = true;
+        setCurrentSection('strength');
+        window.scrollTo({
+          top: strengthPosition,
+          behavior: 'smooth'
+        });
+        setTimeout(() => { isAnimating.current = false; }, 800);
+      } else if (isAtStrength) {
+        // Strength → Exit (자유 스크롤 영역으로 이동)
+        isAnimating.current = true;
+        window.scrollTo({
+          top: exitPosition + 100,
+          behavior: 'smooth'
+        });
+        setTimeout(() => { isAnimating.current = false; }, 800);
+      }
+    } else if (deltaY < 0) {
+      // Swiping down (scroll up)
+      if (isAtStrength) {
+        // Strength → Process
+        isAnimating.current = true;
+        setCurrentSection('process');
+        window.scrollTo({
+          top: processPosition,
+          behavior: 'smooth'
+        });
+        setTimeout(() => { isAnimating.current = false; }, 800);
+      }
+    }
+  }, [isInSection]);
+
   useEffect(() => {
     window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => window.removeEventListener('wheel', handleWheel);
-  }, [handleWheel]);
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [handleWheel, handleTouchStart, handleTouchEnd]);
 
   // Process 섹션 opacity
   const processOpacity = useTransform(scrollYProgress, [0, 0.35, 0.45], [1, 1, 0]);
