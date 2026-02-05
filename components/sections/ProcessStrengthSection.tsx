@@ -114,12 +114,19 @@ export default function ProcessStrengthSection() {
     touchStartY.current = e.touches[0].clientY;
   }, []);
 
+  // 섹션 내에서 터치 스크롤 막기 - 스냅 로직만 동작하도록
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    if (!isInSection || isAnimating.current) return;
+    // 섹션 내에서 기본 스크롤 방지
+    e.preventDefault();
+  }, [isInSection]);
+
   const handleTouchEnd = useCallback((e: TouchEvent) => {
     if (!containerRef.current || !isInSection || isAnimating.current) return;
 
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY.current - touchEndY; // positive = swipe up (scroll down)
-    const swipeThreshold = 50; // minimum swipe distance
+    const swipeThreshold = 30; // minimum swipe distance (낮춤 - 터치 스크롤 막혀있으므로)
 
     if (Math.abs(deltaY) < swipeThreshold) return;
 
@@ -176,13 +183,15 @@ export default function ProcessStrengthSection() {
   useEffect(() => {
     window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false }); // passive: false로 preventDefault 허용
     window.addEventListener('touchend', handleTouchEnd, { passive: true });
     return () => {
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [handleWheel, handleTouchStart, handleTouchEnd]);
+  }, [handleWheel, handleTouchStart, handleTouchMove, handleTouchEnd]);
 
   // Process 섹션 opacity
   const processOpacity = useTransform(scrollYProgress, [0, 0.35, 0.45], [1, 1, 0]);
