@@ -103,17 +103,19 @@ export default function RentalFlowSection() {
         setCurrentStep(prev => prev + 1);
       } else if (sc && container) {
         // Last step, go to next section
-        setIsExiting(true);  // 탈출 의도 표시
-        setIsLocked(false);
-        sc.style.overflow = '';
-        sc.style.scrollSnapType = 'none';
+        const nextSection = container.nextElementSibling as HTMLElement;
+        if (nextSection) {
+          setIsExiting(true);
+          setIsLocked(false);
+          sc.style.overflow = '';
+          sc.style.scrollSnapType = 'none';
 
-        const sectionHeight = container.offsetHeight;
-        sc.scrollTo({ top: sc.scrollTop + sectionHeight, behavior: 'smooth' });
-        setTimeout(() => {
-          sc.style.scrollSnapType = '';
-          setIsExiting(false);  // 탈출 완료 후 리셋
-        }, 1000);
+          sc.scrollTo({ top: nextSection.offsetTop, behavior: 'smooth' });
+          setTimeout(() => {
+            sc.style.scrollSnapType = '';
+            setIsExiting(false);
+          }, 1000);
+        }
       }
     } else {
       // Swipe down (scroll up)
@@ -121,17 +123,19 @@ export default function RentalFlowSection() {
         setCurrentStep(prev => prev - 1);
       } else if (sc && container) {
         // First step, go to previous section
-        setIsExiting(true);  // 탈출 의도 표시
-        setIsLocked(false);
-        sc.style.overflow = '';
-        sc.style.scrollSnapType = 'none';
+        const prevSection = container.previousElementSibling as HTMLElement;
+        if (prevSection) {
+          setIsExiting(true);
+          setIsLocked(false);
+          sc.style.overflow = '';
+          sc.style.scrollSnapType = 'none';
 
-        const sectionHeight = container.offsetHeight;
-        sc.scrollTo({ top: sc.scrollTop - sectionHeight, behavior: 'smooth' });
-        setTimeout(() => {
-          sc.style.scrollSnapType = '';
-          setIsExiting(false);  // 탈출 완료 후 리셋
-        }, 1000);
+          sc.scrollTo({ top: prevSection.offsetTop, behavior: 'smooth' });
+          setTimeout(() => {
+            sc.style.scrollSnapType = '';
+            setIsExiting(false);
+          }, 1000);
+        }
       }
     }
 
