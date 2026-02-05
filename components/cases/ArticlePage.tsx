@@ -82,7 +82,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
       </div>
 
       {/* Other Reviews Section */}
-      <section className="bg-[#EDF3FF] py-16 md:py-24 lg:py-32">
+      <section className="bg-[#F4F5F7] py-16 md:py-24 lg:py-32">
         <div className="container-ecotree">
           <h2 className="text-[20px] md:text-[28px] lg:text-[32px] font-bold text-[#111111] mb-8 md:mb-12">
             다른 운영 후기 보기

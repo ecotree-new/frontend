@@ -30,7 +30,7 @@ export default function JointCaseSection() {
   return (
     <section
       ref={sectionRef}
-      className="bg-[#EDF3FF] py-12 md:py-20 lg:py-40"
+      className="bg-[#F4F5F7] py-12 md:py-20 lg:py-40"
     >
       <div className="container-ecotree">
         {/* Section Header - Line break at 839px */}
