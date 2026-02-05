@@ -83,14 +83,9 @@ export default function RentalFlowSection() {
 
   // Lock body scroll when in section (both desktop and mobile)
   useEffect(() => {
-    if (isInSection && sectionRef.current && !isAnimating.current && !isExiting.current) {
-      // 정확한 위치로 스크롤 보정 (섹션 이동/나가는 중이 아닐 때만)
-      const targetY = sectionRef.current.offsetTop - 64;
-      if (Math.abs(window.scrollY - targetY) > 1) {
-        window.scrollTo(0, targetY);
-      }
+    if (isInSection && !isExiting.current) {
       document.body.style.overflow = 'hidden';
-    } else if (!isInSection || isExiting.current) {
+    } else {
       document.body.style.overflow = '';
     }
     return () => {
