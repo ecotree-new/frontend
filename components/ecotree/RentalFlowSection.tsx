@@ -208,11 +208,11 @@ export default function RentalFlowSection() {
   }, []);
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
-    if (!isInSection || !isMobile) return;
+    if (!isInSection || !isMobile || isExiting.current) return;
 
     touchDeltaY.current = touchStartY.current - e.touches[0].clientY;
 
-    // 섹션 내에 있을 때 스크롤 방지
+    // 섹션 내에 있을 때 스크롤 방지 (나가는 중이 아닐 때만)
     e.preventDefault();
   }, [isInSection, isMobile]);
 
