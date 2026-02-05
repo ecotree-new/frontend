@@ -25,12 +25,15 @@ export default function ProcessStrengthSection() {
     const inSection = value > 0 && value < 0.67;
     setIsInSection(inSection);
 
-    // Sync state with scroll position
-    if (value > 0.33 && currentSection !== 'strength') {
-      setCurrentSection('strength');
-    } else if (value <= 0.33 && currentSection !== 'process') {
-      setCurrentSection('process');
+    // 섹션 내에 있을 때만 상태 동기화 (섹션 벗어나면 마지막 상태 유지)
+    if (inSection) {
+      if (value > 0.33 && currentSection !== 'strength') {
+        setCurrentSection('strength');
+      } else if (value <= 0.33 && currentSection !== 'process') {
+        setCurrentSection('process');
+      }
     }
+    // 섹션 위로 벗어나면 (value <= 0) process로, 아래로 벗어나면 (value >= 0.67) strength 유지
   });
 
   // 뷰포트 진입/이탈 감지 - 한번 진입하면 상태 유지 (once: true 방식)
