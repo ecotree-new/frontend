@@ -69,12 +69,12 @@ export default function ProcessSection() {
               </span>
 
               {/* Title */}
-              <h3 className="text-[16px] md:text-[18px] lg:text-[20px] font-bold text-[#111111] mt-3 md:mt-4 mb-3 md:mb-4.5">
+              <h3 className="text-[12px] md:text-[18px] lg:text-[20px] font-bold text-[#111111] mt-3 md:mt-8 mb-3 md:mb-4">
                 {step.title}
               </h3>
 
               {/* Description */}
-              <p className="text-[12px] md:text-[13px] lg:text-[14px] font-semibold text-[#111111] mb-3 md:mb-5">
+              <p className="text-[10px] md:text-[14px] lg:text-[14px] font-semibold text-[#111111] mb-3 md:mb-5">
                 {step.description}
               </p>
               </motion.div>

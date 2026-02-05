@@ -7,9 +7,9 @@ import { TESTIMONIALS } from '@/lib/constants';
 function TestimonialCard({ company, content }: { company: string; content: string }) {
   return (
     <div className="w-[260px] md:w-[340px] lg:w-[380px] flex-shrink-0 rounded-2xl overflow-hidden">
-      <div className="h-[280px] md:h-[320px] lg:h-[360px] p-5 md:p-6 lg:p-8 bg-gradient-to-b from-[#2A2D35] to-[#1B67FF] flex flex-col">
+      <div className="h-[280px] md:h-[320px] lg:h-[360px] p-8 md:p-8 lg:p-12 bg-gradient-to-b from-[#2A2D35] to-[#1B67FF] flex flex-col">
         {/* Quote Icon */}
-        <div className="mb-auto">
+        <div className="mb-12">
           <svg
             className="w-10 h-10 md:w-12 md:h-12 text-white/80"
             viewBox="0 0 24 24"
@@ -20,12 +20,12 @@ function TestimonialCard({ company, content }: { company: string; content: strin
         </div>
 
         {/* Company Name */}
-        <p className="text-[14px] md:text-[16px] text-white font-semibold mb-3">
+        <p className="text-[14px] md:text-[16px] text-white font-bold mb-3">
           {company}
         </p>
 
         {/* Content */}
-        <p className="text-[14px] md:text-[16px] text-white/90 leading-relaxed">
+        <p className="text-[14px] md:text-[20px] text-white font-medium leading-relaxed">
           {content}
         </p>
       </div>

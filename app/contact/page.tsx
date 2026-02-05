@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import ContactTabs from '@/components/contact/ContactTabs';
@@ -39,6 +40,22 @@ export default function ContactPage() {
         </div>
       </main>
       <Footer />
+
+      {/* Kakao Open Chat Floating Button */}
+      <a
+        href="https://open.kakao.com/o/sOcgVodi"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-8 right-8 z-50 hover:scale-110 transition-transform"
+      >
+        <Image
+          src="/kakao-icon.png"
+          alt="카카오 오픈채팅"
+          width={56}
+          height={56}
+          className="rounded-full shadow-lg"
+        />
+      </a>
     </>
   );
 }
