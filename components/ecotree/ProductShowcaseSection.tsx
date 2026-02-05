@@ -6,14 +6,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ECOTREE_PRODUCT_SHOWCASE } from '@/lib/constants';
 import { IMAGE_MAP } from '@/lib/images';
 
-// Custom smooth scroll
-function smoothScrollTo(target: number, duration: number = 800, onComplete?: () => void, reEnableSnap: boolean = false) {
-  const start = window.scrollY;
+// Get the scroll container (.snap-y)
+function getScrollContainer(): HTMLElement | null {
+  return document.querySelector('.snap-y') as HTMLElement | null;
+}
+
+// Custom smooth scroll for the container
+function smoothScrollTo(container: HTMLElement, target: number, duration: number = 800, onComplete?: () => void, reEnableSnap: boolean = false) {
+  const start = container.scrollTop;
   const distance = target - start;
   const startTime = performance.now();
 
   // Disable snap during animation
-  document.documentElement.style.scrollSnapType = 'none';
+  container.style.scrollSnapType = 'none';
 
   const easeInOutCubic = (t: number) => {
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -23,13 +28,13 @@ function smoothScrollTo(target: number, duration: number = 800, onComplete?: () 
     const elapsed = currentTime - startTime;
     const progress = Math.min(elapsed / duration, 1);
     const easeProgress = easeInOutCubic(progress);
-    window.scrollTo(0, start + distance * easeProgress);
+    container.scrollTop = start + distance * easeProgress;
     if (progress < 1) {
       requestAnimationFrame(animate);
     } else {
       // Re-enable snap if requested (when going back to snap area)
       if (reEnableSnap) {
-        document.documentElement.style.scrollSnapType = 'y mandatory';
+        container.style.scrollSnapType = 'y mandatory';
       }
       onComplete?.();
     }
@@ -44,13 +49,48 @@ export default function ProductShowcaseSection() {
   const [isInSection, setIsInSection] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [hasExitedDown, setHasExitedDown] = useState(false);
+  const hasExitedDownRef = useRef(false);
   const isAnimating = useRef(false);
   const accumulatedDelta = useRef(0);
   const deltaResetTimer = useRef<NodeJS.Timeout | null>(null);
+  const lastScrollTop = useRef(0);
+  const scrollLockRAF = useRef<number | null>(null);
+  const scrollLockTarget = useRef<number | null>(null);
 
   const slides = ECOTREE_PRODUCT_SHOWCASE;
   const totalSlides = slides.length;
   const DELTA_THRESHOLD = 50;
+
+  // 스크롤 위치를 강제로 고정하는 함수 (모멘텀 스크롤 방지)
+  const lockScrollPosition = useCallback((targetScroll: number, duration: number = 500) => {
+    const container = getScrollContainer();
+    if (!container) return;
+
+    // 기존 RAF 취소
+    if (scrollLockRAF.current) {
+      cancelAnimationFrame(scrollLockRAF.current);
+    }
+
+    scrollLockTarget.current = targetScroll;
+    const startTime = performance.now();
+
+    const lockFrame = () => {
+      if (scrollLockTarget.current === null) return;
+
+      const elapsed = performance.now() - startTime;
+      container.scrollTop = scrollLockTarget.current;
+
+      // duration 동안 매 프레임마다 위치 강제 고정
+      if (elapsed < duration) {
+        scrollLockRAF.current = requestAnimationFrame(lockFrame);
+      } else {
+        scrollLockRAF.current = null;
+        scrollLockTarget.current = null;
+      }
+    };
+
+    scrollLockRAF.current = requestAnimationFrame(lockFrame);
+  }, []);
 
   // Check if mobile
   useEffect(() => {
@@ -62,50 +102,106 @@ export default function ProductShowcaseSection() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Check if section is in view (more generous threshold since outside snap area)
+  // Cleanup RAF on unmount
   useEffect(() => {
+    return () => {
+      if (scrollLockRAF.current) {
+        cancelAnimationFrame(scrollLockRAF.current);
+      }
+    };
+  }, []);
+
+  // Check if section is in view
+  useEffect(() => {
+    const container = getScrollContainer();
+    if (!container) return;
+
     const handleScroll = () => {
       if (!sectionRef.current) return;
 
       const rect = sectionRef.current.getBoundingClientRect();
       const headerHeight = 64;
 
-      // Section is in view when it's positioned at or near the header
+      // Section is "in view" when its top is near the header position
+      // Allow a tolerance of 50px for detection
       const inSection = rect.top <= headerHeight + 50 && rect.top >= headerHeight - 50;
+
       setIsInSection(inSection);
 
-      // Reset hasExitedDown if we scroll back up to this section
-      if (inSection && hasExitedDown) {
-        setHasExitedDown(false);
-        setCurrentSlide(totalSlides); // Reset to last slide when coming back
-      }
+      // Track scroll position for direction detection
+      lastScrollTop.current = container.scrollTop;
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    container.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasExitedDown, totalSlides]);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, []);
 
-  // Lock body scroll when in section (but not after exiting down)
+  // Lock scroll container when in section (but not after exiting down)
   useEffect(() => {
-    if (isInSection && !isMobile && !hasExitedDown) {
-      document.body.style.overflow = 'hidden';
+    const container = getScrollContainer();
+    if (!container || !sectionRef.current) return;
+
+    if (isInSection && !isMobile && !hasExitedDown && !hasExitedDownRef.current) {
+      // Snap to exact position before locking
+      const rect = sectionRef.current.getBoundingClientRect();
+      const headerHeight = 64;
+      const targetScroll = container.scrollTop + rect.top - headerHeight;
+
+      container.style.overflow = 'hidden';
+      container.scrollTop = targetScroll;
     } else {
-      document.body.style.overflow = '';
+      container.style.overflow = '';
     }
     return () => {
-      document.body.style.overflow = '';
+      container.style.overflow = '';
     };
   }, [isInSection, isMobile, hasExitedDown]);
 
 
   // Wheel event handler for slide transitions
   const handleWheel = useCallback((e: WheelEvent) => {
-    // Don't handle if already exited down (free scroll mode)
-    if (!sectionRef.current || !isInSection || isAnimating.current || isMobile || hasExitedDown) return;
+    if (!sectionRef.current || isAnimating.current || isMobile) return;
 
-    e.preventDefault();
-    e.stopPropagation();
+    const rect = sectionRef.current.getBoundingClientRect();
+    const headerHeight = 64;
+    const container = getScrollContainer();
+    if (!container) return;
+
+    // 역스크롤 시 섹션 진입 감지 (hasExitedDown 상태일 때)
+    if (hasExitedDownRef.current && e.deltaY < 0) {
+      // 섹션의 bottom이 뷰포트 하단 근처에 오면 감지 (더 일찍 감지)
+      // rect.bottom >= window.innerHeight - 300: 섹션 하단이 뷰포트 하단에서 300px 이내
+      const isSectionApproaching = rect.bottom >= window.innerHeight - 300 && rect.top > headerHeight;
+
+      if (isSectionApproaching) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // 애니메이션 잠금 - 다음 wheel 이벤트 무시
+        isAnimating.current = true;
+
+        hasExitedDownRef.current = false;
+        setHasExitedDown(false);
+        setCurrentSlide(totalSlides);
+
+        // 섹션 위치 계산
+        const targetScroll = container.scrollTop + rect.top - headerHeight;
+
+        // 모멘텀 스크롤 방지: 500ms 동안 매 프레임마다 위치 강제 고정
+        lockScrollPosition(targetScroll, 500);
+        container.style.overflow = 'hidden';
+
+        // state 업데이트 후 잠금 해제
+        setTimeout(() => {
+          isAnimating.current = false;
+        }, 600);
+        return;
+      }
+    }
+
+    // 자유 스크롤 모드면 나머지 로직 스킵
+    if (!isInSection || hasExitedDown || hasExitedDownRef.current) return;
 
     // Accumulate delta for trackpad
     accumulatedDelta.current += e.deltaY;
@@ -126,28 +222,40 @@ export default function ProductShowcaseSection() {
 
     if (direction === 'down') {
       if (currentSlide < totalSlides) {
+        // Slide transition - prevent default scroll
+        e.preventDefault();
+        e.stopPropagation();
         isAnimating.current = true;
         setCurrentSlide(prev => prev + 1);
         setTimeout(() => {
           isAnimating.current = false;
         }, animationDuration);
       } else if (currentSlide === totalSlides) {
-        // Exit to free scroll immediately
-        document.body.style.overflow = '';
-        document.documentElement.style.scrollSnapType = 'none';
+        // Exit to free scroll - let scroll happen naturally
+        hasExitedDownRef.current = true;  // 즉시 반영 (useEffect보다 먼저)
+        if (container) {
+          container.style.overflow = '';
+          container.style.scrollSnapType = 'none';
+        }
         setHasExitedDown(true);
+        // Don't preventDefault - allow natural scroll
       }
     } else {
       if (currentSlide > 1) {
+        // Slide transition - prevent default scroll
+        e.preventDefault();
+        e.stopPropagation();
         isAnimating.current = true;
         setCurrentSlide(prev => prev - 1);
         setTimeout(() => {
           isAnimating.current = false;
         }, animationDuration);
-      } else if (currentSlide === 1) {
+      } else if (currentSlide === 1 && container) {
         // Exit to BrandTransitionSection (logo position)
+        e.preventDefault();
+        e.stopPropagation();
         isAnimating.current = true;
-        document.body.style.overflow = '';
+        container.style.overflow = '';
         // ProductShowcaseSection is inside wrapper div, so get parent's previousElementSibling
         const wrapper = sectionRef.current.parentElement;
         const brandSection = wrapper?.previousElementSibling as HTMLElement;
@@ -155,7 +263,7 @@ export default function ProductShowcaseSection() {
           // Scroll to the logo position (section bottom at viewport bottom)
           const targetScroll = brandSection.offsetTop + brandSection.offsetHeight - window.innerHeight;
           // Re-enable snap since we're going back to snap area
-          smoothScrollTo(targetScroll, 800, () => {
+          smoothScrollTo(container, targetScroll, 800, () => {
             isAnimating.current = false;
           }, true);
         } else {
@@ -163,19 +271,25 @@ export default function ProductShowcaseSection() {
         }
       }
     }
-  }, [currentSlide, totalSlides, isInSection, isMobile, hasExitedDown]);
+  }, [currentSlide, totalSlides, isInSection, isMobile, hasExitedDown, lockScrollPosition]);
 
   useEffect(() => {
-    // Don't add listener if mobile or already exited to free scroll
-    if (isMobile || hasExitedDown) return;
-    window.addEventListener('wheel', handleWheel, { passive: false });
+    // Don't add listener if mobile
+    if (isMobile) return;
+
+    const container = getScrollContainer();
+    if (!container) return;
+
+    // Use capture phase to handle wheel events before ScrollSnapManager
+    // 항상 리스너를 활성화하여 역스크롤 시 섹션 진입을 감지
+    container.addEventListener('wheel', handleWheel, { passive: false, capture: true });
     return () => {
-      window.removeEventListener('wheel', handleWheel);
+      container.removeEventListener('wheel', handleWheel, { capture: true } as EventListenerOptions);
       if (deltaResetTimer.current) {
         clearTimeout(deltaResetTimer.current);
       }
     };
-  }, [handleWheel, isMobile, hasExitedDown]);
+  }, [handleWheel, isMobile]);
 
   // Touch event handler for mobile
   const touchStartY = useRef(0);
@@ -190,6 +304,7 @@ export default function ProductShowcaseSection() {
     const deltaY = touchStartY.current - touchEndY;
     const threshold = 50;
     const animationDuration = 600;
+    const container = getScrollContainer();
 
     if (Math.abs(deltaY) < threshold) return;
 
@@ -200,14 +315,14 @@ export default function ProductShowcaseSection() {
         isAnimating.current = true;
         setCurrentSlide(prev => prev + 1);
         setTimeout(() => { isAnimating.current = false; }, animationDuration);
-      } else if (currentSlide === totalSlides) {
+      } else if (currentSlide === totalSlides && container) {
         // Exit to next section immediately
         isAnimating.current = true;
         const nextSection = sectionRef.current.nextElementSibling as HTMLElement;
         if (nextSection) {
           const rect = nextSection.getBoundingClientRect();
-          const targetScroll = window.scrollY + rect.top - 64;
-          smoothScrollTo(targetScroll, 800, () => {
+          const targetScroll = container.scrollTop + rect.top - 64;
+          smoothScrollTo(container, targetScroll, 800, () => {
             isAnimating.current = false;
           });
         } else {
@@ -219,7 +334,7 @@ export default function ProductShowcaseSection() {
         isAnimating.current = true;
         setCurrentSlide(prev => prev - 1);
         setTimeout(() => { isAnimating.current = false; }, animationDuration);
-      } else if (currentSlide === 1) {
+      } else if (currentSlide === 1 && container) {
         // Exit to BrandTransitionSection (logo position)
         isAnimating.current = true;
         const wrapper = sectionRef.current.parentElement;
@@ -228,7 +343,7 @@ export default function ProductShowcaseSection() {
           // Scroll to the logo position (section bottom at viewport bottom)
           const targetScroll = brandSection.offsetTop + brandSection.offsetHeight - window.innerHeight;
           // Re-enable snap since we're going back to snap area
-          smoothScrollTo(targetScroll, 800, () => {
+          smoothScrollTo(container, targetScroll, 800, () => {
             isAnimating.current = false;
           }, true);
         } else {
@@ -240,11 +355,15 @@ export default function ProductShowcaseSection() {
 
   useEffect(() => {
     if (!isMobile) return;
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: false });
+
+    const container = getScrollContainer();
+    if (!container) return;
+
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchend', handleTouchEnd, { passive: false });
     return () => {
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchend', handleTouchEnd);
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchend', handleTouchEnd);
     };
   }, [handleTouchStart, handleTouchEnd, isMobile]);
 
