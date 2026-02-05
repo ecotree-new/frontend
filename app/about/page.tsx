@@ -1,15 +1,22 @@
+'use client';
+
+import { useRef } from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import ScrollSnapController from '@/components/ScrollSnapController';
 import VisionMissionSection from '@/components/sections/about/VisionMissionSection';
 import CoreValueSection from '@/components/sections/about/CoreValueSection';
 import BusinessPurposeSection from '@/components/sections/about/BusinessPurposeSection';
 import DirectionsSection from '@/components/sections/about/DirectionsSection';
 
 export default function AboutPage() {
+  const footerRef = useRef<HTMLDivElement>(null);
+
   return (
     <>
       <Header />
-      <main>
+      <ScrollSnapController snapEndRef={footerRef} />
+      <main className="pt-16">
         {/* Section 1: Vision & Mission (스크롤 애니메이션) */}
         <VisionMissionSection />
 
@@ -22,7 +29,9 @@ export default function AboutPage() {
         {/* Section 4: Directions (오시는 길) */}
         <DirectionsSection />
       </main>
-      <Footer />
+      <div ref={footerRef}>
+        <Footer />
+      </div>
     </>
   );
 }

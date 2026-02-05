@@ -27,10 +27,10 @@ export default function CoreValueSection() {
   };
 
   return (
-    <section ref={sectionRef} className="py-20 md:py-32 bg-white">
+    <section ref={sectionRef} data-section="core-value" className="snap-section h-[calc(100vh-64px)] py-12 md:py-16 lg:py-20 bg-white flex items-center overflow-hidden">
       <div className="container-ecotree">
         {/* 2컬럼 레이아웃: W > 970px, 1컬럼: W ≤ 970px */}
-        <div className="flex flex-col lg:flex-row lg:gap-20">
+        <div className="flex flex-col lg:flex-row lg:items-start lg:gap-20">
           {/* Left: Title */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -51,7 +51,7 @@ export default function CoreValueSection() {
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
-            className="flex-1 space-y-12 md:space-y-16"
+            className="flex-1 space-y-12 md:space-y-16 lg:pt-[26px]"
           >
             {ABOUT_CORE_VALUES.map((value, index) => (
               <motion.div
@@ -72,10 +72,10 @@ export default function CoreValueSection() {
 
                 {/* Content */}
                 <div className="flex-1">
-                  <h3 className="text-[16px] md:text-[24px] lg:text-[28px] font-bold text-[#111111] mb-2">
+                  <h3 className="text-[14px] md:text-[24px] lg:text-[24px] font-semibold text-[#111111] mb-2">
                     {index + 1}. {value.title} ({value.titleEn})
                   </h3>
-                  <p className="text-[10px] md:text-[14px] lg:text-[16px] text-[#727783] leading-relaxed whitespace-pre-line">
+                  <p className="text-[10px] md:text-[16px] lg:text-[16px] font-medium text-[#111111] leading-relaxed whitespace-pre-line">
                     {value.description}
                   </p>
                 </div>

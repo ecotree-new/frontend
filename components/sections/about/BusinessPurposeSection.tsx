@@ -26,7 +26,7 @@ export default function BusinessPurposeSection() {
   };
 
   return (
-    <section ref={sectionRef} className="py-12 md:py-20 lg:py-32 bg-[#EDF3FF]">
+    <section ref={sectionRef} data-section="business-purpose" className="snap-section h-[calc(100vh-64px)] py-8 md:py-12 lg:py-16 bg-[#F4F5F7] flex items-center overflow-hidden">
       <div className="container-ecotree">
         {/* Title */}
         <motion.div
@@ -38,13 +38,12 @@ export default function BusinessPurposeSection() {
           <p className="text-[10px] md:text-[14px] lg:text-[16px] font-medium text-[#1B67FF] mb-2">
             Business Purpose
           </p>
-          <h2 className="text-[18px] md:text-[40px] lg:text-[48px] font-bold text-[#111111]">
+          <h2 className="text-[18px] md:text-[40px] lg:text-[40px] font-bold text-[#111111]">
             사업 목적
           </h2>
         </motion.div>
 
         {/* Cards Grid */}
-        {/* W > 1024px: 3열, 768px < W ≤ 1024px: 2열 + 1 span, W ≤ 768px: 1열 */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -57,7 +56,7 @@ export default function BusinessPurposeSection() {
               variants={cardVariants}
               className={`
                 relative overflow-hidden rounded-[16px] md:rounded-[24px]
-                h-[200px] md:h-[238px] lg:h-[500px]
+                h-[200px] md:h-[238px] lg:h-[450px]
                 ${index === 2 ? 'md:col-span-2 lg:col-span-1' : ''}
               `}
             >
@@ -70,10 +69,10 @@ export default function BusinessPurposeSection() {
                 style={{ backgroundImage: `url(${IMAGE_MAP[card.image] || card.image})` }}
               />
 
-              {/* Overlay - 전체적으로 반투명 */}
+              {/* Overlay */}
               <div className="absolute inset-0 bg-black/40" />
 
-              {/* Content - 중앙 정렬 */}
+              {/* Content */}
               <div className="absolute inset-0 flex flex-col items-center justify-center p-4 md:p-6 lg:p-8 text-center">
                 <h3 className="text-[14px] md:text-[20px] lg:text-[24px] font-bold text-white mb-2">
                   {card.title}
