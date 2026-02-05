@@ -17,7 +17,7 @@ export default function MenuSliderSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-[#010411] pt-16 md:pt-24 lg:pt-40 pb-[10vw] overflow-hidden"
+      className="relative bg-[#010411] h-[calc(100vh-64px)] flex flex-col justify-center overflow-hidden snap-start snap-always"
     >
       {/* Background Video */}
       <div className="absolute bottom-0 left-0 right-0 w-full h-[32vw] overflow-hidden">
@@ -58,8 +58,8 @@ export default function MenuSliderSection() {
           className="relative max-w-[1110px] mx-auto mb-12 md:mb-16 lg:mb-24 overflow-hidden"
         >
           {/* Gradient Overlays */}
-          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#1E1F23] to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#1E1F23] to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-24 md:w-32 lg:w-40 bg-gradient-to-r from-[#010411] via-[#010411]/80 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 md:w-32 lg:w-40 bg-gradient-to-l from-[#010411] via-[#010411]/80 to-transparent z-10 pointer-events-none" />
 
           {/* Row 1 */}
           <div className="flex gap-4 mb-4 animate-slide-row-1">

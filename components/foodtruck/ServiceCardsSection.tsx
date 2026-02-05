@@ -27,7 +27,7 @@ export default function ServiceCardsSection() {
   return (
     <section
       ref={sectionRef}
-      className="bg-[#F8F9FA] py-16 md:py-24 lg:py-40"
+      className="bg-[#F8F9FA] h-[calc(100vh-64px)] flex flex-col justify-center snap-start snap-always overflow-hidden"
     >
       <div className="container-ecotree">
         {/* Section Header */}

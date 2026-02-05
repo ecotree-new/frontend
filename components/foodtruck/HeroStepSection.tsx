@@ -10,8 +10,14 @@ type ScrollPhase = 'before' | 'animating' | 'after';
 
 const HEADER_HEIGHT = 64; // h-16 = 64px
 
+// Helper to get scroll container (snap container or body fallback)
+const getScrollContainer = () => {
+  const snapContainer = document.querySelector('.snap-y');
+  return snapContainer as HTMLElement | null;
+};
+
 export default function HeroStepSection() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
   const [isWide, setIsWide] = useState(true);
   const [phase, setPhase] = useState<ScrollPhase>('before');
   const containerRef = useRef<HTMLDivElement>(null);
@@ -78,7 +84,7 @@ export default function HeroStepSection() {
       if (swipingDown && sectionAtHeader) {
         isTransitioning.current = true;
         setPhase('animating');
-        document.body.style.overflow = 'hidden';
+        const sc = getScrollContainer(); if (sc) sc.style.overflow = 'hidden';
         setTimeout(() => { isTransitioning.current = false; }, 100);
         touchStartY.current = null;
         return;
@@ -95,7 +101,7 @@ export default function HeroStepSection() {
           setCurrentStep(prev => prev + 1);
         } else {
           setPhase('after');
-          document.body.style.overflow = '';
+          const sc = getScrollContainer(); if (sc) sc.style.overflow = '';
         }
         setTimeout(() => { isTransitioning.current = false; }, 600);
         touchStartY.current = null;
@@ -104,11 +110,11 @@ export default function HeroStepSection() {
 
       if (swipingUp) {
         isTransitioning.current = true;
-        if (currentStep > 1) {
+        if (currentStep > 0) {
           setCurrentStep(prev => prev - 1);
         } else {
           setPhase('before');
-          document.body.style.overflow = '';
+          const sc = getScrollContainer(); if (sc) sc.style.overflow = '';
         }
         setTimeout(() => { isTransitioning.current = false; }, 600);
         touchStartY.current = null;
@@ -123,9 +129,12 @@ export default function HeroStepSection() {
           isTransitioning.current = true;
           setPhase('animating');
           setCurrentStep(totalSteps);
-          document.body.style.overflow = 'hidden';
-          const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-          window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+          const sc = getScrollContainer();
+          if (sc) {
+            sc.style.overflow = 'hidden';
+            const scrollTarget = sc.scrollTop + rect.top - HEADER_HEIGHT;
+            sc.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+          }
           setTimeout(() => { isTransitioning.current = false; }, 800);
           touchStartY.current = null;
           return;
@@ -159,7 +168,7 @@ export default function HeroStepSection() {
         e.preventDefault();
         isTransitioning.current = true;
         setPhase('animating');
-        document.body.style.overflow = 'hidden';
+        const sc = getScrollContainer(); if (sc) sc.style.overflow = 'hidden';
         setTimeout(() => { isTransitioning.current = false; }, 100);
         return;
       }
@@ -176,7 +185,7 @@ export default function HeroStepSection() {
           setCurrentStep(prev => prev + 1);
         } else {
           setPhase('after');
-          document.body.style.overflow = '';
+          const sc = getScrollContainer(); if (sc) sc.style.overflow = '';
         }
         setTimeout(() => { isTransitioning.current = false; }, 600);
         return;
@@ -184,11 +193,11 @@ export default function HeroStepSection() {
 
       if (scrollingUp) {
         isTransitioning.current = true;
-        if (currentStep > 1) {
+        if (currentStep > 0) {
           setCurrentStep(prev => prev - 1);
         } else {
           setPhase('before');
-          document.body.style.overflow = '';
+          const sc = getScrollContainer(); if (sc) sc.style.overflow = '';
         }
         setTimeout(() => { isTransitioning.current = false; }, 600);
         return;
@@ -203,9 +212,12 @@ export default function HeroStepSection() {
           isTransitioning.current = true;
           setPhase('animating');
           setCurrentStep(totalSteps);
-          document.body.style.overflow = 'hidden';
-          const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-          window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+          const sc = getScrollContainer();
+          if (sc) {
+            sc.style.overflow = 'hidden';
+            const scrollTarget = sc.scrollTop + rect.top - HEADER_HEIGHT;
+            sc.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+          }
           setTimeout(() => { isTransitioning.current = false; }, 800);
           return;
         }
@@ -235,11 +247,11 @@ export default function HeroStepSection() {
     const rect = container.getBoundingClientRect();
     if (rect.top <= HEADER_HEIGHT + 10 && rect.top >= HEADER_HEIGHT - 10) {
       setPhase('animating');
-      document.body.style.overflow = 'hidden';
+      const sc = getScrollContainer(); if (sc) sc.style.overflow = 'hidden';
     }
 
     return () => {
-      document.body.style.overflow = '';
+      const sc = getScrollContainer(); if (sc) sc.style.overflow = '';
     };
   }, []);
 
@@ -257,7 +269,7 @@ export default function HeroStepSection() {
   return (
     <div
       ref={containerRef}
-      className="relative h-[calc(100vh-64px)]"
+      className="relative h-[calc(100vh-64px)] snap-start snap-always"
     >
       <div className="sticky top-16 h-[calc(100vh-64px)] overflow-hidden">
         {/* Background Grid - Always show all tiles */}
@@ -321,17 +333,6 @@ export default function HeroStepSection() {
           )}
         </AnimatePresence>
 
-        {/* Step Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-          {Array.from({ length: totalSteps }, (_, i) => i + 1).map((step) => (
-            <div
-              key={step}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                currentStep === step ? 'bg-white w-6' : 'bg-white/40'
-              }`}
-            />
-          ))}
-        </div>
       </div>
     </div>
   );

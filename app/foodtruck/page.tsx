@@ -11,15 +11,19 @@ export default function FoodtruckPage() {
   return (
     <>
       <Header />
-      <main>
+      <main className="fixed top-16 left-0 right-0 bottom-0 overflow-y-auto snap-y snap-mandatory scroll-smooth">
+        {/* Snap sections - each section is exactly viewport height minus header */}
         <HeroStepSection />
         <ServiceCardsSection />
         <MenuSliderSection />
-        <TruckSelectionSection />
-        <OperationExamplesSection />
-        <CTASection />
+        {/* Free scroll sections */}
+        <div className="snap-start">
+          <TruckSelectionSection />
+          <OperationExamplesSection />
+          <CTASection />
+          <Footer />
+        </div>
       </main>
-      <Footer />
     </>
   );
 }
