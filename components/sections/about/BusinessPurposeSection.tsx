@@ -56,7 +56,7 @@ export default function BusinessPurposeSection() {
               variants={cardVariants}
               className={`
                 relative overflow-hidden rounded-[16px] md:rounded-[24px]
-                h-[200px] md:h-[238px] lg:h-[450px]
+                aspect-[312/120] md:aspect-auto md:h-[238px] lg:h-[450px]
                 ${index === 2 ? 'md:col-span-2 lg:col-span-1' : ''}
               `}
             >
@@ -74,10 +74,10 @@ export default function BusinessPurposeSection() {
 
               {/* Content */}
               <div className="absolute inset-0 flex flex-col items-center justify-center p-4 md:p-6 lg:p-8 text-center">
-                <h3 className="text-[14px] md:text-[20px] lg:text-[24px] font-bold text-white mb-2">
+                <h3 className="text-[14px] md:text-[24px] lg:text-[24px] font-bold text-white mb-2">
                   {card.title}
                 </h3>
-                <p className="text-[10px] md:text-[14px] lg:text-[16px] text-white/90">
+                <p className="text-[10px] md:text-[16px] lg:text-[16px] font-medium text-white">
                   {card.description}
                 </p>
               </div>
