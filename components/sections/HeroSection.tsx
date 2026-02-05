@@ -20,8 +20,8 @@ export default function HeroSection() {
         <source src={R2_VIDEOS.heroBackground} type="video/mp4" />
       </video>
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/50" />
+      {/* Overlay - #000000 60% */}
+      <div className="absolute inset-0 bg-black/60" />
 
       {/* Content */}
       <div className="relative z-10 h-full flex items-center">
@@ -36,14 +36,14 @@ export default function HeroSection() {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-[13px] md:text-[14px] lg:text-[16px] font-normal text-white/90 mb-6 md:mb-8">
+            <p className="text-[12px] md:text-[20px] font-medium text-white/90 mb-6 md:mb-8">
               {HERO_CONTENT.subtitle}
             </p>
 
-            {/* CTA Button - 검은색 배경, radius 4px */}
+            {/* CTA Button */}
             <Link
               href={HERO_CONTENT.ctaLink}
-              className="inline-flex items-center justify-center px-5 py-2.5 md:px-6 md:py-3 bg-black text-white text-[13px] md:text-[14px] lg:text-[16px] font-medium rounded-[4px] hover:font-bold transition-all"
+              className="inline-flex items-center justify-center px-5 py-2.5 md:px-6 md:py-3 bg-[#1B67FF] text-white text-[10px] md:text-[16px] font-medium rounded-[4px] hover:opacity-90 transition-all"
             >
               {HERO_CONTENT.ctaText}
             </Link>

@@ -152,7 +152,7 @@ export default function FestivalSection() {
           viewport={{ once: true }}
           variants={fadeInUp}
           transition={{ duration: 0.6 }}
-          className="text-[24px] md:text-[32px] lg:text-[40px] font-bold text-[#111111] text-center mb-12 md:mb-16"
+          className="text-[18px] md:text-[32px] lg:text-[40px] font-bold text-[#000000] text-center mb-12 md:mb-16"
         >
           에코트리와 함께 환경을 지켜온 축제
         </motion.h2>
@@ -169,10 +169,10 @@ export default function FestivalSection() {
         >
           {/* University Subtitle & Count */}
           <div className="text-center mb-8">
-            <p className="text-[14px] text-[#727783] mb-2">대학교 축제</p>
-            <p className="text-[48px] md:text-[64px] font-bold text-[#1B67FF]">
+            <p className="text-[12px] md:text-[24px] lg:text-[24px] font-medium md:font-semibold lg:font-semibold text-[#111111] mb-2">대학교 축제</p>
+            <p className="text-[30px] md:text-[64px] lg:text-[64px] font-bold text-[#1B67FF]">
               <CountUp end={FESTIVAL_COUNTS.university} trigger={universityTrigger} />
-              <span className="text-[20px] md:text-[24px] font-medium text-[#727783] ml-2">곳</span>
+              <span className="text-[12px] md:text-[20px] lg:text-[20px] font-medium text-[#111111] ml-2">곳</span>
             </p>
           </div>
 
@@ -203,10 +203,10 @@ export default function FestivalSection() {
         >
           {/* Regional Subtitle & Count */}
           <div className="text-center mb-8">
-            <p className="text-[14px] text-[#727783] mb-2">지역 축제</p>
-            <p className="text-[48px] md:text-[64px] font-bold text-[#1B67FF]">
+            <p className="text-[12px] md:text-[24px] lg:text-[24px] font-medium md:font-semibold lg:font-semibold text-[#111111] mb-2">지역 축제</p>
+            <p className="text-[30px] md:text-[64px] lg:text-[64px] font-bold text-[#1B67FF]">
               <CountUp end={FESTIVAL_COUNTS.regional} trigger={regionalTrigger} />
-              <span className="text-[20px] md:text-[24px] font-medium text-[#727783] ml-2">곳</span>
+              <span className="text-[12px] md:text-[20px] lg:text-[20px] font-medium text-[#111111] ml-2">곳</span>
             </p>
           </div>
 

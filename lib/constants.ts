@@ -183,7 +183,7 @@ export const REGIONAL_FESTIVALS = [
 export const HERO_CONTENT = {
   title: '행사를 바꾸는 친환경, 에코트리',
   subtitle: '대여부터 회수·세척까지, 다회용기 운영의 전 과정을 책임집니다.',
-  ctaText: '운영 상담하기',
+  ctaText: '서비스 문의',
   ctaLink: '/contact',
 } as const;
 
