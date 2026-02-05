@@ -10,7 +10,7 @@ export default function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="bg-[#1B67FF] py-16 md:py-20 lg:py-30"
+      className="bg-[#1E1F23] py-16 md:py-20 lg:py-30"
     >
       <div className="container-ecotree">
         <motion.div

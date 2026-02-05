@@ -35,7 +35,7 @@ export default function ProcessSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
-          className="bg-[#1E1F23] text-white text-center h-[40px] md:h-[48px] flex items-center justify-center mb-4 md:mb-6"
+          className="bg-[#1B67FF] text-white text-center h-[40px] md:h-[48px] flex items-center justify-center mb-4 md:mb-6"
         >
           <p className="text-[16px] md:text-[20px] font-semibold">
             서비스 도입 프로세스
@@ -69,7 +69,7 @@ export default function ProcessSection() {
               </span>
 
               {/* Title */}
-              <h3 className="text-[16px] md:text-[18px] lg:text-[20px] font-bold text-[#1B67FF] mt-3 md:mt-4 mb-3 md:mb-4.5">
+              <h3 className="text-[16px] md:text-[18px] lg:text-[20px] font-bold text-[#111111] mt-3 md:mt-4 mb-3 md:mb-4.5">
                 {step.title}
               </h3>
 
