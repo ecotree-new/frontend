@@ -20,7 +20,7 @@ export default function RentalFlowSection() {
   const [currentStep, setCurrentStep] = useState(1);
   const [lineStyle, setLineStyle] = useState({ top: 7, height: 200 });
   const [isLocked, setIsLocked] = useState(false);
-  const [isExiting, setIsExiting] = useState(false);  // 탈출 의도 플래그
+  const isExiting = useRef(false);  // 탈출 의도 플래그
   const isTransitioning = useRef(false);
   const touchStartY = useRef<number | null>(null);
 
@@ -46,12 +46,12 @@ export default function RentalFlowSection() {
   // Detect when section enters viewport and lock immediately
   useEffect(() => {
     if (!containerRef.current || isLocked) return;
-    if (isExiting) return;  // 탈출 중이면 observer 설정 안 함
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !isLocked) {
+          // 탈출 중이면 lock하지 않음 (callback 내부에서 체크)
+          if (entry.isIntersecting && !isLocked && !isExiting.current) {
             const sc = getScrollContainer();
             if (sc) {
               // 즉시 스크롤 멈춤
@@ -68,7 +68,7 @@ export default function RentalFlowSection() {
 
     observer.observe(containerRef.current);
     return () => observer.disconnect();
-  }, [isLocked, isExiting]);
+  }, [isLocked]);
 
   // Handle touch start
   const handleTouchStart = useCallback((e: TouchEvent) => {
@@ -105,7 +105,7 @@ export default function RentalFlowSection() {
         // Last step, go to next section
         const nextSection = container.nextElementSibling as HTMLElement;
         if (nextSection) {
-          setIsExiting(true);
+          isExiting.current = true;
           setIsLocked(false);
           sc.style.overflow = '';
           sc.style.scrollSnapType = 'none';
@@ -113,7 +113,7 @@ export default function RentalFlowSection() {
           sc.scrollTo({ top: nextSection.offsetTop, behavior: 'smooth' });
           setTimeout(() => {
             sc.style.scrollSnapType = '';
-            setIsExiting(false);
+            isExiting.current = false;
           }, 1000);
         }
       }
@@ -125,7 +125,7 @@ export default function RentalFlowSection() {
         // First step, go to previous section
         const prevSection = container.previousElementSibling as HTMLElement;
         if (prevSection) {
-          setIsExiting(true);
+          isExiting.current = true;
           setIsLocked(false);
           sc.style.overflow = '';
           sc.style.scrollSnapType = 'none';
@@ -133,7 +133,7 @@ export default function RentalFlowSection() {
           sc.scrollTo({ top: prevSection.offsetTop, behavior: 'smooth' });
           setTimeout(() => {
             sc.style.scrollSnapType = '';
-            setIsExiting(false);
+            isExiting.current = false;
           }, 1000);
         }
       }
@@ -161,18 +161,20 @@ export default function RentalFlowSection() {
         setTimeout(() => { isTransitioning.current = false; }, 500);
       } else if (sc && container) {
         // Last step, go to next section
-        setIsExiting(true);  // 탈출 의도 표시
-        setIsLocked(false);
-        sc.style.overflow = '';
-        sc.style.scrollSnapType = 'none';
+        const nextSection = container.nextElementSibling as HTMLElement;
+        if (nextSection) {
+          isExiting.current = true;
+          setIsLocked(false);
+          sc.style.overflow = '';
+          sc.style.scrollSnapType = 'none';
 
-        const sectionHeight = container.offsetHeight;
-        sc.scrollTo({ top: sc.scrollTop + sectionHeight, behavior: 'smooth' });
-        setTimeout(() => {
-          sc.style.scrollSnapType = '';
-          isTransitioning.current = false;
-          setIsExiting(false);  // 탈출 완료 후 리셋
-        }, 1000);
+          sc.scrollTo({ top: nextSection.offsetTop, behavior: 'smooth' });
+          setTimeout(() => {
+            sc.style.scrollSnapType = '';
+            isTransitioning.current = false;
+            isExiting.current = false;
+          }, 1000);
+        }
       }
     } else {
       // Scroll up
@@ -181,18 +183,20 @@ export default function RentalFlowSection() {
         setTimeout(() => { isTransitioning.current = false; }, 500);
       } else if (sc && container) {
         // First step, go to previous section
-        setIsExiting(true);  // 탈출 의도 표시
-        setIsLocked(false);
-        sc.style.overflow = '';
-        sc.style.scrollSnapType = 'none';
+        const prevSection = container.previousElementSibling as HTMLElement;
+        if (prevSection) {
+          isExiting.current = true;
+          setIsLocked(false);
+          sc.style.overflow = '';
+          sc.style.scrollSnapType = 'none';
 
-        const sectionHeight = container.offsetHeight;
-        sc.scrollTo({ top: sc.scrollTop - sectionHeight, behavior: 'smooth' });
-        setTimeout(() => {
-          sc.style.scrollSnapType = '';
-          isTransitioning.current = false;
-          setIsExiting(false);  // 탈출 완료 후 리셋
-        }, 1000);
+          sc.scrollTo({ top: prevSection.offsetTop, behavior: 'smooth' });
+          setTimeout(() => {
+            sc.style.scrollSnapType = '';
+            isTransitioning.current = false;
+            isExiting.current = false;
+          }, 1000);
+        }
       }
     }
   }, [isLocked, currentStep, totalSteps]);
