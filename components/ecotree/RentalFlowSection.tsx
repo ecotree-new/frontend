@@ -45,6 +45,7 @@ export default function RentalFlowSection() {
   const [canExitDown, setCanExitDown] = useState(false);
   const [canExitUp, setCanExitUp] = useState(false);
   const isAnimating = useRef(false);
+  const isExiting = useRef(false);
   const accumulatedDelta = useRef(0);
   const deltaResetTimer = useRef<NodeJS.Timeout | null>(null);
 
@@ -82,14 +83,14 @@ export default function RentalFlowSection() {
 
   // Lock body scroll when in section (both desktop and mobile)
   useEffect(() => {
-    if (isInSection && sectionRef.current && !isAnimating.current) {
-      // 정확한 위치로 스크롤 보정 (섹션 이동 중이 아닐 때만)
+    if (isInSection && sectionRef.current && !isAnimating.current && !isExiting.current) {
+      // 정확한 위치로 스크롤 보정 (섹션 이동/나가는 중이 아닐 때만)
       const targetY = sectionRef.current.offsetTop - 64;
       if (Math.abs(window.scrollY - targetY) > 1) {
         window.scrollTo(0, targetY);
       }
       document.body.style.overflow = 'hidden';
-    } else if (!isInSection) {
+    } else if (!isInSection || isExiting.current) {
       document.body.style.overflow = '';
     }
     return () => {
@@ -145,6 +146,7 @@ export default function RentalFlowSection() {
           setCanExitDown(true);
         } else {
           isAnimating.current = true;
+          isExiting.current = true;
           document.body.style.overflow = '';
           const nextSection = sectionRef.current.nextElementSibling as HTMLElement;
           if (nextSection) {
@@ -152,8 +154,9 @@ export default function RentalFlowSection() {
           }
           setTimeout(() => {
             isAnimating.current = false;
+            isExiting.current = false;
             setCanExitDown(false);
-          }, 900);
+          }, 1000);
         }
       }
     } else {
@@ -168,6 +171,7 @@ export default function RentalFlowSection() {
           setCanExitUp(true);
         } else {
           isAnimating.current = true;
+          isExiting.current = true;
           document.body.style.overflow = '';
           const prevSection = sectionRef.current.previousElementSibling as HTMLElement;
           if (prevSection) {
@@ -175,8 +179,9 @@ export default function RentalFlowSection() {
           }
           setTimeout(() => {
             isAnimating.current = false;
+            isExiting.current = false;
             setCanExitUp(false);
-          }, 900);
+          }, 1000);
         }
       }
     }
@@ -230,6 +235,7 @@ export default function RentalFlowSection() {
           setCanExitDown(true);
         } else {
           isAnimating.current = true;
+          isExiting.current = true;
           document.body.style.overflow = '';
           const nextSection = sectionRef.current.nextElementSibling as HTMLElement;
           if (nextSection) {
@@ -237,8 +243,9 @@ export default function RentalFlowSection() {
           }
           setTimeout(() => {
             isAnimating.current = false;
+            isExiting.current = false;
             setCanExitDown(false);
-          }, 900);
+          }, 1000);
         }
       }
     } else {
@@ -251,6 +258,7 @@ export default function RentalFlowSection() {
           setCanExitUp(true);
         } else {
           isAnimating.current = true;
+          isExiting.current = true;
           document.body.style.overflow = '';
           const prevSection = sectionRef.current.previousElementSibling as HTMLElement;
           if (prevSection) {
@@ -258,8 +266,9 @@ export default function RentalFlowSection() {
           }
           setTimeout(() => {
             isAnimating.current = false;
+            isExiting.current = false;
             setCanExitUp(false);
-          }, 900);
+          }, 1000);
         }
       }
     }
