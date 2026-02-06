@@ -11,6 +11,37 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
+  // 페이지 전환 시 스크롤 초기화
+  useEffect(() => {
+    // 브라우저의 scroll restoration 비활성화
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    // snap 비활성화 후 스크롤 초기화
+    document.documentElement.style.scrollSnapType = 'none';
+    window.scrollTo(0, 0);
+
+    // ecotree, foodtruck 페이지는 자체 스크롤 컨테이너 사용
+    const scrollContainer = document.querySelector('main.fixed');
+    if (scrollContainer) {
+      scrollContainer.scrollTop = 0;
+    }
+
+    // 약간의 딜레이 후 snap 재활성화
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+      if (scrollContainer) {
+        scrollContainer.scrollTop = 0;
+      }
+      requestAnimationFrame(() => {
+        document.documentElement.style.scrollSnapType = 'y mandatory';
+      });
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, [pathname]);
+
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
