@@ -1,24 +1,18 @@
 'use client';
 
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import CountUp from '@/components/ui/CountUp';
 import { UNIVERSITY_LOGOS, REGIONAL_FESTIVALS, FESTIVAL_COUNTS } from '@/lib/constants';
 import { IMAGE_MAP } from '@/lib/images';
 
-const HEADER_HEIGHT = 64;
-
 export default function FestivalSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [phase, setPhase] = useState<'before' | 'entered' | 'after'>('before');
   const [universityTrigger, setUniversityTrigger] = useState(0);
   const [regionalTrigger, setRegionalTrigger] = useState(0);
-  const isTransitioning = useRef(false);
-  const touchStartY = useRef<number | null>(null);
-  const touchStartTime = useRef<number>(0);
 
-  // 대학교 섹션 진입/이탈 감지
+  // 대학교 섹션 진입/이탈 감지 (CountUp 트리거용)
   useEffect(() => {
     const universitySection = document.getElementById('university-festival-section');
     if (!universitySection) return;
@@ -36,7 +30,7 @@ export default function FestivalSection() {
     return () => observer.disconnect();
   }, []);
 
-  // 지역 축제 섹션 진입/이탈 감지
+  // 지역 축제 섹션 진입/이탈 감지 (CountUp 트리거용)
   useEffect(() => {
     const regionalSection = document.getElementById('regional-festival-section');
     if (!regionalSection) return;
@@ -53,88 +47,6 @@ export default function FestivalSection() {
     observer.observe(regionalSection);
     return () => observer.disconnect();
   }, []);
-
-  // Handle touch start
-  const handleTouchStart = useCallback((e: TouchEvent) => {
-    touchStartY.current = e.touches[0].clientY;
-    touchStartTime.current = Date.now();
-  }, []);
-
-  // Handle touch move
-  const handleTouchMove = useCallback(() => {
-    // 이 섹션에서는 터치 이동 중 특별한 처리 없음
-  }, []);
-
-  // Handle touch end
-  const handleTouchEnd = useCallback((e: TouchEvent) => {
-    if (isTransitioning.current || touchStartY.current === null) return;
-
-    const touchEndY = e.changedTouches[0].clientY;
-    const deltaY = touchStartY.current - touchEndY;
-    const deltaTime = Date.now() - touchStartTime.current;
-    const minSwipeDistance = 30;
-    const velocity = Math.abs(deltaY) / Math.max(deltaTime, 1);
-    const isValidSwipe = Math.abs(deltaY) > minSwipeDistance || velocity > 0.2;
-
-    if (!isValidSwipe) {
-      touchStartY.current = null;
-      return;
-    }
-
-    const container = containerRef.current;
-    if (!container) return;
-
-    const rect = container.getBoundingClientRect();
-    const swipingDown = deltaY > 0;
-    const sectionNearHeader = rect.top <= HEADER_HEIGHT + 100 && rect.top >= HEADER_HEIGHT - 300;
-    const sectionStillVisible = rect.bottom > HEADER_HEIGHT + 100;
-
-    if (phase === 'before' && swipingDown && sectionNearHeader && sectionStillVisible) {
-      isTransitioning.current = true;
-      setPhase('entered');
-      const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-      window.scrollTo({ top: scrollTarget, behavior: 'instant' });
-      setTimeout(() => { isTransitioning.current = false; }, 100);
-    }
-
-    touchStartY.current = null;
-  }, [phase]);
-
-  // Handle wheel
-  const handleWheel = useCallback((e: WheelEvent) => {
-    if (isTransitioning.current) return;
-
-    const container = containerRef.current;
-    if (!container) return;
-
-    const rect = container.getBoundingClientRect();
-    const scrollingDown = e.deltaY > 0;
-    const sectionReachedHeader = rect.top <= HEADER_HEIGHT + 10;
-    const sectionStillVisible = rect.bottom > HEADER_HEIGHT + 100;
-
-    // 섹션이 헤더에 도달하면 스냅 진입
-    if (phase === 'before' && scrollingDown && sectionReachedHeader && sectionStillVisible) {
-      e.preventDefault();
-      isTransitioning.current = true;
-      setPhase('entered');
-      const scrollTarget = window.scrollY + rect.top - HEADER_HEIGHT;
-      window.scrollTo({ top: scrollTarget, behavior: 'instant' });
-      setTimeout(() => { isTransitioning.current = false; }, 100);
-    }
-  }, [phase]);
-
-  useEffect(() => {
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [handleWheel, handleTouchStart, handleTouchMove, handleTouchEnd]);
 
   // 등장 애니메이션
   const fadeInUp = {

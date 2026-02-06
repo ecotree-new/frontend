@@ -13,6 +13,9 @@ export default function ProcessStrengthSection() {
   const [isInSection, setIsInSection] = useState(false);
   const isAnimating = useRef(false);
   const touchStartY = useRef(0);
+  const hasExitedDownRef = useRef(false);
+  const isInSectionRef = useRef(false); // ref 버전 (이벤트 핸들러용)
+  const stickyRef = useRef<HTMLDivElement>(null); // sticky 영역 감지용
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -24,6 +27,7 @@ export default function ProcessStrengthSection() {
     // We're in the section when progress is between 0 and ~0.67
     const inSection = value > 0 && value < 0.67;
     setIsInSection(inSection);
+    isInSectionRef.current = inSection;
 
     // Sync state with scroll position
     if (value > 0.33 && currentSection !== 'strength') {
@@ -33,7 +37,7 @@ export default function ProcessStrengthSection() {
     }
   });
 
-  // 뷰포트 진입/이탈 감지
+  // 뷰포트 진입/이탈 감지 + CSS scroll-snap 제어
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -41,6 +45,11 @@ export default function ProcessStrengthSection() {
           setHasEntered(true);
         } else {
           setHasEntered(false);
+          // 섹션 완전 이탈 시 CSS snap 복원 및 플래그 리셋
+          document.documentElement.style.scrollSnapType = 'y mandatory';
+          if (!isInSectionRef.current) {
+            hasExitedDownRef.current = false;
+          }
         }
       },
       { threshold: 0.1 }
@@ -50,12 +59,15 @@ export default function ProcessStrengthSection() {
       observer.observe(containerRef.current);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.scrollSnapType = 'y mandatory';
+    };
   }, []);
 
   // Handle wheel event for snap-like transition
   const handleWheel = useCallback((e: WheelEvent) => {
-    if (!containerRef.current || !isInSection || isAnimating.current) return;
+    if (!containerRef.current || !isInSection || isAnimating.current || hasExitedDownRef.current) return;
 
     const containerTop = containerRef.current.offsetTop;
     const containerHeight = containerRef.current.offsetHeight;
@@ -88,8 +100,10 @@ export default function ProcessStrengthSection() {
         // Strength → Exit
         e.preventDefault();
         isAnimating.current = true;
+        hasExitedDownRef.current = true;
+        const festivalStart = containerTop + containerHeight;
         window.scrollTo({
-          top: exitPosition + 100,
+          top: festivalStart,
           behavior: 'smooth'
         });
         setTimeout(() => { isAnimating.current = false; }, 800);
@@ -113,14 +127,17 @@ export default function ProcessStrengthSection() {
   // 모바일 터치 이벤트 핸들러
   const handleTouchStart = useCallback((e: TouchEvent) => {
     touchStartY.current = e.touches[0].clientY;
-    // 섹션 내에 있으면 CSS scroll-snap 일시 비활성화 (모바일만 영향)
-    if (isInSection) {
+    // 섹션 내에 있으면 CSS scroll-snap 비활성화
+    if (isInSectionRef.current && !hasExitedDownRef.current) {
       document.documentElement.style.scrollSnapType = 'none';
     }
-  }, [isInSection]);
+  }, []);
 
   const handleTouchEnd = useCallback((e: TouchEvent) => {
     if (!containerRef.current || isAnimating.current) return;
+
+    // 이미 아래로 이탈한 상태면 스냅 로직 건너뜀
+    if (hasExitedDownRef.current) return;
 
     const touchEndY = e.changedTouches[0].clientY;
     const deltaY = touchStartY.current - touchEndY;
@@ -147,20 +164,15 @@ export default function ProcessStrengthSection() {
           isAnimating.current = true;
           setCurrentSection('strength');
           window.scrollTo({ top: strengthPosition, behavior: 'smooth' });
-          setTimeout(() => {
-            isAnimating.current = false;
-            document.documentElement.style.scrollSnapType = 'y mandatory';
-          }, 800);
+          setTimeout(() => { isAnimating.current = false; }, 800);
           return;
         } else if (isAtStrength) {
-          // Strength → Exit: FestivalSection 시작점으로 이동 (섹션 완전히 벗어남)
+          // Strength → Exit
           isAnimating.current = true;
-          const festivalStart = containerTop + containerHeight; // ProcessStrengthSection 끝 = FestivalSection 시작
+          hasExitedDownRef.current = true;
+          const festivalStart = containerTop + containerHeight;
           window.scrollTo({ top: festivalStart, behavior: 'smooth' });
-          setTimeout(() => {
-            isAnimating.current = false;
-            // scroll-snap 복원하지 않음 - 자유 스크롤 영역
-          }, 800);
+          setTimeout(() => { isAnimating.current = false; }, 800);
           return;
         }
       } else if (deltaY < 0) {
@@ -169,17 +181,25 @@ export default function ProcessStrengthSection() {
           isAnimating.current = true;
           setCurrentSection('process');
           window.scrollTo({ top: processPosition, behavior: 'smooth' });
-          setTimeout(() => {
-            isAnimating.current = false;
-            document.documentElement.style.scrollSnapType = 'y mandatory';
-          }, 800);
+          setTimeout(() => { isAnimating.current = false; }, 800);
           return;
         }
       }
     }
 
-    // 스냅 로직이 실행되지 않았으면 바로 scroll-snap 복원
-    document.documentElement.style.scrollSnapType = 'y mandatory';
+    // 섹션 내에서 스냅 로직이 실행되지 않았으면 현재 위치 기반으로 가장 가까운 스냅 포인트로 이동
+    if (isInSectionRef.current && !hasExitedDownRef.current) {
+      const distToProcess = Math.abs(scrollY - processPosition);
+      const distToStrength = Math.abs(scrollY - strengthPosition);
+
+      if (distToProcess < distToStrength) {
+        setCurrentSection('process');
+        window.scrollTo({ top: processPosition, behavior: 'smooth' });
+      } else {
+        setCurrentSection('strength');
+        window.scrollTo({ top: strengthPosition, behavior: 'smooth' });
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -192,6 +212,29 @@ export default function ProcessStrengthSection() {
       window.removeEventListener('touchend', handleTouchEnd);
     };
   }, [handleWheel, handleTouchStart, handleTouchEnd]);
+
+  // 역스크롤로 sticky 영역이 화면에 충분히 보일 때 스냅 재활성화
+  useEffect(() => {
+    if (!stickyRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // 아래로 이탈한 상태에서, sticky 영역이 90% 이상 보이면 스냅 재활성화
+        if (hasExitedDownRef.current && entry.isIntersecting && entry.intersectionRatio >= 0.9) {
+          hasExitedDownRef.current = false;
+          document.documentElement.style.scrollSnapType = 'none';
+          // 다음 터치/휠에서 스냅이 동작하도록 준비만 함 (자동 스크롤 안함)
+        }
+      },
+      {
+        threshold: [0.9],
+        rootMargin: '-64px 0px 0px 0px' // 헤더 높이
+      }
+    );
+
+    observer.observe(stickyRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   // Process 섹션 opacity
   const processOpacity = useTransform(scrollYProgress, [0, 0.35, 0.45], [1, 1, 0]);
@@ -241,7 +284,7 @@ export default function ProcessStrengthSection() {
 
   return (
     <div ref={containerRef} className="snap-section relative h-[300vh]">
-      <div className="sticky top-16 h-[calc(100vh-64px)] w-full overflow-hidden flex items-center justify-center bg-[#F4F5F7]">
+      <div ref={stickyRef} className="sticky top-16 h-[calc(100vh-64px)] w-full overflow-hidden flex items-center justify-center bg-[#F4F5F7]">
 
         {/* Process Section */}
         <motion.div
