@@ -55,7 +55,7 @@ export default function FestivalSection() {
   };
 
   return (
-    <section ref={containerRef} className="bg-[#FBFBFB] py-12 md:py-16 lg:py-20">
+    <section ref={containerRef} className="bg-[#FBFBFB] pt-16 pb-12 md:py-16 lg:py-20">
       <div className="container-ecotree">
         {/* Title */}
         <motion.h2
