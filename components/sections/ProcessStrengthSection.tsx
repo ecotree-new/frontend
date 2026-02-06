@@ -528,7 +528,7 @@ export default function ProcessStrengthSection() {
                         </div>
 
                         {/* Value */}
-                        <div className="mb-1 md:mb-1 lg:mb-1">
+                        <div className="">
                           <span className="text-[16px] md:text-[28px] lg:text-[32px] font-semibold text-[#111111]">
                             {card.value}
                           </span>
