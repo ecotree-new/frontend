@@ -398,44 +398,87 @@ export default function ProductShowcaseSection() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
-                className="absolute inset-0 flex items-center"
+                className="absolute inset-0"
               >
-                {/* Left half - Image area */}
-                <div className="relative w-[50%] aspect-[5/5.5]">
-                  {/* Image */}
-                  <div className="absolute inset-0 overflow-hidden z-0">
-                    <Image
-                      src={IMAGE_MAP[slides[0].image] || slides[0].image}
-                      alt={slides[0].koreanTitle}
-                      fill
-                      className="object-cover object-center"
-                      priority
-                    />
-                  </div>
-
-                  {/* EVERY - top left (half overlaps image) */}
+                {/* Mobile Layout - 가로 배치 */}
+                <div className="md:hidden h-full flex items-center px-4 relative">
+                  {/* EVERY - top left, overlaps image */}
                   <span
-                    className="absolute -top-[8%] left-[2%] text-[75px] md:text-[100px] lg:text-[140px] text-[#1B67FF] z-10"
+                    className="absolute top-[12%] left-4 text-[75px] text-[#1B67FF] z-10"
                     style={englishTitleStyle}
                   >
                     EVERY
                   </span>
-                </div>
 
-                {/* Right half - Korean text at top, WHERE at bottom */}
-                <div className="relative w-1/2 aspect-[3/4] flex flex-col justify-between">
-                  {/* Korean text - top */}
-                  <p className="text-[24px] md:text-[48px] text-[#111111] font-bold pl-8 mt-[15%]">
-                    {slides[0].koreanTitle}
-                  </p>
-
-                  {/* WHERE - overlaps image right side */}
+                  {/* WHERE - bottom, container right aligned */}
                   <span
-                    className="text-[75px] md:text-[100px] lg:text-[140px] text-[#1B67FF] z-10 -ml-[15%] -translate-y-[75%]"
+                    className="absolute bottom-[12%] right-4 text-[75px] text-[#1B67FF] z-10"
                     style={englishTitleStyle}
                   >
                     WHERE
                   </span>
+
+                  {/* Left - Image area */}
+                  <div className="relative w-[55%] h-[65%]">
+                    {/* Image */}
+                    <div className="absolute inset-0 overflow-hidden z-0">
+                      <Image
+                        src={IMAGE_MAP[slides[0].image] || slides[0].image}
+                        alt={slides[0].koreanTitle}
+                        fill
+                        className="object-cover object-center"
+                        priority
+                      />
+                    </div>
+                  </div>
+
+                  {/* Right - Korean text, 10% from top */}
+                  <div className="w-[45%] h-[65%] pl-4 flex items-start pt-[10%]">
+                    <p className="text-[24px] text-[#111111] font-bold">
+                      {slides[0].koreanTitle}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Desktop Layout */}
+                <div className="hidden md:flex items-center h-full">
+                  {/* Left half - Image area (세로 고정, 가로만 줄어들고 절반에서 멈춤) */}
+                  <div className="relative w-[50%] min-w-[25%] h-[550px]">
+                    {/* Image */}
+                    <div className="absolute inset-0 overflow-hidden z-0">
+                      <Image
+                        src={IMAGE_MAP[slides[0].image] || slides[0].image}
+                        alt={slides[0].koreanTitle}
+                        fill
+                        className="object-cover object-center"
+                        priority
+                      />
+                    </div>
+
+                    {/* EVERY - top left (half overlaps image) */}
+                    <span
+                      className="absolute -top-[8%] left-10 text-[140px] text-[#1B67FF] z-10"
+                      style={englishTitleStyle}
+                    >
+                      EVERY
+                    </span>
+                  </div>
+
+                  {/* Right half - Korean text at top, WHERE at bottom */}
+                  <div className="relative w-1/2 h-[550px] flex flex-col justify-between">
+                    {/* Korean text - top */}
+                    <p className="text-[48px] text-[#111111] font-bold pl-8 mt-[15%]">
+                      {slides[0].koreanTitle}
+                    </p>
+
+                    {/* WHERE - overlaps image right side */}
+                    <span
+                      className="text-[140px] text-[#1B67FF] z-10 -ml-[15%] -translate-y-[75%]"
+                      style={englishTitleStyle}
+                    >
+                      WHERE
+                    </span>
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -449,31 +492,61 @@ export default function ProductShowcaseSection() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
-                className="absolute inset-0 flex flex-col items-center justify-center"
+                className="absolute inset-0"
               >
-                {/* VARIOUS - top left, overlaps image */}
-                <span
-                  className="absolute top-[8%] left-0 text-[75px] md:text-[100px] lg:text-[140px] text-[#1B67FF] z-10"
-                  style={englishTitleStyle}
-                >
-                  VARIOUS
-                </span>
+                {/* Mobile Layout */}
+                <div className="md:hidden h-full flex flex-col justify-center px-4">
+                  {/* VARIOUS - overlaps image top */}
+                  <span
+                    className="text-[75px] text-[#1B67FF] z-10 -mb-[40px]"
+                    style={englishTitleStyle}
+                  >
+                    VARIOUS
+                  </span>
 
-                {/* Image - wide landscape, centered */}
-                <div className="relative w-[75%] aspect-[2/1] overflow-hidden z-0 -mt-[10%]">
-                  <Image
-                    src={IMAGE_MAP[slides[1].image] || slides[1].image}
-                    alt={slides[1].koreanTitle}
-                    fill
-                    className="object-cover object-center"
-                    priority
-                  />
+                  {/* Image - wider ratio */}
+                  <div className="relative w-full aspect-[3/2] overflow-hidden z-0">
+                    <Image
+                      src={IMAGE_MAP[slides[1].image] || slides[1].image}
+                      alt={slides[1].koreanTitle}
+                      fill
+                      className="object-cover object-center"
+                      priority
+                    />
+                  </div>
+
+                  {/* Korean text - below image */}
+                  <p className="text-[24px] text-[#111111] font-bold mt-6">
+                    {slides[1].koreanTitle}
+                  </p>
                 </div>
 
-                {/* Korean text - bottom left */}
-                <p className="absolute bottom-[15%] left-0 text-[24px] md:text-[48px] text-[#111111] font-bold z-10">
-                  {slides[1].koreanTitle}
-                </p>
+                {/* Desktop Layout */}
+                <div className="hidden md:flex flex-col items-center justify-center h-full">
+                  {/* VARIOUS - top left, overlaps image */}
+                  <span
+                    className="absolute top-[8%] left-10 text-[140px] text-[#1B67FF] z-10"
+                    style={englishTitleStyle}
+                  >
+                    VARIOUS
+                  </span>
+
+                  {/* Image - wide landscape, centered (세로 고정, 가로만 줄어듦) */}
+                  <div className="relative w-[75%] h-[400px] overflow-hidden z-0 -mt-[10%]">
+                    <Image
+                      src={IMAGE_MAP[slides[1].image] || slides[1].image}
+                      alt={slides[1].koreanTitle}
+                      fill
+                      className="object-cover object-center"
+                      priority
+                    />
+                  </div>
+
+                  {/* Korean text - bottom left */}
+                  <p className="absolute bottom-[15%] left-10 text-[48px] text-[#111111] font-bold z-10">
+                    {slides[1].koreanTitle}
+                  </p>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -486,31 +559,66 @@ export default function ProductShowcaseSection() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
-                className="absolute inset-0 flex items-center justify-center"
+                className="absolute inset-0"
               >
-                {/* Image - left (z-0) */}
-                <div className="absolute left-0 w-[784px] aspect-[784/500] overflow-hidden z-0">
-                  <Image
-                    src={IMAGE_MAP[slides[2].image] || slides[2].image}
-                    alt={slides[2].koreanTitle}
-                    fill
-                    className="object-cover object-center"
-                    priority
-                  />
+                {/* Mobile Layout - 가로 배치 */}
+                <div className="md:hidden h-full flex items-center px-4">
+                  {/* Left - Image area */}
+                  <div className="relative w-[55%] h-[55%]">
+                    {/* EASY - top left, overlaps image */}
+                    <span
+                      className="absolute -top-[50px] left-0 text-[75px] text-[#1B67FF] z-10"
+                      style={englishTitleStyle}
+                    >
+                      EASY
+                    </span>
+
+                    {/* Image */}
+                    <div className="absolute inset-0 overflow-hidden z-0">
+                      <Image
+                        src={IMAGE_MAP[slides[2].image] || slides[2].image}
+                        alt={slides[2].koreanTitle}
+                        fill
+                        className="object-cover object-center"
+                        priority
+                      />
+                    </div>
+                  </div>
+
+                  {/* Right - Korean text aligned with image bottom */}
+                  <div className="w-[45%] h-[55%] pl-4 flex items-end">
+                    <p className="text-[24px] text-[#111111] font-bold whitespace-pre-line">
+                      {slides[2].koreanTitle}
+                    </p>
+                  </div>
                 </div>
 
-                {/* EASY - top right corner, E half overlaps image */}
-                <span
-                  className="absolute right-[2%] top-[12.5%] text-[75px] md:text-[100px] lg:text-[140px] text-[#1B67FF] z-10"
-                  style={englishTitleStyle}
-                >
-                  EASY
-                </span>
+                {/* Desktop Layout */}
+                <div className="hidden md:flex items-center justify-center h-full">
+                  {/* Image - left (세로 고정, 가로만 줄어들고 절반에서 멈춤) */}
+                  <div className="absolute left-0 w-[60%] max-w-[784px] min-w-[392px] h-[500px] overflow-hidden z-0">
+                    <Image
+                      src={IMAGE_MAP[slides[2].image] || slides[2].image}
+                      alt={slides[2].koreanTitle}
+                      fill
+                      className="object-cover object-center"
+                      priority
+                    />
+                  </div>
 
-                {/* Korean text - right side, left-aligned */}
-                <p className="absolute bottom-[20%] right-0 text-left text-[24px] md:text-[48px] text-[#111111] font-bold whitespace-pre-line z-10">
-                  {slides[2].koreanTitle}
-                </p>
+                  {/* EASY - top right corner, E half overlaps image */}
+                  <span
+                    className="absolute right-10 top-[12.5%] text-[140px] text-[#1B67FF] z-10"
+                    style={englishTitleStyle}
+                  >
+                    EASY
+                  </span>
+
+                  {/* Korean text - right side, left-aligned */}
+                  <p className="absolute bottom-[20%] right-10 text-left text-[48px] text-[#111111] font-bold whitespace-pre-line z-10">
+                    {slides[2].koreanTitle}
+                  </p>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
