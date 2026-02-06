@@ -148,7 +148,7 @@ export default function CaseStudySection() {
           <div className="container-ecotree">
             {/* Section Label (above Main Title) */}
             <motion.div
-              className="relative h-6 mb-4"
+              className="relative h-6 mb-4 short-h:lg:mb-2"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -170,7 +170,7 @@ export default function CaseStudySection() {
 
             {/* Main Title (Fixed) - Line break at 839px */}
             <motion.div
-              className="mb-8 lg:mb-12"
+              className="mb-8 short-h:lg:mb-10 lg:mb-12"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
