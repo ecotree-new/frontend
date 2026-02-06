@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import HeroSection from '@/components/sections/HeroSection';
@@ -12,6 +12,11 @@ import ScrollSnapController from '@/components/ScrollSnapController';
 
 export default function Home() {
   const festivalRef = useRef<HTMLDivElement>(null);
+
+  // 페이지 진입 시 스크롤 초기화
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
