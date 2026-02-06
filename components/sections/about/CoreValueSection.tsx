@@ -27,7 +27,7 @@ export default function CoreValueSection() {
   };
 
   return (
-    <section ref={sectionRef} data-section="core-value" className="snap-section h-[calc(100vh-64px)] py-12 md:py-16 lg:py-20 bg-white flex items-center overflow-hidden">
+    <section ref={sectionRef} data-section="core-value" className="snap-section h-[calc(100vh-64px)] py-12 md:py-16 lg:py-20 short-h:lg:py-12 bg-white flex items-center overflow-hidden">
       <div className="container-ecotree">
         {/* 2컬럼 레이아웃: W > 970px, 1컬럼: W ≤ 970px */}
         <div className="flex flex-col lg:flex-row lg:items-start lg:gap-20">
@@ -51,7 +51,7 @@ export default function CoreValueSection() {
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}
-            className="flex-1 space-y-12 md:space-y-16 lg:pt-[26px]"
+            className="flex-1 space-y-12 md:space-y-16 short-h:md:space-y-8 lg:pt-[26px]"
           >
             {ABOUT_CORE_VALUES.map((value, index) => (
               <motion.div

@@ -20,7 +20,7 @@ function CaseCard({ label, title, description, image }: CaseCardProps) {
     <div className="flex flex-col md:flex-row gap-6 lg:gap-8">
       {/* Image - Fixed height, width shrinks with viewport */}
       <div className="w-full md:w-auto md:flex-shrink-0">
-        <div className="relative w-full md:w-[280px] lg:w-[340px] xl:w-[400px] h-[150px] md:h-[200px] lg:h-[240px] bg-gray-200 rounded-lg overflow-hidden">
+        <div className="relative w-full md:w-[280px] lg:w-[340px] xl:w-[400px] h-[150px] md:h-[200px] lg:h-[240px] short-h:lg:h-[180px] bg-gray-200 rounded-lg overflow-hidden">
           <Image
             src={importedImage || image}
             alt={title}

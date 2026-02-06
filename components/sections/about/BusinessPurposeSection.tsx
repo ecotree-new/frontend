@@ -56,7 +56,7 @@ export default function BusinessPurposeSection() {
               variants={cardVariants}
               className={`
                 relative overflow-hidden rounded-[16px] md:rounded-[24px]
-                aspect-[312/120] md:aspect-auto md:h-[238px] lg:h-[450px]
+                aspect-[312/120] md:aspect-auto md:h-[238px] lg:h-[450px] short-h:lg:h-[320px]
                 ${index === 2 ? 'md:col-span-2 lg:col-span-1' : ''}
               `}
             >

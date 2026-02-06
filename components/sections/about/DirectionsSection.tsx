@@ -119,7 +119,7 @@ export default function DirectionsSection() {
           <div className="flex-1 rounded-[16px] md:rounded-[24px] overflow-hidden mb-8 lg:mb-0">
             <div
               ref={mapRef}
-              className="w-full h-[250px] md:h-[300px] lg:h-[400px] bg-[#E5E7EB]"
+              className="w-full h-[250px] md:h-[300px] lg:h-[400px] short-h:lg:h-[280px] bg-[#E5E7EB]"
             >
               {!mapLoaded && (
                 <div className="w-full h-full flex items-center justify-center text-[#727783]">

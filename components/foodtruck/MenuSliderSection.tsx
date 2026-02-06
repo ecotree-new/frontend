@@ -40,7 +40,7 @@ export default function MenuSliderSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12 lg:mb-16 px-10"
+          className="text-center mb-12 lg:mb-16 short-h:lg:mb-8 px-10"
         >
           <h2 className="text-[28px] md:text-[36px] lg:text-[40px] font-bold text-white mb-4">
             {FOODTRUCK_MENU_SECTION.title}
@@ -66,7 +66,7 @@ export default function MenuSliderSection() {
             {duplicatedRow1.map((img, index) => (
               <div
                 key={`row1-${img.id}-${index}`}
-                className="w-[160px] h-[120px] md:w-[180px] md:h-[135px] flex-shrink-0 rounded-lg overflow-hidden bg-gray-700 relative"
+                className="w-[160px] h-[120px] md:w-[180px] md:h-[135px] short-h:md:w-[140px] short-h:md:h-[105px] flex-shrink-0 rounded-lg overflow-hidden bg-gray-700 relative"
               >
                 <Image
                   src={IMAGE_MAP[img.image] || img.image}
@@ -83,7 +83,7 @@ export default function MenuSliderSection() {
             {duplicatedRow2.map((img, index) => (
               <div
                 key={`row2-${img.id}-${index}`}
-                className="w-[160px] h-[120px] md:w-[180px] md:h-[135px] flex-shrink-0 rounded-lg overflow-hidden bg-gray-700 relative"
+                className="w-[160px] h-[120px] md:w-[180px] md:h-[135px] short-h:md:w-[140px] short-h:md:h-[105px] flex-shrink-0 rounded-lg overflow-hidden bg-gray-700 relative"
               >
                 <Image
                   src={IMAGE_MAP[img.image] || img.image}

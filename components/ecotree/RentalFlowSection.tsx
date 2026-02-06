@@ -200,7 +200,7 @@ export default function RentalFlowSection() {
               </div>
             </div>
 
-            <div className="h-[400px] aspect-[16/10] relative rounded-2xl overflow-hidden bg-gray-200">
+            <div className="h-[400px] short-h:h-[280px] aspect-[16/10] relative rounded-2xl overflow-hidden bg-gray-200">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentStep}

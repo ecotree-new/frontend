@@ -65,7 +65,7 @@ export default function JointCaseSection() {
             return (
             <motion.div key={caseItem.id} variants={itemVariants}>
               {/* Card Image - Responsive height */}
-              <div className="relative w-full h-[150px] md:h-[320px] lg:h-[400px] bg-gray-200 overflow-hidden mb-3 md:mb-4 rounded-lg md:rounded-none">
+              <div className="relative w-full h-[150px] md:h-[320px] lg:h-[400px] short-h:lg:h-[280px] bg-gray-200 overflow-hidden mb-3 md:mb-4 rounded-lg md:rounded-none">
                 <Image
                   src={importedImage || caseItem.image}
                   alt={caseItem.title}
