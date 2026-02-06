@@ -29,7 +29,7 @@ export default function Home() {
     <>
       <Header />
       <ScrollSnapController snapEndRef={festivalRef} />
-      <main className="pt-16">
+      <main>
         {/* main_1: Hero Section */}
         <HeroSection />
 

@@ -16,7 +16,7 @@ export default function AboutPage() {
     <>
       <Header />
       <ScrollSnapController snapEndRef={footerRef} />
-      <main className="pt-16">
+      <main>
         {/* Section 1: Vision & Mission (스크롤 애니메이션) */}
         <VisionMissionSection />
 

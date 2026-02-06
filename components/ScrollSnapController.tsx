@@ -18,9 +18,12 @@ export default function ScrollSnapController({ snapEndRef }: ScrollSnapControlle
       const scrollY = window.scrollY;
       const viewportHeight = window.innerHeight;
 
-      // Snap should be disabled when we reach the snapEnd element
-      // Add some buffer (64px for header)
-      const shouldEnableSnap = scrollY < snapEndTop - viewportHeight + 64;
+      // Snap should be disabled when:
+      // 1. At the very top (scrollY < 50) - allows natural bounce on iOS
+      // 2. When we reach the snapEnd element
+      const isAtTop = scrollY < 50;
+      const isPastSnapEnd = scrollY >= snapEndTop - viewportHeight + 64;
+      const shouldEnableSnap = !isAtTop && !isPastSnapEnd;
 
       if (shouldEnableSnap && !isSnapEnabled.current) {
         document.documentElement.style.scrollSnapType = 'y mandatory';
