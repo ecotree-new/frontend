@@ -397,7 +397,7 @@ export default function ProcessStrengthSection() {
                     variants={titleVariants}
                     className="text-center mb-4 md:mb-6 lg:mb-12 short-h:lg:mb-4"
                   >
-                    <h2 className="text-[18px] md:text-[40px] lg:text-[40px] font-bold text-[#111111] mb-1 md:mb-2">
+                    <h2 className="text-[18px] md:text-[40px] lg:text-[40px] font-bold text-[#111111] mb-1 md:mb-2 short-h:lg:mb-0">
                       에코트리는
                     </h2>
                     <h2 className="text-[18px] md:text-[40px] lg:text-[40px] font-bold text-[#111111]">
@@ -488,7 +488,7 @@ export default function ProcessStrengthSection() {
                     variants={titleVariants}
                     className="text-center mb-4 md:mb-6 lg:mb-12 short-h:lg:mb-4"
                   >
-                    <h2 className="text-[18px] md:text-[40px] lg:text-[40px] font-bold text-[#111111] mb-1 md:mb-2">
+                    <h2 className="text-[18px] md:text-[40px] lg:text-[40px] font-bold text-[#111111] mb-1 md:mb-2 short-h:lg:mb-0">
                       에코트리는
                     </h2>
                     <h2 className="text-[18px] md:text-[40px] lg:text-[40px] font-bold text-[#111111]">
