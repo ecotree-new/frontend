@@ -15,14 +15,24 @@ export default function Home() {
 
   // 페이지 진입 시 스크롤 초기화
   useEffect(() => {
+    // 브라우저의 scroll restoration 비활성화
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
     // snap 비활성화 후 스크롤 초기화 (snap으로 인한 튕김 방지)
     document.documentElement.style.scrollSnapType = 'none';
     window.scrollTo(0, 0);
 
-    // 다음 프레임에서 snap 재활성화
-    requestAnimationFrame(() => {
-      document.documentElement.style.scrollSnapType = 'y mandatory';
-    });
+    // 약간의 딜레이 후 snap 재활성화 (브라우저 scroll restoration 무시)
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+      requestAnimationFrame(() => {
+        document.documentElement.style.scrollSnapType = 'y mandatory';
+      });
+    }, 50);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
