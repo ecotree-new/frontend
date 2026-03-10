@@ -15,6 +15,7 @@ declare global {
         MarkerImage: new (src: string, size: object, options?: object) => object;
         Size: new (width: number, height: number) => object;
         Point: new (x: number, y: number) => object;
+        Polyline: new (options: object) => object;
       };
     };
   }
@@ -83,7 +84,7 @@ export default function DirectionsSection() {
     const markerImageSize = new window.kakao.maps.Size(50, 50);
     const markerImageOption = { offset: new window.kakao.maps.Point(25, 50) };
     const markerImage = new window.kakao.maps.MarkerImage(
-      '/logo-icon.png',
+      '/logo-marker.svg',
       markerImageSize,
       markerImageOption
     );
@@ -91,6 +92,24 @@ export default function DirectionsSection() {
       map: map,
       position: new window.kakao.maps.LatLng(LOCATION.lat, LOCATION.lng),
       image: markerImage,
+    });
+
+    // 마커 주변 마름모 Polyline
+    const d = 0.00015;
+    const diamondPath = [
+      new window.kakao.maps.LatLng(LOCATION.lat + d, LOCATION.lng),       // 상
+      new window.kakao.maps.LatLng(LOCATION.lat, LOCATION.lng + d * 1.2), // 우
+      new window.kakao.maps.LatLng(LOCATION.lat - d, LOCATION.lng),       // 하
+      new window.kakao.maps.LatLng(LOCATION.lat, LOCATION.lng - d * 1.2), // 좌
+      new window.kakao.maps.LatLng(LOCATION.lat + d, LOCATION.lng),       // 닫기
+    ];
+    new window.kakao.maps.Polyline({
+      map: map,
+      path: diamondPath,
+      strokeWeight: 4,
+      strokeColor: '#FF69B4',
+      strokeOpacity: 0.8,
+      strokeStyle: 'solid',
     });
 
     setMapLoaded(true);

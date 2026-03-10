@@ -17,11 +17,8 @@ export default function AboutPage() {
       <Header />
       <ScrollSnapController snapEndRef={footerRef} />
       <main>
-        {/* Section 1: Vision & Mission */}
+        {/* Section 1: Vision & Mission (스크롤 애니메이션) */}
         <VisionMissionSection />
-
-        {/* Snap scroll ends after Vision & Mission */}
-        <div ref={footerRef} />
 
         {/* Section 2: Core Value (핵심 가치) */}
         <CoreValueSection />
@@ -32,7 +29,9 @@ export default function AboutPage() {
         {/* Section 4: Directions (오시는 길) */}
         <DirectionsSection />
       </main>
-      <Footer />
+      <div ref={footerRef}>
+        <Footer />
+      </div>
     </>
   );
 }

@@ -1,8 +1,27 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { COMPANY_INFO } from '@/lib/constants';
 
 export default function Footer() {
+  const router = useRouter();
+
+  const handleDirectionsClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    document.documentElement.style.scrollSnapType = 'none';
+    router.push('/about#location');
+    setTimeout(() => {
+      const el = document.getElementById('location');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+      setTimeout(() => {
+        document.documentElement.style.scrollSnapType = 'y mandatory';
+      }, 1000);
+    }, 300);
+  };
   return (
     <footer className="bg-[#1E1F23] text-white py-10 md:py-12 lg:py-16">
       <div className="container-ecotree">
@@ -46,9 +65,10 @@ export default function Footer() {
                 </svg>
               </Link>
               <p className="pt-2">주소 : {COMPANY_INFO.address}</p>
-              <Link
+              <a
                 href="/about#location"
-                className="flex items-center gap-1 text-[#BFBFBF] hover:text-[#F5F5F5] transition-colors group"
+                onClick={handleDirectionsClick}
+                className="flex items-center gap-1 text-[#BFBFBF] hover:text-[#F5F5F5] transition-colors group cursor-pointer"
               >
                 <span>오시는길</span>
                 <svg
@@ -59,7 +79,7 @@ export default function Footer() {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
-              </Link>
+              </a>
             </div>
 
           </div>
@@ -92,9 +112,10 @@ export default function Footer() {
                 </svg>
               </Link>
               <p className="pt-2">주소 : {COMPANY_INFO.address}</p>
-              <Link
+              <a
                 href="/about#location"
-                className="flex items-center gap-1 text-[#BFBFBF] hover:text-[#F5F5F5] transition-colors group"
+                onClick={handleDirectionsClick}
+                className="flex items-center gap-1 text-[#BFBFBF] hover:text-[#F5F5F5] transition-colors group cursor-pointer"
               >
                 <span>오시는길</span>
                 <svg
@@ -105,7 +126,7 @@ export default function Footer() {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
-              </Link>
+              </a>
             </div>
 
           </div>
