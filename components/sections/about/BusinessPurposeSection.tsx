@@ -70,7 +70,7 @@ export default function BusinessPurposeSection() {
               />
 
               {/* Overlay */}
-              <div className="absolute inset-0 bg-black/40" />
+              <div className="absolute inset-0 bg-black/55" />
 
               {/* Content */}
               <div className="absolute inset-0 flex flex-col items-center justify-center p-4 md:p-6 lg:p-8 text-center">

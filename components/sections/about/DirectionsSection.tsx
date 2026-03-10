@@ -12,6 +12,9 @@ declare global {
         Map: new (container: HTMLElement, options: object) => object;
         LatLng: new (lat: number, lng: number) => object;
         Marker: new (options: object) => object;
+        MarkerImage: new (src: string, size: object, options?: object) => object;
+        Size: new (width: number, height: number) => object;
+        Point: new (x: number, y: number) => object;
       };
     };
   }
@@ -76,10 +79,18 @@ export default function DirectionsSection() {
 
     const map = new window.kakao.maps.Map(mapRef.current, options);
 
-    // 마커 추가
+    // 커스텀 마커 추가
+    const markerImageSize = new window.kakao.maps.Size(50, 50);
+    const markerImageOption = { offset: new window.kakao.maps.Point(25, 50) };
+    const markerImage = new window.kakao.maps.MarkerImage(
+      '/logo-icon.png',
+      markerImageSize,
+      markerImageOption
+    );
     new window.kakao.maps.Marker({
       map: map,
       position: new window.kakao.maps.LatLng(LOCATION.lat, LOCATION.lng),
+      image: markerImage,
     });
 
     setMapLoaded(true);
