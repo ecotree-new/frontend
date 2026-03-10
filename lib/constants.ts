@@ -65,6 +65,7 @@ export const STRENGTH_CARDS = [
     unit: '개 이상의',
     title: '행사 운영 경험',
     description: '수백 개의 행사를 성공적으로\n운영한 노하우를 가지고 있습니다.',
+    icon: '/images/icons/strength-experience.webp',
   },
   {
     id: 2,
@@ -73,6 +74,7 @@ export const STRENGTH_CARDS = [
     unit: '어디서든',
     title: '서비스 제공 가능',
     description: '전국 어디든 신속하게 서비스를\n제공합니다.',
+    icon: '/images/icons/strength-nationwide.webp',
   },
   {
     id: 3,
@@ -81,6 +83,7 @@ export const STRENGTH_CARDS = [
     unit: '자체',
     title: '운영 구조',
     description: '용기 공급부터 세척까지 안정적인\n시스템을 구축하고 있습니다.',
+    icon: '/images/icons/strength-self-operated.webp',
   },
 ] as const;
 
@@ -200,8 +203,7 @@ export const BANNER_CONTENT = [
   {
     id: 2,
     label: 'Solution',
-    preTitle: '하지만',
-    title: '운영 방식이 바뀌면',
+    title: '하지만 운영 방식이 바뀌면',
     highlight: '결과도 달라집니다.',
     description: '다회용기로 운영된 행사는\n일회용품 쓰레기를 95% 이상 줄입니다.',
     image: '/images/insight-banner.webp',

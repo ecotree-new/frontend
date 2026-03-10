@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { COMPANY_INFO, FOOTER_LINKS } from '@/lib/constants';
+import { COMPANY_INFO } from '@/lib/constants';
 
 export default function Footer() {
   return (
@@ -62,18 +62,6 @@ export default function Footer() {
               </Link>
             </div>
 
-            {/* Legal Links */}
-            <div className="flex flex-col space-y-1.5 mt-6">
-              {FOOTER_LINKS.legal.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-[#BFBFBF] hover:text-[#F5F5F5] transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
           </div>
 
           {/* ===== Desktop Layout (≥768px) - 3열 가로 배치 ===== */}
@@ -120,18 +108,6 @@ export default function Footer() {
               </Link>
             </div>
 
-            {/* Legal Links */}
-            <div className="space-y-2 text-[14px]">
-              {FOOTER_LINKS.legal.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="block text-[#BFBFBF] hover:text-[#F5F5F5] transition-colors"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
           </div>
         </div>
 

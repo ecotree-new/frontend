@@ -21,16 +21,17 @@ export default function Home() {
         {/* main_1: Hero Section */}
         <HeroSection />
 
+        {/* Snap scroll ends after Hero */}
+        <div ref={festivalRef} />
+
         {/* main_2: Banner Section (Problem & Insight) */}
         <BannerSection />
 
         {/* main_3: Process & Strength Section */}
         <ProcessStrengthSection />
 
-        {/* main_4: Festival Section - snap ends here */}
-        <div ref={festivalRef}>
-          <FestivalSection />
-        </div>
+        {/* main_4: Festival Section */}
+        <FestivalSection />
 
         {/* main_5: CTA Section */}
         <CTASection />

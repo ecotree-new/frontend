@@ -24,9 +24,9 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-black/60" />
 
       {/* Content */}
-      <div className="relative z-10 h-full flex items-center">
+      <div className="relative z-10 h-full flex items-center justify-center">
         <div className="container-ecotree">
-          <div className="text-left text-white">
+          <div className="text-center text-white">
             {/* Main Title */}
             <h1
               className="text-[28px] md:text-[40px] lg:text-[56px] font-bold leading-tight mb-3 md:mb-4"

@@ -98,6 +98,7 @@ export const R2_IMAGES = {
 
   // CTA
   ctaMain: getR2Url('/images/cta_main.png'),
+  ctaBg: getR2Url('/images/cta-bg.webp'),
 
   // Posters
   heroPoster: getR2Url('/images/posters/hero-poster.webp'),
@@ -109,6 +110,11 @@ export const R2_IMAGES = {
   processIcon2: getR2Url('/images/icons/process-2.svg'),
   processIcon3: getR2Url('/images/icons/process-3.svg'),
   processIcon4: getR2Url('/images/icons/process-4.svg'),
+
+  // Strength icons
+  strengthExperience: getR2Url('/images/icons/strength-experience.webp'),
+  strengthNationwide: getR2Url('/images/icons/strength-nationwide.webp'),
+  strengthSelfOperated: getR2Url('/images/icons/strength-self-operated.webp'),
 
   // Core value icons
   coreValueIcon1: getR2Url('/images/icons/core-value-1.svg'),
@@ -280,6 +286,11 @@ export const R2_IMAGE_MAP: Record<string, string> = {
   '/images/icons/process-2.svg': R2_IMAGES.processIcon2,
   '/images/icons/process-3.svg': R2_IMAGES.processIcon3,
   '/images/icons/process-4.svg': R2_IMAGES.processIcon4,
+
+  // Strength icons
+  '/images/icons/strength-experience.webp': R2_IMAGES.strengthExperience,
+  '/images/icons/strength-nationwide.webp': R2_IMAGES.strengthNationwide,
+  '/images/icons/strength-self-operated.webp': R2_IMAGES.strengthSelfOperated,
 
   // Core value icons
   '/images/icons/core-value-1.svg': R2_IMAGES.coreValueIcon1,
