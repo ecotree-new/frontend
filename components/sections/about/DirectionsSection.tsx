@@ -80,7 +80,14 @@ export default function DirectionsSection() {
 
     const map = new window.kakao.maps.Map(mapRef.current, options);
 
-    // 커스텀 마커 추가
+    // 마름모 중심 좌표
+    const d = 0.00015;
+    const offsetLat = 0.00006;
+    const offsetLng = -0.0001;
+    const cLat = LOCATION.lat + offsetLat;
+    const cLng = LOCATION.lng + offsetLng;
+
+    // 커스텀 마커 - 마름모 위쪽 중앙
     const markerImageSize = new window.kakao.maps.Size(50, 50);
     const markerImageOption = { offset: new window.kakao.maps.Point(25, 50) };
     const markerImage = new window.kakao.maps.MarkerImage(
@@ -90,18 +97,15 @@ export default function DirectionsSection() {
     );
     new window.kakao.maps.Marker({
       map: map,
-      position: new window.kakao.maps.LatLng(LOCATION.lat, LOCATION.lng),
+      position: new window.kakao.maps.LatLng(cLat + d * 0.3, cLng),
       image: markerImage,
     });
-
-    // 마커 주변 마름모 Polyline
-    const d = 0.00015;
     const diamondPath = [
-      new window.kakao.maps.LatLng(LOCATION.lat + d, LOCATION.lng),       // 상
-      new window.kakao.maps.LatLng(LOCATION.lat, LOCATION.lng + d * 1.2), // 우
-      new window.kakao.maps.LatLng(LOCATION.lat - d, LOCATION.lng),       // 하
-      new window.kakao.maps.LatLng(LOCATION.lat, LOCATION.lng - d * 1.2), // 좌
-      new window.kakao.maps.LatLng(LOCATION.lat + d, LOCATION.lng),       // 닫기
+      new window.kakao.maps.LatLng(cLat + d, cLng),       // 상
+      new window.kakao.maps.LatLng(cLat, cLng + d * 1.2), // 우
+      new window.kakao.maps.LatLng(cLat - d, cLng),       // 하
+      new window.kakao.maps.LatLng(cLat, cLng - d * 1.2), // 좌
+      new window.kakao.maps.LatLng(cLat + d, cLng),       // 닫기
     ];
     new window.kakao.maps.Polyline({
       map: map,
