@@ -731,7 +731,7 @@ export const FOODTRUCK_CTA = {
   title: '한국 세계 음식 푸드트럭 중앙회',
   subtitle: '더 알아보기',
   buttonText: '사이트 이동',
-  buttonLink: '#', // 외부 URL로 교체 예정
+  buttonLink: 'https://www.kwff.co.kr',
 } as const;
 
 // ============================================
